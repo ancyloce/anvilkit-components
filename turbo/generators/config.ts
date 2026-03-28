@@ -218,6 +218,18 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 				},
 				{
 					type: "add",
+					path: "src/{{name}}/src/styles.css",
+					templateFile: path.join(templatesDir, "src", "styles.css"),
+					data: templateData,
+				},
+				{
+					type: "add",
+					path: "src/{{name}}/src/styles.d.ts",
+					templateFile: path.join(templatesDir, "src", "styles.d.ts"),
+					data: templateData,
+				},
+				{
+					type: "add",
 					path: "src/{{name}}/src/config.ts",
 					templateFile: path.join(templatesDir, "src", "config.ts"),
 					data: templateData,

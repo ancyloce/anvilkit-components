@@ -1,3 +1,5 @@
+import "./styles.css";
+
 export type { ButtonProps, ButtonViewProps } from "./Button";
 export { Button } from "./Button";
 export {

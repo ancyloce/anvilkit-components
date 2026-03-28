@@ -1,3 +1,5 @@
+import './styles.css';
+
 export { {{componentName}} } from './{{componentName}}';
 export type { {{componentName}}Props, {{componentName}}ViewProps } from './{{componentName}}';
 export {

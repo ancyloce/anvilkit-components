@@ -5,7 +5,7 @@ A Puck-native input block for `anvilkit-components`.
 ## Install
 
 ```sh
-pnpm add @anvilkit/input @puckeditor/core
+pnpm add @anvilkit/input @anvilkit/ui @puckeditor/core
 ```
 
 ## Usage

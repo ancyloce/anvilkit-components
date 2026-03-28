@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import type { RichText } from '@puckeditor/core';
 
 export interface {{componentName}}Props {
@@ -11,16 +10,10 @@ export interface {{componentName}}ViewProps extends {{componentName}}Props {
   editMode?: boolean;
 }
 
-const alignmentStyles: Record<NonNullable<{{componentName}}Props['alignment']>, CSSProperties> = {
-  left: {
-    textAlign: 'left',
-  },
-  center: {
-    textAlign: 'center',
-  },
-  right: {
-    textAlign: 'right',
-  },
+const alignmentClasses: Record<NonNullable<{{componentName}}Props['alignment']>, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
 };
 
 export function {{componentName}}({
@@ -28,30 +21,16 @@ export function {{componentName}}({
   body,
   alignment = 'left',
 }: {{componentName}}ViewProps) {
-  const sectionStyle = {
-    ...alignmentStyles[alignment],
-    display: 'grid',
-    gap: '0.75rem',
-    padding: '1.5rem',
-  } satisfies CSSProperties;
-
-  const titleStyle = {
-    color: '#0f172a',
-    fontSize: '1.5rem',
-    fontWeight: 700,
-    lineHeight: 1.2,
-  } satisfies CSSProperties;
-
-  const bodyStyle = {
-    color: '#334155',
-    fontSize: '1rem',
-    lineHeight: 1.7,
-  } satisfies CSSProperties;
-
   return (
-    <section style={sectionStyle}>
-      <h2 style={titleStyle}>{title}</h2>
-      <div style={bodyStyle}>{body}</div>
+    <section
+      className={`grid gap-4 rounded-2xl border border-border bg-background p-6 shadow-sm ${alignmentClasses[alignment]}`}
+    >
+      <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+        {title}
+      </h2>
+      <div className="space-y-4 text-base leading-7 text-muted-foreground [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4">
+        {body}
+      </div>
     </section>
   );
 }

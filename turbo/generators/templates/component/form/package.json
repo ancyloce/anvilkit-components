@@ -18,16 +18,23 @@
     "README.md"
   ],
   "license": "MIT",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
+    "@anvilkit/ui": "^0.0.1",
     "@puckeditor/core": "^0.21.1",
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0"
+  },
+  "devDependencies": {
+    "@anvilkit/tailwind-config": "workspace:*",
+    "@anvilkit/ui": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

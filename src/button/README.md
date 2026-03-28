@@ -5,7 +5,7 @@ A Puck-native button block for `anvilkit-components`.
 ## Install
 
 ```sh
-pnpm add @anvilkit/button @puckeditor/core
+pnpm add @anvilkit/button @anvilkit/ui @puckeditor/core
 ```
 
 ## Usage

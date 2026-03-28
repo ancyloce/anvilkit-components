@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type { Slot } from '@puckeditor/core';
 
 export interface {{componentName}}Props {
@@ -16,13 +16,9 @@ export interface {{componentName}}ViewProps {
   editMode?: boolean;
 }
 
-const emphasisStyles: Record<NonNullable<{{componentName}}ViewProps['emphasis']>, CSSProperties> = {
-  balanced: {
-    background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
-  },
-  accent: {
-    background: 'linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%)',
-  },
+const emphasisClasses: Record<NonNullable<{{componentName}}ViewProps['emphasis']>, string> = {
+  balanced: 'border-border bg-gradient-to-b from-background to-muted/40',
+  accent: 'border-primary/15 bg-gradient-to-b from-primary/5 via-accent/20 to-background',
 };
 
 export function {{componentName}}({
@@ -32,43 +28,19 @@ export function {{componentName}}({
   emphasis = 'balanced',
   editMode = false,
 }: {{componentName}}ViewProps) {
-  const sectionStyle = {
-    ...emphasisStyles[emphasis],
-    border: '1px solid #cbd5e1',
-    borderRadius: '1.25rem',
-    display: 'grid',
-    gap: '1rem',
-    padding: '1.5rem',
-  } satisfies CSSProperties;
-
-  const headerStyle = {
-    color: '#0f172a',
-    display: 'flex',
-    fontSize: '1.15rem',
-    fontWeight: 700,
-    justifyContent: 'space-between',
-  } satisfies CSSProperties;
-
-  const editModeStyle = {
-    color: '#475569',
-    fontSize: '0.875rem',
-  } satisfies CSSProperties;
-
-  const columnsStyle = {
-    display: 'grid',
-    gap: '1rem',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))',
-  } satisfies CSSProperties;
-
   return (
-    <section style={sectionStyle}>
-      <div style={headerStyle}>
-        <span>{title}</span>
-        {editMode ? <span style={editModeStyle}>Layout</span> : null}
+    <section
+      className={`grid gap-4 rounded-3xl border p-6 shadow-sm ${emphasisClasses[emphasis]}`}
+    >
+      <div className="flex items-center justify-between gap-4">
+        <span className="text-lg font-semibold text-foreground">{title}</span>
+        {editMode ? (
+          <span className="text-sm text-muted-foreground">Layout</span>
+        ) : null}
       </div>
-      <div style={columnsStyle}>
-        <div>{leftColumn}</div>
-        <div>{rightColumn}</div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="min-w-0">{leftColumn}</div>
+        <div className="min-w-0">{rightColumn}</div>
       </div>
     </section>
   );

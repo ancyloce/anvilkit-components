@@ -1,4 +1,5 @@
-import type { CSSProperties } from "react";
+import { Button as BaseButton, buttonVariants } from "@anvilkit/ui/button";
+import { cn } from "@anvilkit/ui/lib/utils";
 
 export interface ButtonProps {
 	label: string;
@@ -12,45 +13,18 @@ export interface ButtonViewProps extends ButtonProps {
 	editMode?: boolean;
 }
 
-const baseStyle: CSSProperties = {
-	alignItems: "center",
-	borderRadius: "999px",
-	borderStyle: "solid",
-	borderWidth: "1px",
-	display: "inline-flex",
-	fontFamily: "inherit",
-	fontSize: "0.95rem",
-	fontWeight: 600,
-	gap: "0.5rem",
-	justifyContent: "center",
-	lineHeight: 1.2,
-	minHeight: "2.875rem",
-	padding: "0.7rem 1.2rem",
-	textDecoration: "none",
-	transition:
-		"background-color 120ms ease, border-color 120ms ease, color 120ms ease",
-};
+const variantMap = {
+	primary: "default",
+	secondary: "outline",
+} as const;
 
-const variantStyles: Record<
-	NonNullable<ButtonViewProps["variant"]>,
-	CSSProperties
-> = {
-	primary: {
-		backgroundColor: "#1f2937",
-		borderColor: "#1f2937",
-		color: "#f9fafb",
-	},
-	secondary: {
-		backgroundColor: "#ffffff",
-		borderColor: "#cbd5e1",
-		color: "#0f172a",
-	},
-};
+const baseClassName = "h-11 rounded-full px-5 shadow-sm";
 
-const disabledStyle: CSSProperties = {
-	cursor: "not-allowed",
-	opacity: 0.55,
-};
+const inactiveClassName = "cursor-not-allowed opacity-50";
+
+function getVariant(variant: NonNullable<ButtonViewProps["variant"]>) {
+	return variantMap[variant];
+}
 
 export function Button({
 	label,
@@ -62,12 +36,7 @@ export function Button({
 }: ButtonViewProps) {
 	const isInactive = disabled || editMode;
 	const resolvedHref = isInactive ? undefined : href;
-	const style = {
-		...baseStyle,
-		...variantStyles[variant],
-		cursor: isInactive ? "not-allowed" : "pointer",
-		...(isInactive ? disabledStyle : {}),
-	} satisfies CSSProperties;
+	const resolvedVariant = getVariant(variant);
 
 	if (href) {
 		return (
@@ -76,7 +45,12 @@ export function Button({
 				target={resolvedHref && openInNewTab ? "_blank" : undefined}
 				rel={resolvedHref && openInNewTab ? "noreferrer noopener" : undefined}
 				aria-disabled={isInactive || undefined}
-				style={style}
+				tabIndex={isInactive ? -1 : undefined}
+				className={cn(
+					buttonVariants({ size: "lg", variant: resolvedVariant }),
+					baseClassName,
+					isInactive && inactiveClassName,
+				)}
 			>
 				{label}
 			</a>
@@ -84,13 +58,14 @@ export function Button({
 	}
 
 	return (
-		<button
-			type="button"
+		<BaseButton
+			variant={resolvedVariant}
+			size="lg"
 			disabled={isInactive}
 			aria-disabled={isInactive || undefined}
-			style={style}
+			className={cn(baseClassName, isInactive && inactiveClassName)}
 		>
 			{label}
-		</button>
+		</BaseButton>
 	);
 }

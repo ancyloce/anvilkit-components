@@ -5,7 +5,7 @@ A Puck-native form component scaffold generated for `anvilkit-components`.
 ## Install
 
 ```sh
-pnpm add {{packageName}} @puckeditor/core
+pnpm add {{packageName}} @anvilkit/ui @puckeditor/core
 ```
 
 ## Usage
