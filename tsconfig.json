@@ -1,0 +1,10 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "@anvilkit/typescript-config/react-library.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"useDefineForClassFields": true,
+		"verbatimModuleSyntax": true
+	}
+}
