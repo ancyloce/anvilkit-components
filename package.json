@@ -10,7 +10,7 @@
 		"dev": "pnpm -r --parallel dev",
 		"build": "pnpm -r build",
 		"lint": "pnpm exec biome lint .",
-		"format": "pnpm exec biome format --write .",
+		"format": "pnpm exec biome check --write .",
 		"typecheck": "pnpm -r typecheck",
 		"gen:component": "node ./turbo/generators/run-component-generator.mjs",
 		"changeset": "changeset",

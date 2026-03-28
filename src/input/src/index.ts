@@ -1,12 +1,12 @@
-export { Input } from "./Input";
-export type { InputProps, InputViewProps } from "./Input";
 export {
 	componentConfig,
 	defaultProps,
-	fields,
-	metadata,
-	inputConfig,
 	defaultProps as inputDefaultProps,
+	fields,
 	fields as inputFields,
+	inputConfig,
+	metadata,
 	metadata as inputMetadata,
 } from "./config";
+export type { InputProps, InputViewProps } from "./Input";
+export { Input } from "./Input";

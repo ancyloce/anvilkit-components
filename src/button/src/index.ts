@@ -1,12 +1,12 @@
-export { Button } from "./Button";
 export type { ButtonProps, ButtonViewProps } from "./Button";
+export { Button } from "./Button";
 export {
+	buttonConfig,
 	componentConfig,
 	defaultProps,
-	fields,
-	metadata,
-	buttonConfig,
 	defaultProps as buttonDefaultProps,
+	fields,
 	fields as buttonFields,
+	metadata,
 	metadata as buttonMetadata,
 } from "./config";
