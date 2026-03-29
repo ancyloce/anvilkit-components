@@ -1,0 +1,123 @@
+@import "@anvilkit/tailwind-config/shadcn";
+
+@source "./**/*.{ts,tsx}";
+@source "../../../../ui/src/button.tsx";
+@source "../../../../ui/src/rainbow-button.tsx";
+
+.anvilkit-hero {
+	position: relative;
+	overflow: hidden;
+	background: linear-gradient(180deg, #020202 0%, #060606 48%, #030303 100%);
+	isolation: isolate;
+}
+
+.anvilkit-hero__backdrop {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(
+			circle at 50% 40%,
+			rgba(255, 255, 255, 0.13) 0%,
+			rgba(255, 255, 255, 0.05) 18%,
+			rgba(255, 255, 255, 0.016) 36%,
+			transparent 60%
+		),
+		radial-gradient(
+			circle at 50% 92%,
+			rgba(255, 255, 255, 0.1) 0%,
+			transparent 34%
+		),
+		linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 24%);
+}
+
+.anvilkit-hero__backdrop::before {
+	content: "";
+	position: absolute;
+	inset: -10% 50% 0;
+	width: min(74rem, 86vw);
+	transform: translateX(-50%);
+	background: repeating-linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0) 0 5.8rem,
+		rgba(255, 255, 255, 0.05) 5.8rem 5.9rem,
+		rgba(255, 255, 255, 0.085) 5.9rem 8.2rem,
+		rgba(0, 0, 0, 0.32) 8.2rem 11.6rem
+	);
+	opacity: 0.46;
+	mask-image: radial-gradient(
+		circle at 50% 34%,
+		#000 0%,
+		#000 35%,
+		rgba(0, 0, 0, 0.78) 54%,
+		transparent 82%
+	);
+	-webkit-mask-image: radial-gradient(
+		circle at 50% 34%,
+		#000 0%,
+		#000 35%,
+		rgba(0, 0, 0, 0.78) 54%,
+		transparent 82%
+	);
+}
+
+.anvilkit-hero__backdrop::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(
+			circle at 50% 0%,
+			rgba(255, 255, 255, 0.08) 0%,
+			transparent 16%
+		),
+		radial-gradient(
+			circle at 50% 100%,
+			rgba(255, 255, 255, 0.14) 0%,
+			transparent 34%
+		),
+		linear-gradient(
+			90deg,
+			rgba(0, 0, 0, 0.85) 0%,
+			transparent 18%,
+			transparent 82%,
+			rgba(0, 0, 0, 0.85) 100%
+		);
+	mix-blend-mode: screen;
+	opacity: 0.3;
+}
+
+.anvilkit-hero__browser {
+	position: relative;
+	box-shadow:
+		0 1.5rem 4rem rgba(0, 0, 0, 0.52),
+		0 4rem 10rem rgba(0, 0, 0, 0.82);
+	background: linear-gradient(180deg, #191b29 0%, #131620 100%);
+}
+
+.anvilkit-hero__browser::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0;
+	height: 46%;
+	background: linear-gradient(
+		180deg,
+		rgba(13, 15, 22, 0) 0%,
+		rgba(7, 8, 12, 0.18) 30%,
+		rgba(3, 4, 6, 0.44) 100%
+	);
+	pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+	.anvilkit-hero__backdrop::before {
+		width: min(60rem, 88vw);
+	}
+}
+
+@media (max-width: 640px) {
+	.anvilkit-hero__backdrop::before {
+		width: 96vw;
+		opacity: 0.38;
+	}
+}
