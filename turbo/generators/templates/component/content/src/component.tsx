@@ -23,7 +23,7 @@ export function {{componentName}}({
 }: {{componentName}}ViewProps) {
   return (
     <section
-      className={`grid gap-4 rounded-2xl border border-border bg-background p-6 shadow-sm ${alignmentClasses[alignment]}`}
+      className={`grid gap-4 rounded-2xl border border-border p-6 shadow-sm ${alignmentClasses[alignment]}`}
     >
       <h2 className="text-2xl font-semibold tracking-tight text-foreground">
         {title}
