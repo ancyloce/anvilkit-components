@@ -7,10 +7,5 @@
 	"extends": [
 		"@anvilkit/biome-config/base",
 		"@anvilkit/biome-config/react-internal"
-	],
-	"css": {
-		"parser": {
-			"tailwindDirectives": true
-		}
-	}
+	]
 }
