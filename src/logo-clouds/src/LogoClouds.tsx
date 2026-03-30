@@ -2,80 +2,78 @@ import { ShimmeringText } from "@anvilkit/ui/components/animate-ui/primitives/te
 import { Marquee } from "@anvilkit/ui/marquee";
 
 const DEVICON_BASE_URL =
-	"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
+  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 
 interface LogoCloudItem {
-	label: string;
-	name: string;
-	variant: string;
+  label: string;
+  name: string;
+  variant: string;
 }
 
 const logoCloudItems = [
-	{
-		label: "React",
-		name: "react",
-		variant: "original-wordmark",
-	},
-	{
-		label: "Tailwind CSS",
-		name: "tailwindcss",
-		variant: "original-wordmark",
-	},
-	{
-		label: "Docker",
-		name: "docker",
-		variant: "original-wordmark",
-	},
-	{
-		label: "Node.js",
-		name: "nodejs",
-		variant: "original-wordmark",
-	},
-	{
-		label: "Amazon Web Services",
-		name: "amazonwebservices",
-		variant: "original-wordmark",
-	},
-	{
-		label: "Vue.js",
-		name: "vuejs",
-		variant: "original-wordmark",
-	},
-	{
-		label: "Firebase",
-		name: "firebase",
-		variant: "plain-wordmark",
-	},
-	{
-		label: "GraphQL",
-		name: "graphql",
-		variant: "plain-wordmark",
-	},
+  {
+    label: "React",
+    name: "react",
+    variant: "original",
+  },
+  {
+    label: "Tailwind CSS",
+    name: "tailwindcss",
+    variant: "original",
+  },
+  {
+    label: "Docker",
+    name: "docker",
+    variant: "original",
+  },
+  {
+    label: "Node.js",
+    name: "nodejs",
+    variant: "original",
+  },
+  {
+    label: "Amazon Web Services",
+    name: "amazonwebservices",
+    variant: "plain-wordmark",
+  },
+  {
+    label: "Vue.js",
+    name: "vuejs",
+    variant: "original",
+  },
+  {
+    label: "Firebase",
+    name: "firebase",
+    variant: "original",
+  },
+  {
+    label: "GraphQL",
+    name: "graphql",
+    variant: "plain",
+  },
 ] satisfies readonly LogoCloudItem[];
 
 function getDeviconSource(name: string, variant: string) {
-	// Devicon's documented <img> format is /icons/<name>/<name>-<variant>.svg.
-	return `${DEVICON_BASE_URL}/${name}/${name}-${variant}.svg`;
+  // Devicon's documented <img> format is /icons/<name>/<name>-<variant>.svg.
+  return `${DEVICON_BASE_URL}/${name}/${name}-${variant}.svg`;
 }
 
 export interface LogoCloudsProps {
-	title: string;
-	subtitle: string;
+  title: string;
+  subtitle: string;
 }
 
 export interface LogoCloudsViewProps extends LogoCloudsProps {
-	editMode?: boolean;
+  editMode?: boolean;
 }
 
 export function LogoClouds({ title, subtitle }: LogoCloudsViewProps) {
-	return (
-    <section className="dark mx-auto py-8 flex w-full max-w-6xl flex-col items-center overflow-hidden px-4 py-16 text-center text-foreground sm:px-6 sm:py-20 lg:px-8 lg:py-24 [&>:first-child]:mx-auto [&>:first-child]:max-w-3xl [&>:first-child]:text-[clamp(3rem,9vw,4.75rem)] [&>:first-child]:leading-none [&>:first-child]:font-black [&>:first-child]:tracking-[-0.07em] [&>:nth-child(3)]:mt-8 sm:[&>:nth-child(3)]:mt-12 lg:[&>:nth-child(3)]:mt-16">
+  return (
+    <section className="anvilkit-logo-clouds__theme mx-auto flex w-full max-w-6xl flex-col items-center overflow-hidden px-4 py-16 text-center text-foreground sm:px-6 sm:py-20 lg:px-8 lg:py-24 [&>:first-child]:mx-auto [&>:first-child]:max-w-3xl [&>:first-child]:text-[clamp(3rem,9vw,4.75rem)] [&>:first-child]:leading-none [&>:first-child]:font-black [&>:first-child]:tracking-[-0.07em] [&>:nth-child(3)]:mt-8 sm:[&>:nth-child(3)]:mt-12 lg:[&>:nth-child(3)]:mt-16">
       <ShimmeringText
         aria-level={2}
-        color="var(--foreground)"
         role="heading"
         className="text-4xl font-semibold"
-        shimmeringColor="var(--muted-foreground)"
         text={title}
       />
 
@@ -83,24 +81,34 @@ export function LogoClouds({ title, subtitle }: LogoCloudsViewProps) {
         {subtitle}
       </p>
 
-      <Marquee aria-label="Brand logos" repeat={2} className="mt-8">
-        {logoCloudItems.map((item) => (
-          <div
-            key={item.name}
-            className="flex items-center justify-center px-4 py-4 sm:px-6 lg:px-8"
-          >
-            <div className="flex h-20 w-full items-center justify-center px-6">
-              <img
-                alt={`${item.label} logo`}
-                className="h-10 w-auto max-w-[11.5rem] object-contain sm:h-11 sm:max-w-[13rem] lg:h-14 lg:max-w-[14.5rem]"
-                decoding="async"
-                loading="lazy"
-                src={getDeviconSource(item.name, item.variant)}
-              />
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+        <Marquee aria-label="Brand logos" className="mt-8">
+          {logoCloudItems.map((item) => (
+            <div
+              key={item.name}
+              className="flex items-center justify-center px-4 py-4 sm:px-6 lg:px-8"
+            >
+              <div className="flex h-20 w-full items-center justify-center px-6">
+                <img
+                  alt={`${item.label} logo`}
+                  className="h-10 w-auto max-w-[11.5rem] object-contain sm:h-11 sm:max-w-[13rem] lg:h-14 lg:max-w-[14.5rem]"
+                  decoding="async"
+                  loading="lazy"
+                  src={getDeviconSource(item.name, item.variant)}
+                />
+              </div>
             </div>
-          </div>
-        ))}
-      </Marquee>
+          ))}
+        </Marquee>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background to-transparent"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background to-transparent"
+        />
+      </div>
     </section>
   );
 }
