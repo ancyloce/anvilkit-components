@@ -5,10 +5,238 @@
 @source "../../../../ui/src/rainbow-button.tsx";
 
 .anvilkit-hero {
+	--hero-theme-background: color-mix(
+		in oklab,
+		var(--background) 94%,
+		var(--accent) 6%
+	);
+	--hero-theme-foreground: var(--foreground);
+	--hero-theme-muted-foreground: color-mix(
+		in oklab,
+		var(--muted-foreground) 84%,
+		var(--foreground) 16%
+	);
+	--hero-theme-border: color-mix(in oklab, var(--foreground) 12%, transparent);
+	--hero-theme-input: color-mix(in oklab, var(--foreground) 10%, transparent);
+	--hero-theme-primary: color-mix(
+		in oklab,
+		var(--destructive) 76%,
+		var(--color-2) 24%
+	);
+	--hero-theme-primary-foreground: var(--hero-theme-background);
+	--hero-theme-ring: color-mix(
+		in oklab,
+		var(--hero-theme-primary) 38%,
+		transparent
+	);
+	--hero-primary-shadow: color-mix(
+		in oklab,
+		var(--hero-theme-primary) 24%,
+		transparent
+	);
+	--hero-background: linear-gradient(
+		180deg,
+		color-mix(in oklab, var(--hero-theme-background) 82%, var(--color-5) 18%) 0%,
+		color-mix(in oklab, var(--hero-theme-background) 94%, var(--accent) 6%) 52%,
+		color-mix(in oklab, var(--hero-theme-background) 80%, var(--muted) 20%) 100%
+	);
+	--hero-center-glow-strong: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 8%,
+		transparent
+	);
+	--hero-center-glow-soft: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 3%,
+		transparent
+	);
+	--hero-bottom-glow: color-mix(
+		in oklab,
+		var(--hero-theme-background) 88%,
+		transparent
+	);
+	--hero-top-sheen: color-mix(
+		in oklab,
+		var(--hero-theme-background) 62%,
+		transparent
+	);
+	--hero-stripe-gap: transparent;
+	--hero-stripe-line: color-mix(
+		in oklab,
+		var(--hero-theme-background) 55%,
+		transparent
+	);
+	--hero-stripe-panel: color-mix(
+		in oklab,
+		var(--hero-theme-background) 12%,
+		transparent
+	);
+	--hero-stripe-shadow: color-mix(
+		in oklab,
+		var(--hero-theme-muted-foreground) 8%,
+		transparent
+	);
+	--hero-mask-core: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 100%,
+		transparent
+	);
+	--hero-mask-mid: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 74%,
+		transparent
+	);
+	--hero-side-vignette: color-mix(
+		in oklab,
+		var(--hero-theme-background) 92%,
+		transparent
+	);
+	--hero-overlay-top: color-mix(
+		in oklab,
+		var(--hero-theme-background) 38%,
+		transparent
+	);
+	--hero-overlay-bottom: color-mix(
+		in oklab,
+		var(--hero-theme-background) 72%,
+		transparent
+	);
 	position: relative;
 	overflow: hidden;
-	background: linear-gradient(180deg, #020202 0%, #060606 48%, #030303 100%);
+	background: var(--hero-background);
 	isolation: isolate;
+}
+
+.dark .anvilkit-hero {
+	--hero-theme-background: color-mix(
+		in oklab,
+		var(--background) 86%,
+		var(--card) 14%
+	);
+	--hero-theme-foreground: var(--foreground);
+	--hero-theme-muted-foreground: color-mix(
+		in oklab,
+		var(--muted-foreground) 88%,
+		var(--foreground) 12%
+	);
+	--hero-theme-border: var(--border);
+	--hero-theme-input: var(--input);
+	--hero-theme-primary: color-mix(
+		in oklab,
+		var(--destructive) 58%,
+		var(--color-2) 42%
+	);
+	--hero-theme-primary-foreground: var(--foreground);
+	--hero-theme-ring: color-mix(
+		in oklab,
+		var(--hero-theme-primary) 46%,
+		transparent
+	);
+	--hero-primary-shadow: color-mix(
+		in oklab,
+		var(--hero-theme-primary) 32%,
+		transparent
+	);
+	--hero-background: linear-gradient(
+		180deg,
+		color-mix(in oklab, var(--hero-theme-background) 96%, var(--card) 4%) 0%,
+		color-mix(in oklab, var(--hero-theme-background) 90%, var(--background) 10%)
+			48%,
+		color-mix(in oklab, var(--hero-theme-background) 82%, var(--card) 18%) 100%
+	);
+	--hero-center-glow-strong: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 13%,
+		transparent
+	);
+	--hero-center-glow-soft: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 5%,
+		transparent
+	);
+	--hero-bottom-glow: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 10%,
+		transparent
+	);
+	--hero-top-sheen: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 4%,
+		transparent
+	);
+	--hero-stripe-gap: transparent;
+	--hero-stripe-line: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 5%,
+		transparent
+	);
+	--hero-stripe-panel: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 8.5%,
+		transparent
+	);
+	--hero-stripe-shadow: color-mix(
+		in oklab,
+		var(--hero-theme-background) 32%,
+		transparent
+	);
+	--hero-mask-core: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 100%,
+		transparent
+	);
+	--hero-mask-mid: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 78%,
+		transparent
+	);
+	--hero-side-vignette: color-mix(
+		in oklab,
+		var(--hero-theme-background) 85%,
+		transparent
+	);
+	--hero-overlay-top: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 8%,
+		transparent
+	);
+	--hero-overlay-bottom: color-mix(
+		in oklab,
+		var(--hero-theme-foreground) 14%,
+		transparent
+	);
+}
+
+.anvilkit-hero__theme {
+	--background: var(--hero-theme-background);
+	--foreground: var(--hero-theme-foreground);
+	--card: var(--hero-theme-background);
+	--card-foreground: var(--hero-theme-foreground);
+	--popover: var(--hero-theme-background);
+	--popover-foreground: var(--hero-theme-foreground);
+	--secondary: color-mix(
+		in oklab,
+		var(--hero-theme-background) 94%,
+		var(--hero-theme-foreground) 6%
+	);
+	--secondary-foreground: var(--hero-theme-foreground);
+	--muted: color-mix(
+		in oklab,
+		var(--hero-theme-background) 92%,
+		var(--hero-theme-foreground) 8%
+	);
+	--muted-foreground: var(--hero-theme-muted-foreground);
+	--accent: color-mix(
+		in oklab,
+		var(--hero-theme-background) 90%,
+		var(--hero-theme-foreground) 10%
+	);
+	--accent-foreground: var(--hero-theme-foreground);
+	--border: var(--hero-theme-border);
+	--input: var(--hero-theme-input);
+	--ring: var(--hero-theme-ring);
+	--primary: var(--hero-theme-primary);
+	--primary-foreground: var(--hero-theme-primary-foreground);
 }
 
 .anvilkit-hero__backdrop {
@@ -18,17 +246,17 @@
 	background:
 		radial-gradient(
 			circle at 50% 40%,
-			rgba(255, 255, 255, 0.13) 0%,
-			rgba(255, 255, 255, 0.05) 18%,
-			rgba(255, 255, 255, 0.016) 36%,
+			var(--hero-center-glow-strong) 0%,
+			var(--hero-center-glow-soft) 18%,
+			transparent 36%,
 			transparent 60%
 		),
 		radial-gradient(
 			circle at 50% 92%,
-			rgba(255, 255, 255, 0.1) 0%,
+			var(--hero-bottom-glow) 0%,
 			transparent 34%
 		),
-		linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 24%);
+		linear-gradient(180deg, var(--hero-top-sheen) 0%, transparent 24%);
 }
 
 .anvilkit-hero__backdrop::before {
@@ -39,24 +267,24 @@
 	transform: translateX(-50%);
 	background: repeating-linear-gradient(
 		90deg,
-		rgba(255, 255, 255, 0) 0 5.8rem,
-		rgba(255, 255, 255, 0.05) 5.8rem 5.9rem,
-		rgba(255, 255, 255, 0.085) 5.9rem 8.2rem,
-		rgba(0, 0, 0, 0.32) 8.2rem 11.6rem
+		var(--hero-stripe-gap) 0 5.8rem,
+		var(--hero-stripe-line) 5.8rem 5.9rem,
+		var(--hero-stripe-panel) 5.9rem 8.2rem,
+		var(--hero-stripe-shadow) 8.2rem 11.6rem
 	);
 	opacity: 0.46;
 	mask-image: radial-gradient(
 		circle at 50% 34%,
-		#000 0%,
-		#000 35%,
-		rgba(0, 0, 0, 0.78) 54%,
+		var(--hero-mask-core) 0%,
+		var(--hero-mask-core) 35%,
+		var(--hero-mask-mid) 54%,
 		transparent 82%
 	);
 	-webkit-mask-image: radial-gradient(
 		circle at 50% 34%,
-		#000 0%,
-		#000 35%,
-		rgba(0, 0, 0, 0.78) 54%,
+		var(--hero-mask-core) 0%,
+		var(--hero-mask-core) 35%,
+		var(--hero-mask-mid) 54%,
 		transparent 82%
 	);
 }
@@ -68,45 +296,23 @@
 	background:
 		radial-gradient(
 			circle at 50% 0%,
-			rgba(255, 255, 255, 0.08) 0%,
+			var(--hero-overlay-top) 0%,
 			transparent 16%
 		),
 		radial-gradient(
 			circle at 50% 100%,
-			rgba(255, 255, 255, 0.14) 0%,
+			var(--hero-overlay-bottom) 0%,
 			transparent 34%
 		),
 		linear-gradient(
 			90deg,
-			rgba(0, 0, 0, 0.85) 0%,
+			var(--hero-side-vignette) 0%,
 			transparent 18%,
 			transparent 82%,
-			rgba(0, 0, 0, 0.85) 100%
+			var(--hero-side-vignette) 100%
 		);
 	mix-blend-mode: screen;
-	opacity: 0.3;
-}
-
-.anvilkit-hero__browser {
-	position: relative;
-	box-shadow:
-		0 1.5rem 4rem rgba(0, 0, 0, 0.52),
-		0 4rem 10rem rgba(0, 0, 0, 0.82);
-	background: linear-gradient(180deg, #191b29 0%, #131620 100%);
-}
-
-.anvilkit-hero__browser::after {
-	content: "";
-	position: absolute;
-	inset: auto 0 0;
-	height: 46%;
-	background: linear-gradient(
-		180deg,
-		rgba(13, 15, 22, 0) 0%,
-		rgba(7, 8, 12, 0.18) 30%,
-		rgba(3, 4, 6, 0.44) 100%
-	);
-	pointer-events: none;
+	opacity: 0.24;
 }
 
 @media (max-width: 1024px) {
@@ -119,5 +325,9 @@
 	.anvilkit-hero__backdrop::before {
 		width: 96vw;
 		opacity: 0.38;
+	}
+
+	.anvilkit-hero__backdrop::after {
+		opacity: 0.24;
 	}
 }
