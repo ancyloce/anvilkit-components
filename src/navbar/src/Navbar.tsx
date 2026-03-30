@@ -3,8 +3,15 @@
 import { Button as BaseButton } from "@anvilkit/ui/button";
 import { cn } from "@anvilkit/ui/lib/utils";
 import { Separator } from "@anvilkit/ui/separator";
+import { ShimmerButton } from "@anvilkit/ui/shimmer-button";
 import { ChevronRightIcon, MenuIcon, XIcon } from "lucide-react";
-import { useId, useState, type MouseEventHandler, type ReactNode } from "react";
+import {
+  useId,
+  useState,
+  type FocusEventHandler,
+  type MouseEventHandler,
+  type ReactNode,
+} from "react";
 
 export interface NavbarLogoProps {
   type?: "text" | "image";
@@ -60,7 +67,7 @@ const logoTextClassName =
   "text-[1.05rem] font-semibold tracking-[-0.03em] text-foreground";
 
 const desktopNavLinkClassName =
-  "group relative inline-flex items-center py-1 text-[1.02rem] font-medium tracking-[-0.02em] text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none";
+  "inline-flex items-center border-b-2 px-0 pb-3 pt-1 text-[1.02rem] font-medium tracking-[-0.02em] transition-[color,border-color] focus-visible:outline-none";
 
 const mobileMenuPanelClassName = "space-y-2.5 pt-4 md:hidden";
 
@@ -70,19 +77,10 @@ const mobileMenuItemClassName =
 const mobileMenuItemHighlightedClassName = "bg-muted";
 
 const mobileActionClassName =
-  "inline-flex min-h-11 items-center justify-center rounded-full bg-foreground px-6 py-2 text-[1.02rem] font-semibold tracking-[-0.02em] text-background shadow-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "min-h-11 px-6 py-2 text-[1.02rem] font-semibold tracking-[-0.02em] !text-background";
 
-const desktopActionBaseClassName =
-  "inline-flex min-h-10 items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
-
-const desktopActionClasses = {
-  default: "bg-foreground text-background shadow-sm hover:opacity-90",
-  destructive: "bg-destructive text-background hover:opacity-90",
-  ghost: "text-foreground hover:bg-accent",
-  link: "text-foreground underline-offset-4 hover:underline",
-  outline: "border border-input bg-background text-foreground hover:bg-accent",
-  secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-} satisfies Record<NavbarActionVariant, string>;
+const desktopActionClassName =
+  "min-h-10 px-4 py-2 text-sm font-medium !text-background";
 
 function composeHandlers(
   ...handlers: Array<MouseEventHandler<HTMLElement> | undefined>
@@ -98,6 +96,12 @@ function composeHandlers(
       handler?.(event);
     }
   };
+}
+
+function preventNavigation(
+  event: Parameters<NonNullable<MouseEventHandler<HTMLElement>>>[0],
+) {
+  event.preventDefault();
 }
 
 function getLogoContent(logo: NavbarLogoProps, logoNode?: ReactNode) {
@@ -118,17 +122,6 @@ function getLogoContent(logo: NavbarLogoProps, logoNode?: ReactNode) {
   return <span className={logoTextClassName}>{logo.text || "Brand"}</span>;
 }
 
-function getDesktopActionClassName(
-  variant: NavbarActionVariant | undefined,
-  disabled: boolean,
-) {
-  return cn(
-    desktopActionBaseClassName,
-    desktopActionClasses[variant || "outline"],
-    disabled && "pointer-events-none opacity-50",
-  );
-}
-
 function renderAction(
   action: NavbarActionViewProps,
   index: number,
@@ -143,37 +136,40 @@ function renderAction(
     : composeHandlers(action.onClick, onClick);
   const actionClassName = mobile
     ? cn(mobileActionClassName, isDisabled && "pointer-events-none opacity-50")
-    : getDesktopActionClassName(action.variant, isDisabled);
+    : cn(
+        desktopActionClassName,
+        isDisabled && "pointer-events-none opacity-50",
+      );
 
-  if (action.href) {
-    return (
-      <a
-        key={key}
-        href={isDisabled ? undefined : action.href}
-        target={!isDisabled && action.openInNewTab ? "_blank" : undefined}
-        rel={
-          !isDisabled && action.openInNewTab ? "noreferrer noopener" : undefined
-        }
-        aria-disabled={isDisabled || undefined}
-        tabIndex={isDisabled ? -1 : undefined}
-        onClick={composedOnClick}
-        className={actionClassName}
-      >
-        {action.label}
-      </a>
-    );
+  function handleActionClick(
+    event: Parameters<NonNullable<MouseEventHandler<HTMLElement>>>[0],
+  ) {
+    composedOnClick?.(event);
+
+    if (event.defaultPrevented || isDisabled || !action.href) {
+      return;
+    }
+
+    if (action.openInNewTab) {
+      window.open(action.href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    window.location.assign(action.href);
   }
 
   return (
-    <button
+    <ShimmerButton
       key={key}
       type="button"
+      background="var(--foreground)"
+      borderRadius="9999px"
       disabled={isDisabled}
-      onClick={composedOnClick}
+      onClick={handleActionClick}
       className={actionClassName}
     >
       {action.label}
-    </button>
+    </ShimmerButton>
   );
 }
 
@@ -182,6 +178,11 @@ function renderDesktopMenuItem(
   index: number,
   active: string | undefined,
   editMode: boolean,
+  isHighlighted: boolean,
+  onHoverStart?: MouseEventHandler<HTMLElement>,
+  onHoverEnd?: MouseEventHandler<HTMLElement>,
+  onFocusStart?: FocusEventHandler<HTMLAnchorElement>,
+  onFocusEnd?: FocusEventHandler<HTMLAnchorElement>,
 ) {
   const isActive = item.href === active;
   const key = `${item.label}-${item.href}-${index}`;
@@ -193,20 +194,22 @@ function renderDesktopMenuItem(
         aria-current={isActive ? "page" : undefined}
         aria-disabled={editMode || undefined}
         tabIndex={editMode ? -1 : undefined}
-        className={cn(
-          desktopNavLinkClassName,
-          editMode && "pointer-events-none",
-          isActive ? "text-foreground" : "text-muted-foreground",
-        )}
+        onClick={editMode ? preventNavigation : undefined}
+        onMouseEnter={onHoverStart}
+        onMouseLeave={onHoverEnd}
+        onFocus={onFocusStart}
+        onBlur={onFocusEnd}
+        className={desktopNavLinkClassName}
+        style={{
+          borderBottomColor: isHighlighted
+            ? "var(--foreground)"
+            : "transparent",
+          color: isHighlighted
+            ? "var(--foreground)"
+            : "var(--muted-foreground)",
+        }}
       >
         <span>{item.label}</span>
-        <span
-          aria-hidden="true"
-          className={cn(
-            "absolute inset-x-0 -bottom-2 h-0.5 origin-left scale-x-0 bg-foreground transition-transform duration-200 group-hover:scale-x-100",
-            isActive && "scale-x-100",
-          )}
-        />
       </a>
     </li>
   );
@@ -229,10 +232,9 @@ function renderMobileMenuItem(
         aria-current={isActive ? "page" : undefined}
         aria-disabled={editMode || undefined}
         tabIndex={editMode ? -1 : undefined}
-        onClick={editMode ? undefined : onClick}
+        onClick={editMode ? preventNavigation : onClick}
         className={cn(
           mobileMenuItemClassName,
-          editMode && "pointer-events-none",
           isActive && mobileMenuItemHighlightedClassName,
         )}
       >
@@ -273,6 +275,9 @@ export function Navbar({
   const hasMobileMenu = items.length > 0 || actions.length > 0;
   const mobileMenuId = useId();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hoveredDesktopItemHref, setHoveredDesktopItemHref] = useState<
+    string | null
+  >(null);
 
   function handleMobileMenuToggle() {
     setIsMobileMenuOpen((open) => !open);
@@ -328,7 +333,24 @@ export function Navbar({
             <div className="hidden min-w-0 justify-center md:flex">
               <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-10">
                 {items.map((item, index) =>
-                  renderDesktopMenuItem(item, index, active, editMode),
+                  renderDesktopMenuItem(
+                    item,
+                    index,
+                    active,
+                    editMode,
+                    item.href === active ||
+                      hoveredDesktopItemHref === item.href,
+                    () => setHoveredDesktopItemHref(item.href),
+                    () =>
+                      setHoveredDesktopItemHref((current) =>
+                        current === item.href ? null : current,
+                      ),
+                    () => setHoveredDesktopItemHref(item.href),
+                    () =>
+                      setHoveredDesktopItemHref((current) =>
+                        current === item.href ? null : current,
+                      ),
+                  ),
                 )}
               </ul>
             </div>
