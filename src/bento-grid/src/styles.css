@@ -1,0 +1,186 @@
+@import "@anvilkit/tailwind-config/shadcn";
+
+@source "./**/*.{ts,tsx}";
+
+.anvilkit-bento-grid {
+	--bento-theme-background: color-mix(
+		in oklab,
+		var(--background) 94%,
+		var(--color-4) 6%
+	);
+	--bento-theme-foreground: var(--foreground);
+	--bento-theme-muted-foreground: color-mix(
+		in oklab,
+		var(--muted-foreground) 84%,
+		var(--foreground) 16%
+	);
+	--bento-theme-border: color-mix(in oklab, var(--foreground) 10%, transparent);
+	--bento-theme-primary: color-mix(
+		in oklab,
+		var(--color-5) 62%,
+		var(--foreground) 38%
+	);
+	--bento-theme-primary-foreground: var(--background);
+	--bento-theme-secondary: color-mix(
+		in oklab,
+		var(--bento-theme-background) 88%,
+		var(--foreground) 12%
+	);
+	--bento-theme-secondary-foreground: var(--foreground);
+	--bento-theme-muted: color-mix(
+		in oklab,
+		var(--bento-theme-background) 90%,
+		var(--foreground) 10%
+	);
+	--bento-card-background: color-mix(
+		in oklab,
+		var(--bento-theme-background) 82%,
+		var(--card) 18%
+	);
+	--bento-shell-background: linear-gradient(
+		180deg,
+		color-mix(in oklab, var(--bento-theme-background) 88%, var(--color-4) 12%) 0%,
+		color-mix(in oklab, var(--bento-theme-background) 94%, var(--accent) 6%) 48%,
+		color-mix(in oklab, var(--bento-theme-background) 82%, var(--muted) 18%) 100%
+	);
+	--bento-shell-shadow: color-mix(in oklab, var(--foreground) 10%, transparent);
+	--bento-card-shadow: color-mix(
+		in oklab,
+		var(--bento-theme-primary) 20%,
+		transparent
+	);
+	--bento-glow-a: color-mix(in oklab, var(--bento-theme-primary) 22%, transparent);
+	--bento-glow-b: color-mix(in oklab, var(--color-4) 20%, transparent);
+	border: 1px solid var(--bento-theme-border);
+	background: var(--bento-shell-background);
+	box-shadow: 0 30px 80px var(--bento-shell-shadow);
+}
+
+.anvilkit-bento-grid--theme-system,
+.anvilkit-bento-grid--theme-light {
+	color-scheme: light;
+}
+
+.dark .anvilkit-bento-grid--theme-system,
+.anvilkit-bento-grid--theme-dark {
+	--bento-theme-background: color-mix(
+		in oklab,
+		var(--background) 84%,
+		var(--card) 16%
+	);
+	--bento-theme-foreground: var(--foreground);
+	--bento-theme-muted-foreground: color-mix(
+		in oklab,
+		var(--muted-foreground) 88%,
+		var(--foreground) 12%
+	);
+	--bento-theme-border: color-mix(in oklab, var(--foreground) 14%, transparent);
+	--bento-theme-primary: color-mix(
+		in oklab,
+		var(--color-5) 52%,
+		var(--foreground) 48%
+	);
+	--bento-theme-primary-foreground: var(--foreground);
+	--bento-theme-secondary: color-mix(
+		in oklab,
+		var(--bento-theme-background) 74%,
+		var(--foreground) 26%
+	);
+	--bento-theme-secondary-foreground: var(--foreground);
+	--bento-theme-muted: color-mix(
+		in oklab,
+		var(--bento-theme-background) 78%,
+		var(--foreground) 22%
+	);
+	--bento-card-background: color-mix(
+		in oklab,
+		var(--bento-theme-background) 72%,
+		var(--card) 28%
+	);
+	--bento-shell-background: linear-gradient(
+		180deg,
+		color-mix(in oklab, var(--bento-theme-background) 96%, var(--card) 4%) 0%,
+		color-mix(in oklab, var(--bento-theme-background) 88%, var(--background) 12%)
+			48%,
+		color-mix(in oklab, var(--bento-theme-background) 76%, var(--card) 24%) 100%
+	);
+	--bento-shell-shadow: color-mix(in oklab, var(--foreground) 16%, transparent);
+	--bento-card-shadow: color-mix(
+		in oklab,
+		var(--bento-theme-primary) 26%,
+		transparent
+	);
+	--bento-glow-a: color-mix(in oklab, var(--bento-theme-primary) 28%, transparent);
+	--bento-glow-b: color-mix(in oklab, var(--color-4) 22%, transparent);
+	color-scheme: dark;
+}
+
+.anvilkit-bento-grid__theme {
+	--background: var(--bento-theme-background);
+	--foreground: var(--bento-theme-foreground);
+	--card: var(--bento-card-background);
+	--card-foreground: var(--bento-theme-foreground);
+	--popover: var(--bento-card-background);
+	--popover-foreground: var(--bento-theme-foreground);
+	--secondary: var(--bento-theme-secondary);
+	--secondary-foreground: var(--bento-theme-secondary-foreground);
+	--muted: var(--bento-theme-muted);
+	--muted-foreground: var(--bento-theme-muted-foreground);
+	--accent: color-mix(
+		in oklab,
+		var(--bento-theme-background) 86%,
+		var(--foreground) 14%
+	);
+	--accent-foreground: var(--bento-theme-foreground);
+	--border: var(--bento-theme-border);
+	--input: var(--bento-theme-border);
+	--ring: color-mix(in oklab, var(--bento-theme-primary) 30%, transparent);
+	--primary: var(--bento-theme-primary);
+	--primary-foreground: var(--bento-theme-primary-foreground);
+	padding: 1rem;
+}
+
+@media (min-width: 640px) {
+	.anvilkit-bento-grid__theme {
+		padding: 1.25rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.anvilkit-bento-grid__theme {
+		padding: 1.5rem;
+	}
+}
+
+.anvilkit-bento-grid__backdrop {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(circle at top left, var(--bento-glow-a) 0%, transparent 36%),
+		radial-gradient(circle at bottom right, var(--bento-glow-b) 0%, transparent 38%),
+		linear-gradient(
+			180deg,
+			color-mix(in oklab, var(--bento-theme-background) 10%, transparent) 0%,
+			transparent 100%
+		);
+	opacity: 0.95;
+}
+
+.anvilkit-bento-grid__card-glow {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(circle at top left, var(--bento-glow-a) 0%, transparent 48%),
+		radial-gradient(circle at bottom right, var(--bento-glow-b) 0%, transparent 54%);
+	opacity: 0.9;
+	transition:
+		opacity 220ms ease,
+		transform 220ms ease;
+}
+
+.anvilkit-bento-card:hover .anvilkit-bento-grid__card-glow {
+	opacity: 1;
+	transform: scale(1.02);
+}

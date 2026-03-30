@@ -1,0 +1,43 @@
+{
+	"name": "@anvilkit/bento-grid",
+	"version": "0.1.0",
+	"description": "Anvilkit Puck-native Bento Grid component.",
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"license": "MIT",
+	"sideEffects": [
+		"**/*.css"
+	],
+	"scripts": {
+		"build": "rslib build",
+		"dev": "rslib build --watch",
+		"typecheck": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"@puckeditor/core": "^0.21.1",
+		"react": ">=19.0.0",
+		"react-dom": ">=19.0.0"
+	},
+	"devDependencies": {
+		"@anvilkit/tailwind-config": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"lucide-react": "^1.7.0"
+	}
+}
