@@ -1,6 +1,6 @@
 {
 	"name": "@anvilkit/logo-clouds",
-	"version": "0.1.0",
+	"version": "0.0.1",
 	"description": "Anvilkit Puck-native logo-clouds component.",
 	"type": "module",
 	"main": "./dist/index.cjs",
