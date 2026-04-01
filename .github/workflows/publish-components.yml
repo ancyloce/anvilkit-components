@@ -1,0 +1,354 @@
+name: Publish components
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version to publish, for example 0.0.1"
+        required: true
+        type: string
+      support_ref:
+        description: "anvilkit-studio ref to use for workspace dependencies"
+        required: false
+        default: "main"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-components-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  COMPONENTS_DIR: ${{ github.workspace }}/workspace/packages/components
+  SUPPORT_DIR: ${{ github.workspace }}/workspace/support
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out components repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: workspace/packages/components
+
+      - name: Check out monorepo workspace dependencies
+        uses: actions/checkout@v4
+        with:
+          repository: ancyloce/anvilkit-studio
+          ref: ${{ inputs.support_ref || 'main' }}
+          fetch-depth: 1
+          sparse-checkout: |
+            packages/configs
+            packages/ui
+          path: workspace/support
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: workspace/packages/components/pnpm-lock.yaml
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Prepare monorepo-style workspace
+        run: |
+          set -euo pipefail
+
+          mkdir -p "${GITHUB_WORKSPACE}/workspace/packages"
+          rsync -a --delete "${SUPPORT_DIR}/packages/configs/" "${GITHUB_WORKSPACE}/workspace/packages/configs/"
+          rsync -a --delete "${SUPPORT_DIR}/packages/ui/" "${GITHUB_WORKSPACE}/workspace/packages/ui/"
+
+      - name: Resolve release metadata
+        id: release
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        working-directory: ${{ env.COMPONENTS_DIR }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            VERSION="${INPUT_VERSION#v}"
+            TAG="v${VERSION}"
+          else
+            TAG="${GITHUB_REF_NAME}"
+            VERSION="${TAG#v}"
+          fi
+
+          if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Expected a semver version, got: ${VERSION}"
+            exit 1
+          fi
+
+          echo "tag=${TAG}" >> "${GITHUB_OUTPUT}"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+
+      - name: Resolve release branch
+        id: branch
+        working-directory: ${{ env.COMPONENTS_DIR }}
+        run: |
+          set -euo pipefail
+
+          git fetch origin "+refs/heads/*:refs/remotes/origin/*" --tags --force
+
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            echo "name=${GITHUB_REF_NAME}" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          if git branch -r --contains "${GITHUB_SHA}" | grep -Eq 'origin/main$'; then
+            echo "name=main" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          if git branch -r --contains "${GITHUB_SHA}" | grep -Eq 'origin/master$'; then
+            echo "name=master" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          echo "Release tag ${GITHUB_REF_NAME} is not reachable from origin/main or origin/master."
+          exit 1
+
+      - name: Install dependencies
+        working-directory: ${{ env.COMPONENTS_DIR }}
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Sync release version into package manifests
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        working-directory: ${{ env.COMPONENTS_DIR }}
+        run: |
+          set -euo pipefail
+
+          node <<'NODE'
+          const fs = require("fs");
+          const path = require("path");
+
+          const version = process.env.RELEASE_VERSION;
+          const rootPkgPath = path.join(process.cwd(), "package.json");
+          const rootPkg = JSON.parse(fs.readFileSync(rootPkgPath, "utf8"));
+          rootPkg.version = version;
+          fs.writeFileSync(rootPkgPath, `${JSON.stringify(rootPkg, null, "\t")}\n`);
+
+          const srcDir = path.join(process.cwd(), "src");
+          for (const entry of fs.readdirSync(srcDir, { withFileTypes: true })) {
+            if (!entry.isDirectory()) continue;
+
+            const pkgPath = path.join(srcDir, entry.name, "package.json");
+            if (!fs.existsSync(pkgPath)) continue;
+
+            const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
+            pkg.version = version;
+            fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, "\t")}\n`);
+          }
+          NODE
+
+      - name: Build workspace dependencies and components
+        working-directory: ${{ env.COMPONENTS_DIR }}
+        run: pnpm -r --filter @anvilkit/ui --filter "./src/*" --if-present build
+
+      - name: Publish components independently to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        working-directory: ${{ env.COMPONENTS_DIR }}
+        run: |
+          set -euo pipefail
+
+          shopt -s nullglob
+
+          for pkg_dir in src/*; do
+            if [[ ! -f "${pkg_dir}/package.json" ]]; then
+              continue
+            fi
+
+            PACKAGE_NAME="$(node -p "require('./${pkg_dir}/package.json').name")"
+            IS_PRIVATE="$(node -p "Boolean(require('./${pkg_dir}/package.json').private)")"
+
+            if [[ "${IS_PRIVATE}" == "true" ]]; then
+              echo "Skipping private package ${PACKAGE_NAME}"
+              continue
+            fi
+
+            if npm view "${PACKAGE_NAME}@${RELEASE_VERSION}" version >/dev/null 2>&1; then
+              echo "Skipping ${PACKAGE_NAME}@${RELEASE_VERSION}; already published."
+              continue
+            fi
+
+            echo "Publishing ${PACKAGE_NAME}@${RELEASE_VERSION}"
+            (
+              cd "${pkg_dir}"
+              npm publish --access public
+            )
+          done
+
+      - name: Generate component changelogs
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+          CURRENT_TAG: ${{ steps.release.outputs.tag }}
+        working-directory: ${{ env.COMPONENTS_DIR }}
+        run: |
+          set -euo pipefail
+
+          PREVIOUS_TAG="$(git tag --list 'v*' --sort=-creatordate | grep -vx "${CURRENT_TAG}" | head -n 1 || true)"
+          export PREVIOUS_TAG
+
+          node <<'NODE'
+          const fs = require("fs");
+          const path = require("path");
+          const { execFileSync } = require("child_process");
+
+          const version = process.env.RELEASE_VERSION;
+          const currentTag = process.env.CURRENT_TAG;
+          const previousTag = process.env.PREVIOUS_TAG || "";
+          const releaseDate = new Date().toISOString().slice(0, 10);
+          const srcRoot = path.join(process.cwd(), "src");
+          const headingMap = new Map([
+            ["feat", "Features"],
+            ["fix", "Bug Fixes"],
+            ["perf", "Performance"],
+            ["refactor", "Refactoring"],
+            ["docs", "Documentation"],
+            ["build", "Build System"],
+            ["ci", "CI"],
+            ["test", "Tests"],
+            ["chore", "Chores"],
+          ]);
+
+          function git(args) {
+            try {
+              return execFileSync("git", args, { encoding: "utf8" }).trim();
+            } catch (error) {
+              return "";
+            }
+          }
+
+          function parseCommit(subject, shortSha) {
+            const match = /^([a-z]+)(?:\(([^)]+)\))?(!)?:\s+(.+)$/.exec(subject);
+            if (!match) {
+              return { section: "Other", line: `- ${subject} (${shortSha})` };
+            }
+
+            const [, type, scope, bang, summary] = match;
+            const section = bang ? "Breaking Changes" : headingMap.get(type) || "Other";
+            const suffix = scope ? ` (${scope})` : "";
+            return { section, line: `- ${summary}${suffix} (${shortSha})` };
+          }
+
+          for (const entry of fs.readdirSync(srcRoot, { withFileTypes: true })) {
+            if (!entry.isDirectory()) continue;
+
+            const componentDir = path.join(srcRoot, entry.name);
+            const pkgPath = path.join(componentDir, "package.json");
+            if (!fs.existsSync(pkgPath)) continue;
+
+            const logRange = previousTag ? `${previousTag}..HEAD` : "HEAD";
+            const rawLog = git([
+              "log",
+              logRange,
+              "--no-merges",
+              "--pretty=format:%s%x1f%h",
+              "--",
+              path.relative(process.cwd(), componentDir),
+            ]);
+
+            const grouped = new Map();
+            if (rawLog) {
+              for (const row of rawLog.split("\n")) {
+                if (!row) continue;
+                const [subject, shortSha] = row.split("\u001f");
+                const parsed = parseCommit(subject, shortSha);
+                const lines = grouped.get(parsed.section) || [];
+                lines.push(parsed.line);
+                grouped.set(parsed.section, lines);
+              }
+            }
+
+            const sections = [];
+            const orderedSections = [
+              "Breaking Changes",
+              "Features",
+              "Bug Fixes",
+              "Performance",
+              "Refactoring",
+              "Documentation",
+              "Build System",
+              "CI",
+              "Tests",
+              "Chores",
+              "Other",
+            ];
+
+            for (const section of orderedSections) {
+              const lines = grouped.get(section);
+              if (!lines || lines.length === 0) continue;
+              sections.push(`### ${section}\n\n${lines.join("\n")}`);
+            }
+
+            if (sections.length === 0) {
+              sections.push("- No component-specific changes were detected for this release.");
+            }
+
+            const header = "# Changelog\n\n";
+            const tagLine = currentTag ? `_Release tag: \`${currentTag}\`_\n\n` : "";
+            const compareLine = previousTag ? `_Compared to: \`${previousTag}\`_\n\n` : "";
+            const entryBody = `## ${version} - ${releaseDate}\n\n${tagLine}${compareLine}${sections.join("\n\n")}\n`;
+            const changelogPath = path.join(componentDir, "CHANGELOG.md");
+
+            let nextContent = header + entryBody;
+            if (fs.existsSync(changelogPath)) {
+              const existing = fs.readFileSync(changelogPath, "utf8");
+              if (existing.startsWith(header)) {
+                nextContent = `${header}${entryBody}\n${existing.slice(header.length).trimStart()}\n`;
+              } else {
+                nextContent = `${header}${entryBody}\n${existing.trimStart()}\n`;
+              }
+            }
+
+            fs.writeFileSync(changelogPath, nextContent);
+          }
+          NODE
+
+      - name: Commit release metadata
+        env:
+          RELEASE_BRANCH: ${{ steps.branch.outputs.name }}
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        working-directory: ${{ env.COMPONENTS_DIR }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            git checkout "${RELEASE_BRANCH}"
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add package.json
+
+          while IFS= read -r file; do
+            git add "${file}"
+          done < <(find src -mindepth 2 -maxdepth 2 \( -name package.json -o -name CHANGELOG.md \) | sort)
+
+          if git diff --cached --quiet; then
+            echo "No release metadata changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore(release): publish components v${RELEASE_VERSION}"
+          git push origin "HEAD:${RELEASE_BRANCH}"
