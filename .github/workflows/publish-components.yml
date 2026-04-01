@@ -350,5 +350,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore(release): publish components v${RELEASE_VERSION}"
+          git commit -m "📦 chore(release): publish components v${RELEASE_VERSION}"
           git push origin "HEAD:${RELEASE_BRANCH}"
