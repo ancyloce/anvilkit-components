@@ -39,9 +39,11 @@
 	);
 	--bento-shell-background: linear-gradient(
 		180deg,
-		color-mix(in oklab, var(--bento-theme-background) 88%, var(--color-4) 12%) 0%,
+		color-mix(in oklab, var(--bento-theme-background) 88%, var(--color-4) 12%)
+			0%,
 		color-mix(in oklab, var(--bento-theme-background) 94%, var(--accent) 6%) 48%,
-		color-mix(in oklab, var(--bento-theme-background) 82%, var(--muted) 18%) 100%
+		color-mix(in oklab, var(--bento-theme-background) 82%, var(--muted) 18%)
+			100%
 	);
 	--bento-shell-shadow: color-mix(in oklab, var(--foreground) 10%, transparent);
 	--bento-card-shadow: color-mix(
@@ -49,7 +51,11 @@
 		var(--bento-theme-primary) 20%,
 		transparent
 	);
-	--bento-glow-a: color-mix(in oklab, var(--bento-theme-primary) 22%, transparent);
+	--bento-glow-a: color-mix(
+		in oklab,
+		var(--bento-theme-primary) 22%,
+		transparent
+	);
 	--bento-glow-b: color-mix(in oklab, var(--color-4) 20%, transparent);
 	border: 1px solid var(--bento-theme-border);
 	background: var(--bento-shell-background);
@@ -100,7 +106,11 @@
 	--bento-shell-background: linear-gradient(
 		180deg,
 		color-mix(in oklab, var(--bento-theme-background) 96%, var(--card) 4%) 0%,
-		color-mix(in oklab, var(--bento-theme-background) 88%, var(--background) 12%)
+		color-mix(
+				in oklab,
+				var(--bento-theme-background) 88%,
+				var(--background) 12%
+			)
 			48%,
 		color-mix(in oklab, var(--bento-theme-background) 76%, var(--card) 24%) 100%
 	);
@@ -110,7 +120,11 @@
 		var(--bento-theme-primary) 26%,
 		transparent
 	);
-	--bento-glow-a: color-mix(in oklab, var(--bento-theme-primary) 28%, transparent);
+	--bento-glow-a: color-mix(
+		in oklab,
+		var(--bento-theme-primary) 28%,
+		transparent
+	);
 	--bento-glow-b: color-mix(in oklab, var(--color-4) 22%, transparent);
 	color-scheme: dark;
 }
@@ -158,7 +172,11 @@
 	pointer-events: none;
 	background:
 		radial-gradient(circle at top left, var(--bento-glow-a) 0%, transparent 36%),
-		radial-gradient(circle at bottom right, var(--bento-glow-b) 0%, transparent 38%),
+		radial-gradient(
+			circle at bottom right,
+			var(--bento-glow-b) 0%,
+			transparent 38%
+		),
 		linear-gradient(
 			180deg,
 			color-mix(in oklab, var(--bento-theme-background) 10%, transparent) 0%,
@@ -173,7 +191,11 @@
 	pointer-events: none;
 	background:
 		radial-gradient(circle at top left, var(--bento-glow-a) 0%, transparent 48%),
-		radial-gradient(circle at bottom right, var(--bento-glow-b) 0%, transparent 54%);
+		radial-gradient(
+			circle at bottom right,
+			var(--bento-glow-b) 0%,
+			transparent 54%
+		);
 	opacity: 0.9;
 	transition:
 		opacity 220ms ease,

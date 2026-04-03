@@ -1,14 +1,14 @@
 import "./styles.css";
 
-export { Statistics } from "./Statistics";
-export type { StatisticsProps, StatisticsViewProps } from "./Statistics";
 export {
 	componentConfig,
 	defaultProps,
-	fields,
-	metadata,
-	statisticsConfig,
 	defaultProps as statisticsDefaultProps,
+	fields,
 	fields as statisticsFields,
+	metadata,
 	metadata as statisticsMetadata,
+	statisticsConfig,
 } from "./config";
+export type { StatisticsProps, StatisticsViewProps } from "./Statistics";
+export { Statistics } from "./Statistics";

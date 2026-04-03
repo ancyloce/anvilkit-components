@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@anvilkit/ui/avatar";
+import { Button as BaseButton, buttonVariants } from "@anvilkit/ui/button";
 import {
 	AvatarGroup,
 	AvatarGroupTooltip,
 	AvatarGroupTooltipArrow,
 } from "@anvilkit/ui/components/animate-ui/primitives/animate/avatar-group";
-import { Button as BaseButton, buttonVariants } from "@anvilkit/ui/button";
 import { cn } from "@anvilkit/ui/lib/utils";
 import { Ripple } from "@anvilkit/ui/ripple";
 import { GitPullRequest } from "lucide-react";

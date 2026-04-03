@@ -5,8 +5,8 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
-import { BlogList } from "./BlogList";
 import type { BlogListProps } from "./BlogList";
+import { BlogList } from "./BlogList";
 
 const defaultPreviewImageSrc =
 	"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80";

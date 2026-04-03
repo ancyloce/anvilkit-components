@@ -5,8 +5,8 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
-import { Statistics } from "./Statistics";
 import type { StatisticsProps } from "./Statistics";
+import { Statistics } from "./Statistics";
 
 export const metadata = {
 	componentName: "Statistics",

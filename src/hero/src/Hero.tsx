@@ -93,11 +93,11 @@ export function Hero({
 }: HeroViewProps) {
 	const isAnnouncementInteractive = Boolean(announcementHref && !editMode);
 	const contentClassName = cn(
-    "anvilkit-hero__theme relative z-10 mx-auto flex flex-col items-center px-4 text-center sm:px-6 lg:px-8",
-    editMode
-      ? "min-h-0 max-w-[110rem] pb-0 pt-12 sm:pb-0 sm:pt-14 lg:pb-0 lg:pt-16"
-      : "min-h-[38rem] max-w-[110rem] pb-0 pt-16 sm:min-h-[44rem] sm:pb-0 sm:pt-20 lg:min-h-[52rem] lg:pb-0 lg:pt-32",
-  );
+		"anvilkit-hero__theme relative z-10 mx-auto flex flex-col items-center px-4 text-center sm:px-6 lg:px-8",
+		editMode
+			? "min-h-0 max-w-[110rem] pb-0 pt-12 sm:pb-0 sm:pt-14 lg:pb-0 lg:pt-16"
+			: "min-h-[38rem] max-w-[110rem] pb-0 pt-16 sm:min-h-[44rem] sm:pb-0 sm:pt-20 lg:min-h-[52rem] lg:pb-0 lg:pt-32",
+	);
 
 	return (
 		<section className="anvilkit-hero">
