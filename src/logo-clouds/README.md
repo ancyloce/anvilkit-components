@@ -8,9 +8,20 @@ A Puck-native logo cloud component with a shimmering heading and a scrolling Dev
 pnpm add @anvilkit/logo-clouds @anvilkit/ui @puckeditor/core
 ```
 
+## Styles
+
+Import the package stylesheet once from your app entry before rendering the component.
+
+```tsx
+import "@anvilkit/logo-clouds/styles.css";
+```
+
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+
 ## Usage
 
 ```tsx
+import "@anvilkit/logo-clouds/styles.css";
 import type { Config } from "@puckeditor/core";
 import {
   LogoClouds,

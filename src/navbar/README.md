@@ -8,9 +8,20 @@ A Puck-native navbar layout component for `anvilkit-components`.
 pnpm add @anvilkit/navbar @anvilkit/ui @puckeditor/core
 ```
 
+## Styles
+
+Import the package stylesheet once from your app entry before rendering the component.
+
+```tsx
+import "@anvilkit/navbar/styles.css";
+```
+
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+
 ## Usage
 
 ```tsx
+import "@anvilkit/navbar/styles.css";
 import type { Config } from "@puckeditor/core";
 import {
   Navbar,

@@ -8,9 +8,20 @@ A Puck-native blog post grid for `anvilkit-components`.
 pnpm add @anvilkit/blog-list @puckeditor/core
 ```
 
+## Styles
+
+Import the package stylesheet once from your app entry before rendering the component.
+
+```tsx
+import "@anvilkit/blog-list/styles.css";
+```
+
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+
 ## Usage
 
 ```tsx
+import "@anvilkit/blog-list/styles.css";
 import type { Config } from "@puckeditor/core";
 import {
 	BlogList,

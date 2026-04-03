@@ -8,9 +8,20 @@ A Puck-native Bento Grid component with adaptive mobile/tablet/desktop layouts, 
 pnpm add @anvilkit/bento-grid @puckeditor/core
 ```
 
+## Styles
+
+Import the package stylesheet once from your app entry before rendering the component.
+
+```tsx
+import "@anvilkit/bento-grid/styles.css";
+```
+
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+
 ## Usage
 
 ```tsx
+import "@anvilkit/bento-grid/styles.css";
 import type { Config } from "@puckeditor/core";
 import {
 	BentoCard,
