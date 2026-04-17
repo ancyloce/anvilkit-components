@@ -16,7 +16,13 @@ Import the package stylesheet once from your app entry before rendering the comp
 import "@anvilkit/statistics/styles.css";
 ```
 
-In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
+
+## Props
+
+| Field | Type | Default |
+|-------|------|---------|
+| `title` | text | `"Statistics"` |
 
 ## Usage
 
@@ -30,28 +36,19 @@ import {
   type StatisticsProps,
 } from "@anvilkit/statistics";
 
-const config: Config<{
-  Statistics: StatisticsProps;
-}> = {
+// Puck config registration
+const config: Config<{ Statistics: StatisticsProps }> = {
   components: {
     Statistics: componentConfig,
   },
 };
 
-const data = {
-  root: {},
-  content: [
-    {
-      type: "Statistics",
-      props: {
-        id: "statistics-1",
-        ...defaultProps,
-      },
-    },
-  ],
-};
-
+// Standalone usage
 export function Example() {
-  return <Statistics title="Statistics" />;
+  return <Statistics title="Our Impact" />;
 }
 ```
+
+## Theme & Responsiveness
+
+Supports light and dark themes via shadcn CSS variable tokens. Responsive across mobile, tablet, and desktop breakpoints.

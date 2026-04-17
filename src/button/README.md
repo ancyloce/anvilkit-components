@@ -1,6 +1,6 @@
 # @anvilkit/button
 
-A Puck-native button block for `anvilkit-components`.
+A Puck-native button block with variant and link support.
 
 ## Install
 
@@ -16,7 +16,17 @@ Import the package stylesheet once from your app entry before rendering the comp
 import "@anvilkit/button/styles.css";
 ```
 
-In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
+
+## Props
+
+| Field | Type | Options | Default |
+|-------|------|---------|---------|
+| `label` | text | — | `"Save changes"` |
+| `variant` | radio | `primary`, `secondary` | `"primary"` |
+| `href` | text | — | `""` |
+| `openInNewTab` | radio | `false`, `true` | `false` |
+| `disabled` | radio | `false`, `true` | `false` |
 
 ## Usage
 
@@ -30,28 +40,19 @@ import {
   type ButtonProps,
 } from "@anvilkit/button";
 
-const config: Config<{
-  Button: ButtonProps;
-}> = {
+// Puck config registration
+const config: Config<{ Button: ButtonProps }> = {
   components: {
     Button: componentConfig,
   },
 };
 
-export const data = {
-  root: {},
-  content: [
-    {
-      type: "Button",
-      props: {
-        id: "button-1",
-        ...defaultProps,
-      },
-    },
-  ],
-};
-
+// Standalone usage
 export function Example() {
   return <Button label="Save changes" variant="primary" />;
 }
 ```
+
+## Theme & Responsiveness
+
+Supports light and dark themes via shadcn CSS variable tokens. Responsive across mobile, tablet, and desktop breakpoints.

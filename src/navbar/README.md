@@ -1,6 +1,6 @@
 # @anvilkit/navbar
 
-A Puck-native navbar layout component for `anvilkit-components`.
+A Puck-native navbar layout component with logo, navigation items, and action buttons.
 
 ## Install
 
@@ -16,7 +16,29 @@ Import the package stylesheet once from your app entry before rendering the comp
 import "@anvilkit/navbar/styles.css";
 ```
 
-In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
+
+## Props
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `logo` | object | Logo configuration |
+| `logo.type` | radio | `text` or `image` |
+| `logo.text` | text | Display text (when type is `text`) |
+| `logo.imageUrl` | text | Image URL (when type is `image`) |
+| `logo.alt` | text | Alt text |
+| `logo.href` | text | Link URL |
+| `items` | array | Navigation menu items |
+| `items[].label` | text | Menu item label |
+| `items[].href` | text | Menu item link |
+| `actions` | array | Action buttons |
+| `actions[].label` | text | Button label |
+| `actions[].href` | text | Button link |
+| `actions[].variant` | select | `default`, `secondary`, `outline`, `ghost`, `link`, `destructive` |
+| `actions[].size` | select | `sm`, `default`, `lg` |
+| `actions[].openInNewTab` | radio | `false`, `true` |
+| `actions[].disabled` | radio | `false`, `true` |
+| `active` | text | Path of the currently active menu item |
 
 ## Usage
 
@@ -30,39 +52,38 @@ import {
   type NavbarProps,
 } from "@anvilkit/navbar";
 
-const config: Config<{
-  Navbar: NavbarProps;
-}> = {
+// Puck config registration
+const config: Config<{ Navbar: NavbarProps }> = {
   components: {
     Navbar: componentConfig,
   },
 };
 
-export const data = {
-  root: {},
-  content: [
-    {
-      type: "Navbar",
-      props: {
-        id: "navbar-1",
-        ...defaultProps,
-      },
-    },
-  ],
-};
-
+// Standalone usage
 export function Example() {
   return (
     <Navbar
-      logo={{ type: "text", text: "Underline", href: "/" }}
-      logoNode={<span className="text-lg font-semibold">Underline</span>}
+      logo={{ type: "text", text: "Acme", imageUrl: "", alt: "Acme", href: "/" }}
       items={[
         { label: "Overview", href: "/overview" },
         { label: "Features", href: "/features" },
       ]}
-      actions={[{ label: "Sign up", href: "/signup", variant: "secondary" }]}
+      actions={[
+        {
+          label: "Sign up",
+          href: "/signup",
+          variant: "secondary",
+          size: "lg",
+          openInNewTab: false,
+          disabled: false,
+        },
+      ]}
       active="/features"
     />
   );
 }
 ```
+
+## Theme & Responsiveness
+
+Supports light and dark themes via shadcn CSS variable tokens. Responsive across mobile, tablet, and desktop breakpoints. Collapses into a hamburger menu on mobile.

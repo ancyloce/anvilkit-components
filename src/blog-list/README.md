@@ -1,6 +1,6 @@
 # @anvilkit/blog-list
 
-A Puck-native blog post grid for `anvilkit-components`.
+A Puck-native blog post grid with image cards, dates, and links.
 
 ## Install
 
@@ -16,7 +16,22 @@ Import the package stylesheet once from your app entry before rendering the comp
 import "@anvilkit/blog-list/styles.css";
 ```
 
-In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
+
+## Props
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `posts` | array | Blog post entries |
+| `posts[].title` | text | Post title |
+| `posts[].description` | textarea | Post description |
+| `posts[].href` | text | Link URL |
+| `posts[].openInNewTab` | radio | Open link in new tab |
+| `posts[].imageSrc` | text | Cover image URL |
+| `posts[].imageAlt` | text | Cover image alt text |
+| `posts[].publishedAt` | text | ISO date string |
+| `posts[].publishedLabel` | text | Formatted date label |
+| `posts[].relativeLabel` | text | Relative time label (e.g. `"8mo ago"`) |
 
 ## Usage
 
@@ -24,34 +39,25 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use m
 import "@anvilkit/blog-list/styles.css";
 import type { Config } from "@puckeditor/core";
 import {
-	BlogList,
-	componentConfig,
-	defaultProps,
-	type BlogListProps,
+  BlogList,
+  componentConfig,
+  defaultProps,
+  type BlogListProps,
 } from "@anvilkit/blog-list";
 
-const config: Config<{
-	BlogList: BlogListProps;
-}> = {
-	components: {
-		BlogList: componentConfig,
-	},
+// Puck config registration
+const config: Config<{ BlogList: BlogListProps }> = {
+  components: {
+    BlogList: componentConfig,
+  },
 };
 
-export const data = {
-	root: {},
-	content: [
-		{
-			type: "BlogList",
-			props: {
-				id: "blog-list-1",
-				...defaultProps,
-			},
-		},
-	],
-};
-
+// Standalone usage
 export function Example() {
-	return <BlogList posts={defaultProps.posts} />;
+  return <BlogList posts={defaultProps.posts} />;
 }
 ```
+
+## Theme & Responsiveness
+
+Supports light and dark themes via shadcn CSS variable tokens. Responsive across mobile, tablet, and desktop breakpoints.

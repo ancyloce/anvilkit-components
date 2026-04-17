@@ -1,11 +1,11 @@
 # @anvilkit/section
 
-A Puck-native section component scaffold generated for `anvilkit-components`.
+A Puck-native section component with badge, headline, highlighted text, and description.
 
 ## Install
 
 ```sh
-pnpm add @anvilkit/section @puckeditor/core
+pnpm add @anvilkit/section @anvilkit/ui @puckeditor/core
 ```
 
 ## Styles
@@ -16,7 +16,16 @@ Import the package stylesheet once from your app entry before rendering the comp
 import "@anvilkit/section/styles.css";
 ```
 
-In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
+
+## Props
+
+| Field | Type | Default |
+|-------|------|---------|
+| `badgeLabel` | text | `"Scale"` |
+| `headline` | text | `"Stop writing boilerplate."` |
+| `highlightedHeadline` | text | `"Start building features."` |
+| `description` | textarea | `"Your AI agent handles repetitive coding tasks..."` |
 
 ## Usage
 
@@ -30,28 +39,26 @@ import {
   type SectionProps,
 } from "@anvilkit/section";
 
-const config: Config<{
-  Section: SectionProps;
-}> = {
+// Puck config registration
+const config: Config<{ Section: SectionProps }> = {
   components: {
     Section: componentConfig,
   },
 };
 
-const data = {
-  root: {},
-  content: [
-    {
-      type: "Section",
-      props: {
-        id: "section-1",
-        ...defaultProps,
-      },
-    },
-  ],
-};
-
+// Standalone usage
 export function Example() {
-  return <Section title="Section" body="<p>Start editing this block.</p>" />;
+  return (
+    <Section
+      badgeLabel="Scale"
+      headline="Stop writing boilerplate."
+      highlightedHeadline="Start building features."
+      description="Your AI agent handles repetitive coding tasks."
+    />
+  );
 }
 ```
+
+## Theme & Responsiveness
+
+Supports light and dark themes via shadcn CSS variable tokens. Responsive across mobile, tablet, and desktop breakpoints.

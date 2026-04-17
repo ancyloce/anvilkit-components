@@ -16,7 +16,24 @@ Import the package stylesheet once from your app entry before rendering the comp
 import "@anvilkit/bento-grid/styles.css";
 ```
 
-In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
+
+## Props
+
+| Field | Type | Options | Default |
+|-------|------|---------|---------|
+| `theme` | select | `system`, `light`, `dark` | `"dark"` |
+| `platform` | select | `adaptive`, `mobile`, `tablet`, `desktop` | `"adaptive"` |
+| `items` | array | — | *(example items)* |
+| `items[].icon` | select | `brain`, `users`, `plug`, `globe`, `code`, `zap` | — |
+| `items[].title` | text | — | — |
+| `items[].description` | textarea | — | — |
+| `items[].size` | select | `default`, `wide`, `tall` | — |
+| `items[].rounded` | radio | `false`, `true` | — |
+| `items[].background` | radio | `false`, `true` | — |
+| `items[].ctaLabel` | text | — | — |
+| `items[].ctaHref` | text | — | — |
+| `items[].ctaOpenInNewTab` | radio | `false`, `true` | — |
 
 ## Usage
 
@@ -24,45 +41,48 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use m
 import "@anvilkit/bento-grid/styles.css";
 import type { Config } from "@puckeditor/core";
 import {
-	BentoCard,
-	BentoGrid,
-	BentoGridExample,
-	componentConfig,
-	defaultProps,
-	type BentoGridProps,
+  BentoCard,
+  BentoGrid,
+  BentoGridExample,
+  componentConfig,
+  defaultProps,
+  type BentoGridProps,
 } from "@anvilkit/bento-grid";
 
-const config: Config<{
-	BentoGrid: BentoGridProps;
-}> = {
-	components: {
-		BentoGrid: componentConfig,
-	},
+// Puck config registration
+const config: Config<{ BentoGrid: BentoGridProps }> = {
+  components: {
+    BentoGrid: componentConfig,
+  },
 };
 
+// Standalone usage with default items
 export function PuckExample() {
-	return <BentoGrid {...defaultProps} theme="dark" platform="adaptive" />;
+  return <BentoGrid {...defaultProps} />;
 }
 
+// Direct composition with BentoCard primitives
 export function DirectCompositionExample() {
-	return (
-		<BentoGrid theme="light" platform="tablet">
-			<BentoCard>
-				<div className="flex flex-col gap-y-2 items-center">
-					<h2 className="text-xl font-medium text-card-foreground text-center text-balance">
-						Custom card
-					</h2>
-				</div>
-				<p className="max-w-md mx-auto text-sm text-muted-foreground text-balance text-center">
-					Use the exported BentoCard component when you want to author the cell
-					content yourself.
-				</p>
-			</BentoCard>
-		</BentoGrid>
-	);
+  return (
+    <BentoGrid theme="light" platform="tablet">
+      <BentoCard>
+        <h2 className="text-xl font-medium text-card-foreground text-center">
+          Custom card
+        </h2>
+        <p className="text-sm text-muted-foreground text-center">
+          Use BentoCard for custom cell content.
+        </p>
+      </BentoCard>
+    </BentoGrid>
+  );
 }
 
+// Pre-built demo
 export function Demo() {
-	return <BentoGridExample />;
+  return <BentoGridExample />;
 }
 ```
+
+## Theme & Responsiveness
+
+Supports light and dark themes via the `theme` prop and shadcn CSS variable tokens. The `platform` prop controls layout: `adaptive` automatically switches between mobile, tablet, and desktop grid layouts based on viewport width.

@@ -1,6 +1,6 @@
 # @anvilkit/input
 
-A Puck-native input block for `anvilkit-components`.
+A Puck-native form input block with label, helper text, and validation support.
 
 ## Install
 
@@ -16,7 +16,20 @@ Import the package stylesheet once from your app entry before rendering the comp
 import "@anvilkit/input/styles.css";
 ```
 
-In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
+
+## Props
+
+| Field | Type | Options | Default |
+|-------|------|---------|---------|
+| `label` | text | — | `"Email address"` |
+| `name` | text | — | `"email"` |
+| `type` | select | `text`, `email`, `password`, `search`, `tel`, `url` | `"email"` |
+| `placeholder` | text | — | `"Enter your email"` |
+| `helperText` | textarea | — | `"We will only use this for important updates."` |
+| `defaultValue` | text | — | `""` |
+| `required` | radio | `false`, `true` | `false` |
+| `disabled` | radio | `false`, `true` | `false` |
 
 ## Usage
 
@@ -30,28 +43,19 @@ import {
   type InputProps,
 } from "@anvilkit/input";
 
-const config: Config<{
-  Input: InputProps;
-}> = {
+// Puck config registration
+const config: Config<{ Input: InputProps }> = {
   components: {
     Input: componentConfig,
   },
 };
 
-export const data = {
-  root: {},
-  content: [
-    {
-      type: "Input",
-      props: {
-        id: "input-1",
-        ...defaultProps,
-      },
-    },
-  ],
-};
-
+// Standalone usage
 export function Example() {
-  return <Input label="Email address" name="email" placeholder="Email address" />;
+  return <Input label="Email address" name="email" placeholder="Enter your email" />;
 }
 ```
+
+## Theme & Responsiveness
+
+Supports light and dark themes via shadcn CSS variable tokens. Responsive across mobile, tablet, and desktop breakpoints.

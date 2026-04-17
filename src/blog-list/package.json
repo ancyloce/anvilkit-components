@@ -8,9 +8,14 @@
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
 		},
 		"./styles.css": "./dist/styles.css"
 	},
@@ -27,7 +32,8 @@
 	"scripts": {
 		"build": "rslib build",
 		"dev": "rslib build --watch",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"publint": "publint"
 	},
 	"peerDependencies": {
 		"@puckeditor/core": "^0.21.1",

@@ -16,7 +16,14 @@ Import the package stylesheet once from your app entry before rendering the comp
 import "@anvilkit/logo-clouds/styles.css";
 ```
 
-In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`. If you use multiple `@anvilkit/*` component packages, import each package stylesheet in that same entry file.
+In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
+
+## Props
+
+| Field | Type | Default |
+|-------|------|---------|
+| `title` | text | `"Brands love us"` |
+| `subtitle` | textarea | `"Trusted by the teams building polished, high-performance products for the modern web."` |
 
 ## Usage
 
@@ -30,33 +37,24 @@ import {
   type LogoCloudsProps,
 } from "@anvilkit/logo-clouds";
 
-const config: Config<{
-  LogoClouds: LogoCloudsProps;
-}> = {
+// Puck config registration
+const config: Config<{ LogoClouds: LogoCloudsProps }> = {
   components: {
     LogoClouds: componentConfig,
   },
 };
 
-const data = {
-  root: {},
-  content: [
-    {
-      type: "LogoClouds",
-      props: {
-        id: "logo-clouds-1",
-        ...defaultProps,
-      },
-    },
-  ],
-};
-
+// Standalone usage
 export function Example() {
   return (
     <LogoClouds
       title="Brands love us"
-      subtitle="Trusted by the teams building polished, high-performance products for the modern web."
+      subtitle="Trusted by the teams building polished, high-performance products."
     />
   );
 }
 ```
+
+## Theme & Responsiveness
+
+Supports light and dark themes via shadcn CSS variable tokens. Responsive across mobile, tablet, and desktop breakpoints.
