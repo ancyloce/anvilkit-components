@@ -33,7 +33,8 @@
 		"build": "rslib build",
 		"dev": "rslib build --watch",
 		"typecheck": "tsc --noEmit",
-		"publint": "publint"
+		"publint": "publint",
+		"size": "size-limit"
 	},
 	"peerDependencies": {
 		"@puckeditor/core": "^0.21.1",

@@ -1,0 +1,16 @@
+[
+	{
+		"name": "@anvilkit/input",
+		"path": "dist/index.js",
+		"limit": "30 KB",
+		"gzip": true,
+		"ignore": [
+			"react",
+			"react-dom",
+			"react/jsx-runtime",
+			"react/jsx-dev-runtime",
+			"@puckeditor/core",
+			"@anvilkit/ui"
+		]
+	}
+]
