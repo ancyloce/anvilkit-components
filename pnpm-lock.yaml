@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@base-ui-components/react@1.0.0-rc.0': 2e15bb4aeb7505916945b8350c60f671ba37d3c122aa1fe38dac332acf2c8fdb
+  '@base-ui/react@1.3.0': da1b2b90ca96da8fe4b0284fb3bb6f87657260c1c021c3977ecc595ba8b77a1b
+
 importers:
 
   .:
@@ -102,10 +106,10 @@ importers:
     dependencies:
       '@base-ui-components/react':
         specifier: 1.0.0-rc.0
-        version: 1.0.0-rc.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 1.0.0-rc.0(patch_hash=2e15bb4aeb7505916945b8350c60f671ba37d3c122aa1fe38dac332acf2c8fdb)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@base-ui/react':
         specifier: ^1.3.0
-        version: 1.3.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 1.3.0(patch_hash=da1b2b90ca96da8fe4b0284fb3bb6f87657260c1c021c3977ecc595ba8b77a1b)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@floating-ui/react':
         specifier: ^0.27.19
         version: 0.27.19(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -4552,7 +4556,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@base-ui-components/react@1.0.0-rc.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@base-ui-components/react@1.0.0-rc.0(patch_hash=2e15bb4aeb7505916945b8350c60f671ba37d3c122aa1fe38dac332acf2c8fdb)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@babel/runtime': 7.29.2
       '@base-ui-components/utils': 0.2.2(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -4577,7 +4581,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.14
 
-  '@base-ui/react@1.3.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@base-ui/react@1.3.0(patch_hash=da1b2b90ca96da8fe4b0284fb3bb6f87657260c1c021c3977ecc595ba8b77a1b)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@babel/runtime': 7.29.2
       '@base-ui/utils': 0.2.6(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
