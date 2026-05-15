@@ -1,0 +1,26 @@
+diff --git a/composite/root/useCompositeRoot.js b/composite/root/useCompositeRoot.js
+index b67c887fe41a824617b1e7c765b5978f70a8700d..8e4dbebc2a19ca1586f47c3e128a53d025aa89f7 100644
+--- a/composite/root/useCompositeRoot.js
++++ b/composite/root/useCompositeRoot.js
+@@ -213,7 +213,7 @@ function isModifierKeySet(event, ignoredModifierKeys) {
+     if (ignoredModifierKeys.includes(key)) {
+       continue;
+     }
+-    if (event.getModifierState(key)) {
++    if (typeof event.getModifierState === 'function' && event.getModifierState(key)) {
+       return true;
+     }
+   }
+diff --git a/esm/composite/root/useCompositeRoot.js b/esm/composite/root/useCompositeRoot.js
+index 875156f2e26b5340262a98fe8918528414a82c04..2bf96c124896371bcefe9fcc7899dc9b48b08cdd 100644
+--- a/esm/composite/root/useCompositeRoot.js
++++ b/esm/composite/root/useCompositeRoot.js
+@@ -207,7 +207,7 @@ function isModifierKeySet(event, ignoredModifierKeys) {
+     if (ignoredModifierKeys.includes(key)) {
+       continue;
+     }
+-    if (event.getModifierState(key)) {
++    if (typeof event.getModifierState === 'function' && event.getModifierState(key)) {
+       return true;
+     }
+   }
