@@ -75,6 +75,7 @@ Add extra `@source` entries for any consumed `@anvilkit/ui` source files.
 - **Responsive**: every component must work on mobile, tablet, and desktop (mobile-first Tailwind breakpoints).
 - **Themes**: every component must support both light and dark mode.
 - **Do not alter public API silently** — `index.ts` exports, prop names/types, and package `exports` are a stable contract.
+- **Comments must be concise and efficient** — directly state the core intent of functions/methods, avoiding redundant descriptions.
 
 ## Adding a component
 

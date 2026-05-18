@@ -74,6 +74,7 @@ From `src/<slug>/src/index.ts`, export:
 - **Keep props serializable** in `defaultProps` and field schemas.
 - **Keep render components pure**; no side effects, no data fetching, no hidden state coupling.
 - **Do not silently alter public package surface** (`index.ts` exports, package `exports`, prop names/types).
+- **Comments should be concise and efficient**, directly stating the core intent of functions/methods, avoiding redundant descriptions.
 - **Preserve edit-mode behavior**:
   - components should handle `editMode` and disable interactions (links/buttons/inputs) appropriately.
 - **Prefer `@anvilkit/ui` primitives/utilities** where similar behavior already exists (for example `@anvilkit/ui/button`, `@anvilkit/ui/input`, `cn`).
