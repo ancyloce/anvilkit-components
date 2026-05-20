@@ -20,9 +20,9 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Default |
-|-------|------|---------|
-| `title` | text | `"Brands love us"` |
+| Field      | Type     | Default                                                                                   |
+| ---------- | -------- | ----------------------------------------------------------------------------------------- |
+| `title`    | text     | `"Brands love us"`                                                                        |
 | `subtitle` | textarea | `"Trusted by the teams building polished, high-performance products for the modern web."` |
 
 ## Usage

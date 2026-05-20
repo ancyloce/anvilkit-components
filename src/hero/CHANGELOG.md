@@ -28,4 +28,3 @@ _Release tag: `v0.0.1`_
 - ✨ feat(hero): refactor Hero component for improved readability and structure (0f16ed9)
 - ✨ feat(hero): enhance Hero component styling and structure (89043eb)
 - ✨ feat(hero): add Puck-native hero component with configuration and styling (4a81027)
-

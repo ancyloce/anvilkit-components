@@ -20,12 +20,12 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Default |
-|-------|------|---------|
-| `badgeLabel` | text | `"Scale"` |
-| `headline` | text | `"Stop writing boilerplate."` |
-| `highlightedHeadline` | text | `"Start building features."` |
-| `description` | textarea | `"Your AI agent handles repetitive coding tasks..."` |
+| Field                 | Type     | Default                                              |
+| --------------------- | -------- | ---------------------------------------------------- |
+| `badgeLabel`          | text     | `"Scale"`                                            |
+| `headline`            | text     | `"Stop writing boilerplate."`                        |
+| `highlightedHeadline` | text     | `"Start building features."`                         |
+| `description`         | textarea | `"Your AI agent handles repetitive coding tasks..."` |
 
 ## Usage
 

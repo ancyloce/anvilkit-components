@@ -1,25 +1,25 @@
-import { pluginReact } from '@rsbuild/plugin-react';
-import { defineConfig } from '@rslib/core';
+import { pluginReact } from "@rsbuild/plugin-react";
+import { defineConfig } from "@rslib/core";
 
 export default defineConfig({
   source: {
     entry: {
-      index: ['./src/**'],
+      index: ["./src/**"],
     },
   },
   lib: [
     {
       bundle: false,
       dts: true,
-      format: 'esm',
+      format: "esm",
     },
     {
       bundle: false,
-      format: 'cjs',
+      format: "cjs",
     },
   ],
   output: {
-    target: 'web',
+    target: "web",
   },
   plugins: [pluginReact()],
 });

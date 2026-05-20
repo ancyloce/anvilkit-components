@@ -20,16 +20,16 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Options | Default |
-|-------|------|---------|---------|
-| `label` | text | — | `"Email address"` |
-| `name` | text | — | `"email"` |
-| `type` | select | `text`, `email`, `password`, `search`, `tel`, `url` | `"email"` |
-| `placeholder` | text | — | `"Enter your email"` |
-| `helperText` | textarea | — | `"We will only use this for important updates."` |
-| `defaultValue` | text | — | `""` |
-| `required` | radio | `false`, `true` | `false` |
-| `disabled` | radio | `false`, `true` | `false` |
+| Field          | Type     | Options                                             | Default                                          |
+| -------------- | -------- | --------------------------------------------------- | ------------------------------------------------ |
+| `label`        | text     | —                                                   | `"Email address"`                                |
+| `name`         | text     | —                                                   | `"email"`                                        |
+| `type`         | select   | `text`, `email`, `password`, `search`, `tel`, `url` | `"email"`                                        |
+| `placeholder`  | text     | —                                                   | `"Enter your email"`                             |
+| `helperText`   | textarea | —                                                   | `"We will only use this for important updates."` |
+| `defaultValue` | text     | —                                                   | `""`                                             |
+| `required`     | radio    | `false`, `true`                                     | `false`                                          |
+| `disabled`     | radio    | `false`, `true`                                     | `false`                                          |
 
 ## Usage
 
@@ -52,7 +52,9 @@ const config: Config<{ Input: InputProps }> = {
 
 // Standalone usage
 export function Example() {
-  return <Input label="Email address" name="email" placeholder="Enter your email" />;
+  return (
+    <Input label="Email address" name="email" placeholder="Enter your email" />
+  );
 }
 ```
 

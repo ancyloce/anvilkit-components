@@ -28,4 +28,3 @@ _Release tag: `v0.0.1`_
 - 🎨 refactor(biome, navbar): streamline configuration and improve code readability (7421d13)
 - ✨ feat(navbar): refactor Navbar component for improved structure and functionality (9c277c9)
 - ✨ feat(navbar): add Puck-native navbar component (a55cf14)
-

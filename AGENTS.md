@@ -1,11 +1,13 @@
 # AGENTS.md
 
 ## Purpose of this repository
+
 - Treat this monorepo as a **workspace of independently publishable Puck-native React component packages**.
 - Every package under `src/<slug>` is intended to be installed directly (for example `@anvilkit/button`, `@anvilkit/input`, `@anvilkit/navbar`), not through an umbrella package.
 - “Puck-native” here means each package ships a component plus a Puck `ComponentConfig` contract with serializable defaults and field definitions.
 
 ## Workspace architecture
+
 - Package manager: **pnpm** (`packageManager` pinned in root `package.json`).
 - Workspace members are declared in `pnpm-workspace.yaml`:
   - `src/*` (component packages in this repo)
@@ -22,6 +24,7 @@
 - Formatting/linting is Biome (`biome.json`), with Tailwind directives enabled in CSS parser.
 
 ## Required shape of each component package (`src/<slug>`)
+
 Keep package structure aligned with existing packages and generator templates:
 
 - `src/<slug>/package.json`
@@ -35,6 +38,7 @@ Keep package structure aligned with existing packages and generator templates:
 - `src/<slug>/src/styles.d.ts`
 
 ### Naming conventions (follow generator logic)
+
 - **Slug**: lowercase kebab-case npm-safe (`^[a-z0-9]+(?:-[a-z0-9]+)*$`), used as folder and package suffix.
 - **Package name**: `@anvilkit/<slug>`.
 - **React symbol**: PascalCase from slug (`button-group` → `ButtonGroup`).
@@ -42,7 +46,9 @@ Keep package structure aligned with existing packages and generator templates:
 - **Display label**: title-cased slug unless explicitly overridden.
 
 ### Export contract (do not break casually)
+
 From `src/<slug>/src/index.ts`, export:
+
 - CSS side-effect import (`import "./styles.css";`)
 - component symbol (`Button`, `Input`, etc.)
 - component prop types (including `*Props`, usually `*ViewProps`)
@@ -58,6 +64,7 @@ From `src/<slug>/src/index.ts`, export:
   - `<camel>Metadata`
 
 ### `config.ts` expectations
+
 - Import `packageJson` from `../package.json` and set metadata fields from it.
 - Define and export:
   - `metadata` (`ComponentMetadata`) with at least:
@@ -70,6 +77,7 @@ From `src/<slug>/src/index.ts`, export:
 - Build `render` as a pure adapter using `createElement(...)` and pass `editMode` through.
 
 ## Coding rules for agents in this repo
+
 - **Start from existing package patterns** (`src/navbar`, `src/button`, `src/input`) before inventing abstractions.
 - **Keep props serializable** in `defaultProps` and field schemas.
 - **Keep render components pure**; no side effects, no data fetching, no hidden state coupling.
@@ -101,6 +109,7 @@ From `src/<slug>/src/index.ts`, export:
   - small helper functions for variant mapping and behavior
 
 ## Styling rules
+
 - Each package owns `src/styles.css` and imports it from `src/index.ts`.
 - Start styles with:
   - `@import "@anvilkit/tailwind-config/shadcn";`
@@ -135,6 +144,7 @@ From `src/<slug>/src/index.ts`, export:
   - dark theme
 
 ## Adding a new component package
+
 1. Use the generator; do not scaffold manually unless fixing generator output:
    - interactive: `pnpm gen:component`
    - flags: `pnpm gen:component -- --name <slug> --template <content|layout|form> [--label "..."] [--category <slug>]`
@@ -152,12 +162,15 @@ From `src/<slug>/src/index.ts`, export:
 4. Keep generated file layout and export names intact.
 
 ## Validation checklist before finishing
+
 Run from repository root:
+
 - `pnpm lint`
 - `pnpm typecheck`
 - `pnpm build`
 
 Then manually verify:
+
 - modified package `src/index.ts` still exports canonical + alias API
 - `config.ts` still satisfies `ComponentConfig`/`Fields`/`ComponentMetadata`
 - package `README.md` usage examples still match actual exports/props
@@ -175,13 +188,16 @@ Then manually verify:
 - icons use `lucide-react` consistently and do not mix other general-purpose icon libraries without explicit justification
 
 ## Release and versioning notes
+
 - Versioning/publishing is Changesets-driven with independent package releases.
 - Add a changeset (`pnpm changeset`) for user-facing changes in published packages.
 - Root release command is `pnpm release` (`changeset version && pnpm build && changeset publish`).
 - Do not hand-edit versions as a substitute for proper changesets in normal workflow.
 
 ## Do / Don’t
+
 ### Do
+
 - Do treat each `src/<slug>` as a publishable package boundary.
 - Do preserve canonical exports: `componentConfig`, `defaultProps`, `fields`, `metadata`.
 - Do use the generator conventions as the source of truth for naming and file layout.
@@ -192,6 +208,7 @@ Then manually verify:
 - Do guarantee both light and dark theme support.
 
 ### Don’t
+
 - Don’t introduce non-serializable props into config defaults/fields.
 - Don’t remove alias exports unless a deliberate breaking-change plan exists.
 - Don’t bypass `editMode` safeguards for clickable/form controls.

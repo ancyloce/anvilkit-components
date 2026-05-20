@@ -133,11 +133,7 @@ Each component package is consumed directly from npm after publish. Consumers co
 
 ```tsx
 import type { Config } from "@puckeditor/core";
-import {
-  Button,
-  componentConfig,
-  type ButtonProps,
-} from "@anvilkit/button";
+import { Button, componentConfig, type ButtonProps } from "@anvilkit/button";
 
 const config: Config<{
   Button: ButtonProps;

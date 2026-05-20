@@ -20,18 +20,18 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `posts` | array | Blog post entries |
-| `posts[].title` | text | Post title |
-| `posts[].description` | textarea | Post description |
-| `posts[].href` | text | Link URL |
-| `posts[].openInNewTab` | radio | Open link in new tab |
-| `posts[].imageSrc` | text | Cover image URL |
-| `posts[].imageAlt` | text | Cover image alt text |
-| `posts[].publishedAt` | text | ISO date string |
-| `posts[].publishedLabel` | text | Formatted date label |
-| `posts[].relativeLabel` | text | Relative time label (e.g. `"8mo ago"`) |
+| Field                    | Type     | Description                            |
+| ------------------------ | -------- | -------------------------------------- |
+| `posts`                  | array    | Blog post entries                      |
+| `posts[].title`          | text     | Post title                             |
+| `posts[].description`    | textarea | Post description                       |
+| `posts[].href`           | text     | Link URL                               |
+| `posts[].openInNewTab`   | radio    | Open link in new tab                   |
+| `posts[].imageSrc`       | text     | Cover image URL                        |
+| `posts[].imageAlt`       | text     | Cover image alt text                   |
+| `posts[].publishedAt`    | text     | ISO date string                        |
+| `posts[].publishedLabel` | text     | Formatted date label                   |
+| `posts[].relativeLabel`  | text     | Relative time label (e.g. `"8mo ago"`) |
 
 ## Usage
 

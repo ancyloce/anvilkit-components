@@ -25,6 +25,7 @@ pnpm release       # changeset version + build + changeset publish
 ```
 
 **Validation before finishing any component work:**
+
 ```bash
 pnpm lint && pnpm typecheck && pnpm build
 ```
@@ -33,13 +34,13 @@ pnpm lint && pnpm typecheck && pnpm build
 
 Every `src/<slug>/` must export from `src/index.ts`:
 
-| Export | Type |
-|---|---|
-| `componentConfig` | `ComponentConfig` |
-| `defaultProps` | serializable defaults |
-| `fields` | `Fields<Props>` |
-| `metadata` | `ComponentMetadata` |
-| `<camel>Config`, `<camel>DefaultProps`, `<camel>Fields`, `<camel>Metadata` | convenience aliases |
+| Export                                                                     | Type                  |
+| -------------------------------------------------------------------------- | --------------------- |
+| `componentConfig`                                                          | `ComponentConfig`     |
+| `defaultProps`                                                             | serializable defaults |
+| `fields`                                                                   | `Fields<Props>`       |
+| `metadata`                                                                 | `ComponentMetadata`   |
+| `<camel>Config`, `<camel>DefaultProps`, `<camel>Fields`, `<camel>Metadata` | convenience aliases   |
 
 `config.ts` must import `packageJson` and populate `metadata` from it (`componentName`, `componentSlug`, `packageName`, `packageVersion`, `scaffoldType`, `schemaVersion`). The `render` function must be a pure adapter built with `createElement(...)` and must pass `editMode` through.
 
@@ -53,6 +54,7 @@ Every `src/<slug>/` must export from `src/index.ts`:
 ## Styling rules
 
 `styles.css` must start with:
+
 ```css
 @import "@anvilkit/tailwind-config/shadcn";
 @source "./**/*.{ts,tsx}";
@@ -61,6 +63,7 @@ Every `src/<slug>/` must export from `src/index.ts`:
 Add extra `@source` entries for any consumed `@anvilkit/ui` source files.
 
 **Color priority (never hardcode hex/rgb/hsl):**
+
 1. shadcn semantic tokens — `bg-background`, `text-foreground`, `border-border`, `text-muted-foreground`, `bg-primary`, `text-primary-foreground`, etc.
 2. Tailwind utilities
 3. Custom CSS variables only when nothing above suffices — must work in both themes

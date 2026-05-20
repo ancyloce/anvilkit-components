@@ -20,25 +20,25 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `logo` | object | Logo configuration |
-| `logo.type` | radio | `text` or `image` |
-| `logo.text` | text | Display text (when type is `text`) |
-| `logo.imageUrl` | text | Image URL (when type is `image`) |
-| `logo.alt` | text | Alt text |
-| `logo.href` | text | Link URL |
-| `items` | array | Navigation menu items |
-| `items[].label` | text | Menu item label |
-| `items[].href` | text | Menu item link |
-| `actions` | array | Action buttons |
-| `actions[].label` | text | Button label |
-| `actions[].href` | text | Button link |
-| `actions[].variant` | select | `default`, `secondary`, `outline`, `ghost`, `link`, `destructive` |
-| `actions[].size` | select | `sm`, `default`, `lg` |
-| `actions[].openInNewTab` | radio | `false`, `true` |
-| `actions[].disabled` | radio | `false`, `true` |
-| `active` | text | Path of the currently active menu item |
+| Field                    | Type   | Description                                                       |
+| ------------------------ | ------ | ----------------------------------------------------------------- |
+| `logo`                   | object | Logo configuration                                                |
+| `logo.type`              | radio  | `text` or `image`                                                 |
+| `logo.text`              | text   | Display text (when type is `text`)                                |
+| `logo.imageUrl`          | text   | Image URL (when type is `image`)                                  |
+| `logo.alt`               | text   | Alt text                                                          |
+| `logo.href`              | text   | Link URL                                                          |
+| `items`                  | array  | Navigation menu items                                             |
+| `items[].label`          | text   | Menu item label                                                   |
+| `items[].href`           | text   | Menu item link                                                    |
+| `actions`                | array  | Action buttons                                                    |
+| `actions[].label`        | text   | Button label                                                      |
+| `actions[].href`         | text   | Button link                                                       |
+| `actions[].variant`      | select | `default`, `secondary`, `outline`, `ghost`, `link`, `destructive` |
+| `actions[].size`         | select | `sm`, `default`, `lg`                                             |
+| `actions[].openInNewTab` | radio  | `false`, `true`                                                   |
+| `actions[].disabled`     | radio  | `false`, `true`                                                   |
+| `active`                 | text   | Path of the currently active menu item                            |
 
 ## Usage
 
@@ -63,7 +63,13 @@ const config: Config<{ Navbar: NavbarProps }> = {
 export function Example() {
   return (
     <Navbar
-      logo={{ type: "text", text: "Acme", imageUrl: "", alt: "Acme", href: "/" }}
+      logo={{
+        type: "text",
+        text: "Acme",
+        imageUrl: "",
+        alt: "Acme",
+        href: "/",
+      }}
       items={[
         { label: "Overview", href: "/overview" },
         { label: "Features", href: "/features" },

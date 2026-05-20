@@ -26,4 +26,3 @@ _Release tag: `v0.0.1`_
 - 🎨 refactor(logo-clouds): improve code formatting and enhance logo rendering (b221ff0)
 - 🎨 refactor(logo-clouds): standardize formatting and improve readability in LogoClouds component (ce9e530)
 - ✨ feat(logo-clouds): introduce logo-clouds component with configuration and styling (43c3774)
-

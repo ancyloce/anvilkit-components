@@ -20,19 +20,19 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Default |
-|-------|------|---------|
-| `announcementLabel` | text | `"We raised $69M pre seed"` |
-| `announcementHref` | text | `""` |
-| `announcementOpenInNewTab` | radio | `false` |
-| `headline` | textarea | `"Write fast with\naccurate precision."` |
-| `description` | textarea | `"Our state of the art tool..."` |
-| `linuxLabel` | text | `"Download for Linux"` |
-| `linuxHref` | text | `"/download/linux"` |
-| `linuxOpenInNewTab` | radio | `false` |
-| `windowsLabel` | text | `"Download for Windows"` |
-| `windowsHref` | text | `"/download/windows"` |
-| `windowsOpenInNewTab` | radio | `false` |
+| Field                      | Type     | Default                                  |
+| -------------------------- | -------- | ---------------------------------------- |
+| `announcementLabel`        | text     | `"We raised $69M pre seed"`              |
+| `announcementHref`         | text     | `""`                                     |
+| `announcementOpenInNewTab` | radio    | `false`                                  |
+| `headline`                 | textarea | `"Write fast with\naccurate precision."` |
+| `description`              | textarea | `"Our state of the art tool..."`         |
+| `linuxLabel`               | text     | `"Download for Linux"`                   |
+| `linuxHref`                | text     | `"/download/linux"`                      |
+| `linuxOpenInNewTab`        | radio    | `false`                                  |
+| `windowsLabel`             | text     | `"Download for Windows"`                 |
+| `windowsHref`              | text     | `"/download/windows"`                    |
+| `windowsOpenInNewTab`      | radio    | `false`                                  |
 
 ## Usage
 

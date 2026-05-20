@@ -20,8 +20,8 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Default |
-|-------|------|---------|
+| Field   | Type | Default        |
+| ------- | ---- | -------------- |
 | `title` | text | `"Statistics"` |
 
 ## Usage

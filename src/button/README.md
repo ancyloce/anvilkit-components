@@ -20,13 +20,13 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Options | Default |
-|-------|------|---------|---------|
-| `label` | text | — | `"Save changes"` |
-| `variant` | radio | `primary`, `secondary` | `"primary"` |
-| `href` | text | — | `""` |
-| `openInNewTab` | radio | `false`, `true` | `false` |
-| `disabled` | radio | `false`, `true` | `false` |
+| Field          | Type  | Options                | Default          |
+| -------------- | ----- | ---------------------- | ---------------- |
+| `label`        | text  | —                      | `"Save changes"` |
+| `variant`      | radio | `primary`, `secondary` | `"primary"`      |
+| `href`         | text  | —                      | `""`             |
+| `openInNewTab` | radio | `false`, `true`        | `false`          |
+| `disabled`     | radio | `false`, `true`        | `false`          |
 
 ## Usage
 

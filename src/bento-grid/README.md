@@ -20,20 +20,20 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Options | Default |
-|-------|------|---------|---------|
-| `theme` | select | `system`, `light`, `dark` | `"dark"` |
-| `platform` | select | `adaptive`, `mobile`, `tablet`, `desktop` | `"adaptive"` |
-| `items` | array | — | *(example items)* |
-| `items[].icon` | select | `brain`, `users`, `plug`, `globe`, `code`, `zap` | — |
-| `items[].title` | text | — | — |
-| `items[].description` | textarea | — | — |
-| `items[].size` | select | `default`, `wide`, `tall` | — |
-| `items[].rounded` | radio | `false`, `true` | — |
-| `items[].background` | radio | `false`, `true` | — |
-| `items[].ctaLabel` | text | — | — |
-| `items[].ctaHref` | text | — | — |
-| `items[].ctaOpenInNewTab` | radio | `false`, `true` | — |
+| Field                     | Type     | Options                                          | Default           |
+| ------------------------- | -------- | ------------------------------------------------ | ----------------- |
+| `theme`                   | select   | `system`, `light`, `dark`                        | `"dark"`          |
+| `platform`                | select   | `adaptive`, `mobile`, `tablet`, `desktop`        | `"adaptive"`      |
+| `items`                   | array    | —                                                | _(example items)_ |
+| `items[].icon`            | select   | `brain`, `users`, `plug`, `globe`, `code`, `zap` | —                 |
+| `items[].title`           | text     | —                                                | —                 |
+| `items[].description`     | textarea | —                                                | —                 |
+| `items[].size`            | select   | `default`, `wide`, `tall`                        | —                 |
+| `items[].rounded`         | radio    | `false`, `true`                                  | —                 |
+| `items[].background`      | radio    | `false`, `true`                                  | —                 |
+| `items[].ctaLabel`        | text     | —                                                | —                 |
+| `items[].ctaHref`         | text     | —                                                | —                 |
+| `items[].ctaOpenInNewTab` | radio    | `false`, `true`                                  | —                 |
 
 ## Usage
 

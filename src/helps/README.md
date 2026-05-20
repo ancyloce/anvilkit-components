@@ -20,16 +20,16 @@ In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
 ## Props
 
-| Field | Type | Description | Default |
-|-------|------|-------------|---------|
-| `message` | textarea | CTA message text | `"We're grateful for the amazing open-source community..."` |
-| `buttonLabel` | text | Action button label | `"Become a contributor"` |
-| `buttonHref` | text | Action button link | `"/contribute"` |
-| `buttonOpenInNewTab` | radio | Open link in new tab | `false` |
-| `avatars` | array | Contributor avatar stack | *(5 example avatars)* |
-| `avatars[].name` | text | Contributor name | — |
-| `avatars[].imageUrl` | text | Avatar image URL | — |
-| `avatars[].initials` | text | Fallback initials | — |
+| Field                | Type     | Description              | Default                                                     |
+| -------------------- | -------- | ------------------------ | ----------------------------------------------------------- |
+| `message`            | textarea | CTA message text         | `"We're grateful for the amazing open-source community..."` |
+| `buttonLabel`        | text     | Action button label      | `"Become a contributor"`                                    |
+| `buttonHref`         | text     | Action button link       | `"/contribute"`                                             |
+| `buttonOpenInNewTab` | radio    | Open link in new tab     | `false`                                                     |
+| `avatars`            | array    | Contributor avatar stack | _(5 example avatars)_                                       |
+| `avatars[].name`     | text     | Contributor name         | —                                                           |
+| `avatars[].imageUrl` | text     | Avatar image URL         | —                                                           |
+| `avatars[].initials` | text     | Fallback initials        | —                                                           |
 
 ## Usage
 
