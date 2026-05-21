@@ -8,11 +8,11 @@
 		"node": ">=18"
 	},
 	"scripts": {
-		"dev": "pnpm -r --parallel dev",
-		"build": "pnpm -r build",
+		"dev": "pnpm -r --filter \"./src/*\" --parallel dev",
+		"build": "pnpm -r --filter \"./src/*\" build",
 		"lint": "pnpm exec biome lint .",
 		"format": "pnpm exec biome check --write .",
-		"typecheck": "pnpm -r typecheck",
+		"typecheck": "pnpm -r --filter \"./src/*\" typecheck",
 		"gen:component": "node ./turbo/generators/run-component-generator.mjs",
 		"changeset": "changeset",
 		"release": "changeset version && pnpm build && changeset publish"
