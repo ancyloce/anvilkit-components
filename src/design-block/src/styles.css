@@ -1,0 +1,3 @@
+@import "@anvilkit/tailwind-config/shadcn";
+
+@source "./**/*.{ts,tsx}";
