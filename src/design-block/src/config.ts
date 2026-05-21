@@ -5,6 +5,7 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import { listArtboards } from "./artboard-catalog";
 import type { DesignBlockProps } from "./DesignBlock";
 import { DesignBlock } from "./DesignBlock";
 
@@ -27,6 +28,11 @@ export const defaultProps = {
 	aspectRatio: "auto",
 } satisfies DesignBlockProps;
 
+const artboardIdTextField = {
+	type: "text",
+	label: "Artboard ID",
+} as const;
+
 export const fields = {
 	designId: {
 		type: "text",
@@ -40,10 +46,7 @@ export const fields = {
 		type: "text",
 		label: "Preview asset id",
 	},
-	artboardId: {
-		type: "text",
-		label: "Artboard ID",
-	},
+	artboardId: artboardIdTextField,
 	alt: {
 		type: "text",
 		label: "Alt text",
@@ -79,12 +82,41 @@ const renderDesignBlock: ComponentConfig<DesignBlockProps>["render"] = ({
 		editMode,
 	});
 
+/**
+ * Swap the `artboardId` field between a select (when a host catalog is
+ * available for the current designId) and a plain text input (when it
+ * is not). Keeps the public field name stable; only the inspector UX
+ * changes.
+ */
+function resolveDesignBlockFields(data: {
+	props: DesignBlockProps;
+}): Fields<DesignBlockProps> {
+	const designId = data.props?.designId ?? "";
+	const artboards = listArtboards(designId);
+	if (artboards.length === 0) {
+		return fields;
+	}
+	const selectOptions = artboards.map((entry) => ({
+		label: entry.label ?? entry.id,
+		value: entry.id,
+	}));
+	return {
+		...fields,
+		artboardId: {
+			type: "select",
+			label: "Artboard",
+			options: selectOptions,
+		},
+	};
+}
+
 export const designBlockConfig = {
 	label: "Design Block",
 	defaultProps,
 	fields,
 	metadata,
 	render: renderDesignBlock,
+	resolveFields: resolveDesignBlockFields,
 } satisfies ComponentConfig<DesignBlockProps>;
 
 export const componentConfig = designBlockConfig;

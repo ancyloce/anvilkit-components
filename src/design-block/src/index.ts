@@ -1,6 +1,15 @@
 import "./styles.css";
 
 export type {
+	ArtboardCatalogEntry,
+	ArtboardCatalogFn,
+} from "./artboard-catalog";
+export {
+	getArtboardCatalog,
+	listArtboards,
+	setArtboardCatalog,
+} from "./artboard-catalog";
+export type {
 	DesignBlockAspectRatio,
 	DesignBlockProps,
 	DesignBlockViewProps,
