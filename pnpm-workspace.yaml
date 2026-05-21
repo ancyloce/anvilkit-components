@@ -1,9 +1,0 @@
-packages:
-  - "../configs/*"
-  - "../ui"
-  - "src/*"
-allowBuilds:
-  esbuild: set this to true or false
-  msw: set this to true or false
-patchedDependencies:
-  '@base-ui/react@1.3.0': patches/@base-ui__react@1.3.0.patch
