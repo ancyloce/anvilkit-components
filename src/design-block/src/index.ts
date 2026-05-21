@@ -9,14 +9,9 @@ export {
 	listArtboards,
 	setArtboardCatalog,
 } from "./artboard-catalog";
-export type {
-	DesignBlockAspectRatio,
-	DesignBlockProps,
-	DesignBlockViewProps,
-} from "./DesignBlock";
-export { DesignBlock } from "./DesignBlock";
 export {
 	componentConfig,
+	componentConfig as designBlockComponentConfig,
 	defaultProps,
 	defaultProps as designBlockDefaultProps,
 	designBlockConfig,
@@ -25,4 +20,9 @@ export {
 	metadata,
 	metadata as designBlockMetadata,
 } from "./config";
-export { componentConfig as designBlockComponentConfig } from "./config";
+export type {
+	DesignBlockAspectRatio,
+	DesignBlockProps,
+	DesignBlockViewProps,
+} from "./DesignBlock";
+export { DesignBlock } from "./DesignBlock";
