@@ -87,10 +87,15 @@ const renderDesignBlock: ComponentConfig<DesignBlockProps>["render"] = ({
  * available for the current designId) and a plain text input (when it
  * is not). Keeps the public field name stable; only the inspector UX
  * changes.
+ *
+ * The type is derived from Puck's `ComponentConfig<DesignBlockProps>["resolveFields"]`
+ * so a future Puck signature change surfaces here at typecheck time. The
+ * `params` arg is intentionally unused — this callback only consults
+ * `data.props.designId` and the module-singleton artboard catalog.
  */
-function resolveDesignBlockFields(data: {
-	props: DesignBlockProps;
-}): Fields<DesignBlockProps> {
+const resolveDesignBlockFields: NonNullable<
+	ComponentConfig<DesignBlockProps>["resolveFields"]
+> = (data, _params) => {
 	const designId = data.props?.designId ?? "";
 	const artboards = listArtboards(designId);
 	if (artboards.length === 0) {
@@ -108,7 +113,7 @@ function resolveDesignBlockFields(data: {
 			options: selectOptions,
 		},
 	};
-}
+};
 
 export const designBlockConfig = {
 	label: "Design Block",

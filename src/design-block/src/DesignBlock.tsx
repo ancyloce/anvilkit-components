@@ -4,6 +4,7 @@ export interface DesignBlockProps {
 	designId: string;
 	previewUrl?: string;
 	previewAssetId?: string;
+	/** Set by the canvas plugin on overlay commit; the inspector renders a select when a host artboard catalog is registered, otherwise a text input. */
 	artboardId?: string;
 	alt?: string;
 	aspectRatio?: DesignBlockAspectRatio;
