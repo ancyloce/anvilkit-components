@@ -21,17 +21,17 @@
 		"@anvilkit/biome-config": "workspace:*",
 		"@anvilkit/tailwind-config": "workspace:*",
 		"@anvilkit/typescript-config": "workspace:*",
-		"@biomejs/biome": "2.4.9",
-		"@changesets/cli": "^2.30.0",
+		"@biomejs/biome": "2.4.14",
+		"@changesets/cli": "^2.31.0",
 		"@puckeditor/core": "^0.21.2",
-		"@rsbuild/plugin-react": "^1.4.6",
-		"@rslib/core": "^0.20.1",
-		"@turbo/gen": "^2.8.20",
-		"@types/react": "^19.2.14",
-		"@types/react-dom": "^19.2.3",
-		"react": "^19.2.4",
-		"react-dom": "^19.2.4",
-		"turbo": "^2.8.20",
-		"typescript": "^6.0.2"
+		"@rsbuild/plugin-react": "^2.0.0",
+		"@rslib/core": "^0.21.5",
+		"@turbo/gen": "^2.9.14",
+		"@types/react": "19.2.14",
+		"@types/react-dom": "19.2.3",
+		"react": "^19.2.6",
+		"react-dom": "^19.2.6",
+		"turbo": "^2.9.14",
+		"typescript": "6.0.3"
 	}
 }
