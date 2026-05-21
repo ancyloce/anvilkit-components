@@ -37,7 +37,7 @@
 		"size": "size-limit"
 	},
 	"peerDependencies": {
-		"@puckeditor/core": "^0.21.1",
+		"@puckeditor/core": "^0.21.2",
 		"react": ">=19.0.0",
 		"react-dom": ">=19.0.0"
 	},
