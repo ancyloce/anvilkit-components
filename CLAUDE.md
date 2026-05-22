@@ -90,4 +90,14 @@ Add extra `@source` entries for any consumed `@anvilkit/ui` source files.
 
 ## Release
 
-Use Changesets for all version bumps — do not hand-edit `package.json` versions. Add a changeset for every user-facing change before running `pnpm release`.
+### Versioning policy
+
+- Component packages live on the **`0.1.x` line, aligned with `@anvilkit/ui`** — set a package's `version` to match the current `@anvilkit/ui` version (the package they peer-depend on).
+- **Increment by minor** for every release (`0.1.x → 0.2.0 → 0.3.0 …`). Do **not** cut a `1.0.0` — these stay in the `0.x` range while the API is pre-stable.
+- The `@anvilkit/ui` **peer range must include the `ui` version that `@anvilkit/core` pins**. `@anvilkit/core` depends on `@anvilkit/ui` as an exact version (its `workspace:*` publishes as the pinned `ui` version), so a peer range like `^0.1.4` must keep covering it — otherwise consumers installing a component alongside `@anvilkit/core` hit an `ERESOLVE` peer conflict.
+
+### How publishing actually works
+
+This workspace is no longer a standalone changesets repo — its `pnpm-workspace.yaml` was removed and the packages are governed by the **repo-root** workspace. The release workflow (`.github/workflows/publish.yml`) **does not run `changeset version`**: on push to `main` it compares every public `package.json` version against npm (`scripts/ensure-npm-packages-exist.mjs`) and publishes any version that is absent. So a release is driven by **editing the `version` field in `package.json` directly** — that is the intended mechanism, not a changeset.
+
+> ⚠️ A local `.changeset/` still exists here but is **orphaned**: `changeset` resolves to the repo-root `.changeset/`, so changesets added in this submodule are never read and `pnpm release` here will not behave as documented in older notes. Bump versions by editing `package.json`.
