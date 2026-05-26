@@ -26,3 +26,13 @@ export type {
 	DesignBlockViewProps,
 } from "./DesignBlock";
 export { DesignBlock } from "./DesignBlock";
+// NOTE: `DesignBlockEditPortal` is intentionally NOT re-exported here. It
+// imports the Puck editor runtime (`registerOverlayPortal` → @dnd-kit), so a
+// static re-export would pull that browser-only graph into every consumer of
+// this barrel (and crash RSC/SSR at module load). `DesignBlock` lazy-loads it
+// in edit mode instead.
+export {
+	CANVAS_OPEN_EVENT,
+	dispatchOpenCanvas,
+	type OpenCanvasDetail,
+} from "./open-canvas-event";

@@ -1,3 +1,17 @@
+import { lazy, Suspense } from "react";
+
+// Edit-mode-only wrapper, loaded via a dynamic import. `registerOverlayPortal`
+// (used inside) pulls the Puck *editor* runtime (@puckeditor/core → @dnd-kit),
+// which touches browser-only globals like `ResizeObserver` at module-eval time.
+// Lazy-loading keeps that graph off the server / RSC render path and out of
+// every non-editor consumer of this barrel — it's fetched client-side only when
+// a block actually renders in edit mode.
+const DesignBlockEditPortal = lazy(() =>
+	import("./DesignBlockEditPortal").then((m) => ({
+		default: m.DesignBlockEditPortal,
+	})),
+);
+
 export type DesignBlockAspectRatio = "auto" | "16/9" | "4/3" | "1/1";
 
 export interface DesignBlockProps {
@@ -12,6 +26,8 @@ export interface DesignBlockProps {
 
 export interface DesignBlockViewProps extends DesignBlockProps {
 	editMode?: boolean;
+	/** Puck node id (injected by Puck's render). Lets the edit-mode open affordance tell the plugin which block to patch on commit. */
+	puckNodeId?: string;
 }
 
 const aspectRatioStyle: Record<DesignBlockAspectRatio, string | undefined> = {
@@ -24,28 +40,26 @@ const aspectRatioStyle: Record<DesignBlockAspectRatio, string | undefined> = {
 export function DesignBlock({
 	designId,
 	previewUrl,
+	artboardId,
 	alt = "Canvas design preview",
 	aspectRatio = "auto",
 	editMode = false,
+	puckNodeId,
 }: DesignBlockViewProps) {
 	const ratio = aspectRatioStyle[aspectRatio];
 
-	if (!previewUrl) {
-		return (
-			<div
-				data-testid="design-block-empty"
-				data-design-id={designId}
-				className="flex w-full items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 px-6 py-12 text-center text-sm text-muted-foreground"
-				style={ratio ? { aspectRatio: ratio } : undefined}
-			>
-				{editMode
-					? "Click ↗ Open Canvas in the header to design this block."
-					: "Design not available."}
-			</div>
-		);
-	}
-
-	return (
+	const content = !previewUrl ? (
+		<div
+			data-testid="design-block-empty"
+			data-design-id={designId}
+			className="flex w-full items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 px-6 py-12 text-center text-sm text-muted-foreground"
+			style={ratio ? { aspectRatio: ratio } : undefined}
+		>
+			{editMode
+				? "Click to design this block in the canvas editor."
+				: "Design not available."}
+		</div>
+	) : (
 		<figure
 			data-testid="design-block"
 			data-design-id={designId}
@@ -61,4 +75,23 @@ export function DesignBlock({
 			/>
 		</figure>
 	);
+
+	// Edit mode only: make the block open the canvas editor on click. The
+	// portal opts the block out of Puck's interaction overlay so the click
+	// lands. Render mode (RSC) returns the bare preview — no client code.
+	if (editMode) {
+		return (
+			<Suspense fallback={content}>
+				<DesignBlockEditPortal
+					designId={designId}
+					puckNodeId={puckNodeId ?? null}
+					artboardId={artboardId ?? null}
+				>
+					{content}
+				</DesignBlockEditPortal>
+			</Suspense>
+		);
+	}
+
+	return content;
 }

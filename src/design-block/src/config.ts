@@ -71,6 +71,9 @@ const renderDesignBlock: ComponentConfig<DesignBlockProps>["render"] = ({
 	alt,
 	aspectRatio,
 	editMode,
+	// Puck injects the node id into render props (`WithId`); thread it
+	// through so the edit-mode open affordance can name the block it opens.
+	id,
 }) =>
 	createElement(DesignBlock, {
 		designId,
@@ -80,6 +83,7 @@ const renderDesignBlock: ComponentConfig<DesignBlockProps>["render"] = ({
 		alt,
 		aspectRatio,
 		editMode,
+		puckNodeId: id,
 	});
 
 /**
