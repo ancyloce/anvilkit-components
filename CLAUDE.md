@@ -94,7 +94,7 @@ Add extra `@source` entries for any consumed `@anvilkit/ui` source files.
 
 - Component packages live on the **`0.1.x` line, aligned with `@anvilkit/ui`** — set a package's `version` to match the current `@anvilkit/ui` version (the package they peer-depend on).
 - **Increment by minor** for every release (`0.1.x → 0.2.0 → 0.3.0 …`). Do **not** cut a `1.0.0` — these stay in the `0.x` range while the API is pre-stable.
-- The `@anvilkit/ui` **peer range must include the `ui` version that `@anvilkit/core` pins**. `@anvilkit/core` depends on `@anvilkit/ui` as an exact version (its `workspace:*` publishes as the pinned `ui` version), so a peer range like `^0.1.4` must keep covering it — otherwise consumers installing a component alongside `@anvilkit/core` hit an `ERESOLVE` peer conflict.
+- The `@anvilkit/ui` **peer range must include the `ui` version that `@anvilkit/core` pins**. `@anvilkit/core` depends on `@anvilkit/ui` as an exact version (its `workspace:*` publishes as the pinned `ui` version), so a peer range like `^0.1.5` must keep covering it — otherwise consumers installing a component alongside `@anvilkit/core` hit an `ERESOLVE` peer conflict.
 
 ### How publishing actually works
 
