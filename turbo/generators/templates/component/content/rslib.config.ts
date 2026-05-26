@@ -21,5 +21,11 @@ export default defineConfig({
   output: {
     target: "web",
   },
+  performance: {
+    // rslib defaults performance.buildCache to true, but rspack 2.x persistent
+    // storage is not concurrency-safe across the parallel package builds that
+    // `pnpm -r --filter "./src/*" build` spawns -> SIGABRT (exit 134). Keep off.
+    buildCache: false,
+  },
   plugins: [pluginReact()],
 });
