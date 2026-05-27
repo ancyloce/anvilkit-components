@@ -12,5 +12,11 @@
 			"@puckeditor/core",
 			"@anvilkit/ui"
 		]
+	},
+	{
+		"name": "@anvilkit/section styles.css",
+		"path": "dist/styles.css",
+		"limit": "12 KB",
+		"gzip": true
 	}
 ]

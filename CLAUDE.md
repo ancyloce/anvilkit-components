@@ -56,11 +56,19 @@ Every `src/<slug>/` must export from `src/index.ts`:
 `styles.css` must start with:
 
 ```css
-@import "@anvilkit/tailwind-config/shadcn";
+@import "@anvilkit/tailwind-config/component";
 @source "./**/*.{ts,tsx}";
 ```
 
 Add extra `@source` entries for any consumed `@anvilkit/ui` source files.
+
+**Import `/component`, never `/shadcn`.** `/component` is the preflight-free,
+source-scoped entry: each package emits only the utilities IT uses plus
+zero-specificity token defaults. `/shadcn` is the **app-level** sheet — it ships
+preflight and workspace-wide `@source` scans, so importing it from a component
+re-emits the entire workspace utility superset + preflight into every package
+(~175 KB each, ~96% duplicated). A per-component `dist/styles.css` gzip budget in
+`.size-limit.json` (12 KB) guards against this regression.
 
 **Color priority (never hardcode hex/rgb/hsl):**
 

@@ -1,4 +1,4 @@
-@import "@anvilkit/tailwind-config/shadcn";
+@import "@anvilkit/tailwind-config/component";
 
 @source "./**/*.{ts,tsx}";
 @source "../../../../ui/src/animated-shiny-text.tsx";

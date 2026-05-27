@@ -1,6 +1,6 @@
 [
 	{
-		"name": "@anvilkit/bento-grid",
+		"name": "@anvilkit/design-block",
 		"path": "dist/index.js",
 		"limit": "30 KB",
 		"gzip": true,
@@ -14,7 +14,7 @@
 		]
 	},
 	{
-		"name": "@anvilkit/bento-grid styles.css",
+		"name": "@anvilkit/design-block styles.css",
 		"path": "dist/styles.css",
 		"limit": "12 KB",
 		"gzip": true
