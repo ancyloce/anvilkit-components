@@ -70,7 +70,7 @@ function BlogListCard({
 		<>
 			<img
 				alt={post.imageAlt}
-				className="h-auto w-full border border-border object-cover"
+				className="aspect-[1200/630] w-full border border-border object-cover object-center"
 				decoding="async"
 				height={630}
 				loading="lazy"
