@@ -18,77 +18,101 @@ import "@anvilkit/navbar/styles.css";
 
 In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
-## Props
+## Examples
 
-| Field                    | Type   | Description                                                       |
-| ------------------------ | ------ | ----------------------------------------------------------------- |
-| `logo`                   | object | Logo configuration                                                |
-| `logo.type`              | radio  | `text` or `image`                                                 |
-| `logo.text`              | text   | Display text (when type is `text`)                                |
-| `logo.imageUrl`          | text   | Image URL (when type is `image`)                                  |
-| `logo.alt`               | text   | Alt text                                                          |
-| `logo.href`              | text   | Link URL                                                          |
-| `items`                  | array  | Navigation menu items                                             |
-| `items[].label`          | text   | Menu item label                                                   |
-| `items[].href`           | text   | Menu item link                                                    |
-| `actions`                | array  | Action buttons                                                    |
-| `actions[].label`        | text   | Button label                                                      |
-| `actions[].href`         | text   | Button link                                                       |
-| `actions[].variant`      | select | `default`, `secondary`, `outline`, `ghost`, `link`, `destructive` |
-| `actions[].size`         | select | `sm`, `default`, `lg`                                             |
-| `actions[].openInNewTab` | radio  | `false`, `true`                                                   |
-| `actions[].disabled`     | radio  | `false`, `true`                                                   |
-| `active`                 | text   | Path of the currently active menu item                            |
+### Basic usage
 
-## Usage
+A text logo, a few links, and a single call-to-action. The `active` href
+highlights the matching menu item.
 
 ```tsx
 import "@anvilkit/navbar/styles.css";
-import type { Config } from "@puckeditor/core";
-import {
-  Navbar,
-  componentConfig,
-  defaultProps,
-  type NavbarProps,
-} from "@anvilkit/navbar";
+import { Navbar } from "@anvilkit/navbar";
 
-// Puck config registration
-const config: Config<{ Navbar: NavbarProps }> = {
-  components: {
-    Navbar: componentConfig,
-  },
-};
-
-// Standalone usage
 export function Example() {
   return (
     <Navbar
-      logo={{
-        type: "text",
-        text: "Acme",
-        imageUrl: "",
-        alt: "Acme",
-        href: "/",
-      }}
+      logo={{ type: "text", text: "Acme", href: "/" }}
       items={[
         { label: "Overview", href: "/overview" },
         { label: "Features", href: "/features" },
       ]}
-      actions={[
-        {
-          label: "Sign up",
-          href: "/signup",
-          variant: "secondary",
-          size: "lg",
-          openInNewTab: false,
-          disabled: false,
-        },
-      ]}
+      actions={[{ label: "Sign up", href: "/signup", variant: "secondary" }]}
       active="/features"
     />
   );
 }
 ```
+
+### Image logo with multiple actions
+
+Switch the logo to `image`, and render several actions with different variants
+and sizes.
+
+```tsx
+import { Navbar } from "@anvilkit/navbar";
+
+export function MarketingNav() {
+  return (
+    <Navbar
+      logo={{ type: "image", imageUrl: "/logo.svg", alt: "Acme", href: "/" }}
+      items={[
+        { label: "Product", href: "/product" },
+        { label: "Pricing", href: "/pricing" },
+      ]}
+      actions={[
+        { label: "Log in", href: "/login", variant: "ghost", size: "default" },
+        {
+          label: "Get started",
+          href: "/signup",
+          variant: "default",
+          size: "lg",
+        },
+      ]}
+      active="/pricing"
+    />
+  );
+}
+```
+
+### Register in a Puck config
+
+Wire the exported `componentConfig` into a Puck `Config`.
+
+```tsx
+import type { Config } from "@puckeditor/core";
+import { componentConfig, type NavbarProps } from "@anvilkit/navbar";
+
+const config: Config<{ Navbar: NavbarProps }> = {
+  components: {
+    Navbar: componentConfig,
+  },
+};
+```
+
+## API
+
+Derived from the exported `NavbarProps` type and the Puck `fields` schema.
+
+| Prop                     | Type                                                                                    | Default              | Description                          |
+| ------------------------ | --------------------------------------------------------------------------------------- | -------------------- | ------------------------------------ |
+| `logo`                   | `object`                                                                                | _(text logo)_        | Logo configuration.                  |
+| `logo.type`              | `"text"` \| `"image"`                                                                   | `"text"`             | Render the logo as text or an image. |
+| `logo.text`              | `string`                                                                                | `"Underline"`        | Display text (when type is `text`).  |
+| `logo.imageUrl`          | `string`                                                                                | `""`                 | Image URL (when type is `image`).    |
+| `logo.alt`               | `string`                                                                                | `"Underline"`        | Image alt text.                      |
+| `logo.href`              | `string`                                                                                | `"/"`                | Logo link URL.                       |
+| `items`                  | `NavbarMenuItem[]`                                                                      | _(5 example links)_  | Navigation menu items.               |
+| `items[].label`          | `string`                                                                                | `"New link"`         | Menu item label.                     |
+| `items[].href`           | `string`                                                                                | `"/"`                | Menu item link.                      |
+| `actions`                | `NavbarAction[]`                                                                        | _(1 example action)_ | Action buttons.                      |
+| `actions[].label`        | `string`                                                                                | `"Action"`           | Button label.                        |
+| `actions[].href`         | `string`                                                                                | `""`                 | Button link.                         |
+| `actions[].variant`      | `"default"` \| `"secondary"` \| `"outline"` \| `"ghost"` \| `"link"` \| `"destructive"` | `"secondary"`        | Button variant.                      |
+| `actions[].size`         | `"sm"` \| `"default"` \| `"lg"`                                                         | `"lg"`               | Button size.                         |
+| `actions[].openInNewTab` | `boolean`                                                                               | `false`              | Open the link in a new tab.          |
+| `actions[].disabled`     | `boolean`                                                                               | `false`              | Disable the action button.           |
+| `active`                 | `string`                                                                                | `"/features"`        | Href of the currently active item.   |
 
 ## Theme & Responsiveness
 

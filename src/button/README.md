@@ -18,40 +18,72 @@ import "@anvilkit/button/styles.css";
 
 In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
-## Props
+## Examples
 
-| Field          | Type  | Options                | Default          |
-| -------------- | ----- | ---------------------- | ---------------- |
-| `label`        | text  | —                      | `"Save changes"` |
-| `variant`      | radio | `primary`, `secondary` | `"primary"`      |
-| `href`         | text  | —                      | `""`             |
-| `openInNewTab` | radio | `false`, `true`        | `false`          |
-| `disabled`     | radio | `false`, `true`        | `false`          |
+### Basic usage
 
-## Usage
+Render the button standalone with its default primary variant.
 
 ```tsx
 import "@anvilkit/button/styles.css";
-import type { Config } from "@puckeditor/core";
-import {
-  Button,
-  componentConfig,
-  defaultProps,
-  type ButtonProps,
-} from "@anvilkit/button";
+import { Button } from "@anvilkit/button";
 
-// Puck config registration
+export function Example() {
+  return <Button label="Save changes" variant="primary" />;
+}
+```
+
+### Link button opening a new tab
+
+Provide `href` to render an anchor; pair it with `openInNewTab` to add
+`target="_blank"` plus safe `rel` attributes. A `disabled` button is
+non-interactive and announces `aria-disabled`.
+
+```tsx
+import { Button } from "@anvilkit/button";
+
+export function Actions() {
+  return (
+    <div className="flex gap-3">
+      <Button
+        label="Read the docs"
+        variant="secondary"
+        href="https://anvilkit.dev"
+        openInNewTab
+      />
+      <Button label="Coming soon" variant="primary" disabled />
+    </div>
+  );
+}
+```
+
+### Register in a Puck config
+
+Wire the exported `componentConfig` into a Puck `Config` so authors can drop the
+button onto a page.
+
+```tsx
+import type { Config } from "@puckeditor/core";
+import { componentConfig, type ButtonProps } from "@anvilkit/button";
+
 const config: Config<{ Button: ButtonProps }> = {
   components: {
     Button: componentConfig,
   },
 };
-
-// Standalone usage
-export function Example() {
-  return <Button label="Save changes" variant="primary" />;
-}
 ```
+
+## API
+
+Derived from the exported `ButtonProps` type and the Puck `fields` schema.
+
+| Prop           | Type                         | Default          | Description                           |
+| -------------- | ---------------------------- | ---------------- | ------------------------------------- |
+| `label`        | `string`                     | `"Save changes"` | Button label text.                    |
+| `variant`      | `"primary"` \| `"secondary"` | `"primary"`      | Visual variant.                       |
+| `href`         | `string`                     | `""`             | Link URL; renders an anchor when set. |
+| `openInNewTab` | `boolean`                    | `false`          | Open the link in a new tab.           |
+| `disabled`     | `boolean`                    | `false`          | Disable interaction.                  |
 
 ## Theme & Responsiveness
 

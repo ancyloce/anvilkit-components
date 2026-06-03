@@ -18,35 +18,17 @@ import "@anvilkit/section/styles.css";
 
 In Next.js, add the import to `app/layout.tsx` or `pages/_app.tsx`.
 
-## Props
+## Examples
 
-| Field                 | Type     | Default                                              |
-| --------------------- | -------- | ---------------------------------------------------- |
-| `badgeLabel`          | text     | `"Scale"`                                            |
-| `headline`            | text     | `"Stop writing boilerplate."`                        |
-| `highlightedHeadline` | text     | `"Start building features."`                         |
-| `description`         | textarea | `"Your AI agent handles repetitive coding tasks..."` |
+### Basic usage
 
-## Usage
+Render the section with custom copy. `highlightedHeadline` is rendered with an
+animated aurora gradient next to the plain `headline`.
 
 ```tsx
 import "@anvilkit/section/styles.css";
-import type { Config } from "@puckeditor/core";
-import {
-  Section,
-  componentConfig,
-  defaultProps,
-  type SectionProps,
-} from "@anvilkit/section";
+import { Section } from "@anvilkit/section";
 
-// Puck config registration
-const config: Config<{ Section: SectionProps }> = {
-  components: {
-    Section: componentConfig,
-  },
-};
-
-// Standalone usage
 export function Example() {
   return (
     <Section
@@ -58,6 +40,44 @@ export function Example() {
   );
 }
 ```
+
+### Default copy
+
+Render the bundled marketing copy via `defaultProps`.
+
+```tsx
+import { Section, defaultProps } from "@anvilkit/section";
+
+export function DefaultSection() {
+  return <Section {...defaultProps} />;
+}
+```
+
+### Register in a Puck config
+
+Wire the exported `componentConfig` into a Puck `Config`.
+
+```tsx
+import type { Config } from "@puckeditor/core";
+import { componentConfig, type SectionProps } from "@anvilkit/section";
+
+const config: Config<{ Section: SectionProps }> = {
+  components: {
+    Section: componentConfig,
+  },
+};
+```
+
+## API
+
+Derived from the exported `SectionProps` type and the Puck `fields` schema.
+
+| Prop                  | Type     | Default                                              | Description                      |
+| --------------------- | -------- | ---------------------------------------------------- | -------------------------------- |
+| `badgeLabel`          | `string` | `"Scale"`                                            | Shiny pill badge text.           |
+| `headline`            | `string` | `"Stop writing boilerplate."`                        | Plain headline text.             |
+| `highlightedHeadline` | `string` | `"Start building features."`                         | Aurora-gradient headline accent. |
+| `description`         | `string` | `"Your AI agent handles repetitive coding tasks..."` | Supporting description.          |
 
 ## Theme & Responsiveness
 
