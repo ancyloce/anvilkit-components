@@ -1,6 +1,6 @@
 {
 	"name": "@anvilkit/section",
-	"version": "0.1.5",
+	"version": "0.2.0",
 	"description": "Anvilkit Puck-native section component.",
 	"type": "module",
 	"main": "./dist/index.cjs",
@@ -17,10 +17,15 @@
 				"default": "./dist/index.cjs"
 			}
 		},
-		"./styles.css": "./dist/styles.css"
+		"./styles.css": "./dist/styles.css",
+		"./i18n/en.json": "./i18n/messages/en.json",
+		"./i18n/zh.json": "./i18n/messages/zh.json",
+		"./i18n/ja.json": "./i18n/messages/ja.json",
+		"./i18n/ko.json": "./i18n/messages/ko.json"
 	},
 	"files": [
 		"dist",
+		"i18n",
 		"README.md"
 	],
 	"license": "MIT",
