@@ -22,6 +22,12 @@ export interface DesignBlockProps {
 	artboardId?: string;
 	alt?: string;
 	aspectRatio?: DesignBlockAspectRatio;
+	/** Empty-state text shown in edit mode when no preview exists. */
+	editPromptText?: string;
+	/** Empty-state text shown outside edit mode when no preview exists. */
+	unavailableText?: string;
+	/** Accessible label for the edit-mode open-in-canvas affordance. */
+	editPortalLabel?: string;
 }
 
 export interface DesignBlockViewProps extends DesignBlockProps {
@@ -43,6 +49,9 @@ export function DesignBlock({
 	artboardId,
 	alt = "Canvas design preview",
 	aspectRatio = "auto",
+	editPromptText = "Click to design this block in the canvas editor.",
+	unavailableText = "Design not available.",
+	editPortalLabel,
 	editMode = false,
 	puckNodeId,
 }: DesignBlockViewProps) {
@@ -55,9 +64,7 @@ export function DesignBlock({
 			className="flex w-full items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 px-6 py-12 text-center text-sm text-muted-foreground"
 			style={ratio ? { aspectRatio: ratio } : undefined}
 		>
-			{editMode
-				? "Click to design this block in the canvas editor."
-				: "Design not available."}
+			{editMode ? editPromptText : unavailableText}
 		</div>
 	) : (
 		<figure
@@ -86,6 +93,7 @@ export function DesignBlock({
 					designId={designId}
 					puckNodeId={puckNodeId ?? null}
 					artboardId={artboardId ?? null}
+					label={editPortalLabel}
 				>
 					{content}
 				</DesignBlockEditPortal>

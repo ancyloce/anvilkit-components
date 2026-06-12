@@ -1,0 +1,18 @@
+{
+	"design-block.label": "设计区块",
+	"design-block.fields.designId.label": "设计 ID",
+	"design-block.fields.previewUrl.label": "预览地址",
+	"design-block.fields.previewAssetId.label": "预览资源 ID",
+	"design-block.fields.artboardId.label": "画板 ID",
+	"design-block.fields.artboardId.selectLabel": "画板",
+	"design-block.fields.alt.label": "替代文本",
+	"design-block.fields.aspectRatio.label": "宽高比",
+	"design-block.fields.aspectRatio.options.auto": "自动",
+	"design-block.fields.aspectRatio.options.16-9": "16:9",
+	"design-block.fields.aspectRatio.options.4-3": "4:3",
+	"design-block.fields.aspectRatio.options.1-1": "1:1",
+	"design-block.a11y.previewAlt": "画布设计预览",
+	"design-block.a11y.editPortal": "在画布编辑器中打开此设计",
+	"design-block.fallback.editPrompt": "点击在画布编辑器中设计此区块。",
+	"design-block.fallback.unavailable": "设计不可用。"
+}

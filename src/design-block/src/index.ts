@@ -12,6 +12,8 @@ export {
 export {
 	componentConfig,
 	componentConfig as designBlockComponentConfig,
+	createComponentConfig,
+	createDesignBlockConfig,
 	defaultProps,
 	defaultProps as designBlockDefaultProps,
 	designBlockConfig,
@@ -26,6 +28,11 @@ export type {
 	DesignBlockViewProps,
 } from "./DesignBlock";
 export { DesignBlock } from "./DesignBlock";
+export {
+	type CreateComponentConfigOptions,
+	type DesignBlockMessageKey,
+	designBlockI18nEntry,
+} from "./i18n";
 // NOTE: `DesignBlockEditPortal` is intentionally NOT re-exported here. It
 // imports the Puck editor runtime (`registerOverlayPortal` → @dnd-kit), so a
 // static re-export would pull that browser-only graph into every consumer of

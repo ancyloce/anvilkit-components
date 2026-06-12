@@ -1,0 +1,18 @@
+{
+	"design-block.label": "デザインブロック",
+	"design-block.fields.designId.label": "デザインID",
+	"design-block.fields.previewUrl.label": "プレビューURL",
+	"design-block.fields.previewAssetId.label": "プレビューアセットID",
+	"design-block.fields.artboardId.label": "アートボードID",
+	"design-block.fields.artboardId.selectLabel": "アートボード",
+	"design-block.fields.alt.label": "代替テキスト",
+	"design-block.fields.aspectRatio.label": "アスペクト比",
+	"design-block.fields.aspectRatio.options.auto": "自動",
+	"design-block.fields.aspectRatio.options.16-9": "16:9",
+	"design-block.fields.aspectRatio.options.4-3": "4:3",
+	"design-block.fields.aspectRatio.options.1-1": "1:1",
+	"design-block.a11y.previewAlt": "キャンバスデザインのプレビュー",
+	"design-block.a11y.editPortal": "このデザインをキャンバスエディタで開く",
+	"design-block.fallback.editPrompt": "クリックしてキャンバスエディタでこのブロックをデザインします。",
+	"design-block.fallback.unavailable": "デザインは利用できません。"
+}

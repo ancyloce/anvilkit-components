@@ -1,0 +1,18 @@
+{
+	"design-block.label": "디자인 블록",
+	"design-block.fields.designId.label": "디자인 ID",
+	"design-block.fields.previewUrl.label": "미리보기 URL",
+	"design-block.fields.previewAssetId.label": "미리보기 에셋 ID",
+	"design-block.fields.artboardId.label": "아트보드 ID",
+	"design-block.fields.artboardId.selectLabel": "아트보드",
+	"design-block.fields.alt.label": "대체 텍스트",
+	"design-block.fields.aspectRatio.label": "가로세로 비율",
+	"design-block.fields.aspectRatio.options.auto": "자동",
+	"design-block.fields.aspectRatio.options.16-9": "16:9",
+	"design-block.fields.aspectRatio.options.4-3": "4:3",
+	"design-block.fields.aspectRatio.options.1-1": "1:1",
+	"design-block.a11y.previewAlt": "캔버스 디자인 미리보기",
+	"design-block.a11y.editPortal": "이 디자인을 캔버스 에디터에서 열기",
+	"design-block.fallback.editPrompt": "클릭하여 캔버스 에디터에서 이 블록을 디자인하세요.",
+	"design-block.fallback.unavailable": "디자인을 사용할 수 없습니다."
+}

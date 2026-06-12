@@ -6,6 +6,8 @@ import { dispatchOpenCanvas, type OpenCanvasDetail } from "./open-canvas-event";
 
 export interface DesignBlockEditPortalProps extends OpenCanvasDetail {
 	children: ReactNode;
+	/** Accessible label for the open-in-canvas affordance. */
+	label?: string;
 }
 
 /**
@@ -33,6 +35,7 @@ export function DesignBlockEditPortal({
 	puckNodeId,
 	artboardId,
 	children,
+	label = "Open this design in the canvas editor",
 }: DesignBlockEditPortalProps) {
 	const ref = useRef<HTMLDivElement>(null);
 
@@ -53,7 +56,7 @@ export function DesignBlockEditPortal({
 			role="button"
 			tabIndex={0}
 			data-testid="design-block-open"
-			aria-label="Open this design in the canvas editor"
+			aria-label={label}
 			className="w-full cursor-pointer rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring"
 			onClick={open}
 			onKeyDown={(event) => {

@@ -1,0 +1,18 @@
+{
+	"design-block.label": "Design Block",
+	"design-block.fields.designId.label": "Design ID",
+	"design-block.fields.previewUrl.label": "Preview URL",
+	"design-block.fields.previewAssetId.label": "Preview asset id",
+	"design-block.fields.artboardId.label": "Artboard ID",
+	"design-block.fields.artboardId.selectLabel": "Artboard",
+	"design-block.fields.alt.label": "Alt text",
+	"design-block.fields.aspectRatio.label": "Aspect ratio",
+	"design-block.fields.aspectRatio.options.auto": "Auto",
+	"design-block.fields.aspectRatio.options.16-9": "16:9",
+	"design-block.fields.aspectRatio.options.4-3": "4:3",
+	"design-block.fields.aspectRatio.options.1-1": "1:1",
+	"design-block.a11y.previewAlt": "Canvas design preview",
+	"design-block.a11y.editPortal": "Open this design in the canvas editor",
+	"design-block.fallback.editPrompt": "Click to design this block in the canvas editor.",
+	"design-block.fallback.unavailable": "Design not available."
+}
