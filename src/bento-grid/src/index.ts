@@ -19,6 +19,8 @@ export {
 export {
 	bentoGridConfig,
 	componentConfig,
+	createBentoGridConfig,
+	createComponentConfig,
 	defaultProps,
 	defaultProps as bentoGridDefaultProps,
 	fields,
@@ -26,3 +28,8 @@ export {
 	metadata,
 	metadata as bentoGridMetadata,
 } from "./config";
+export {
+	type BentoGridMessageKey,
+	bentoGridI18nEntry,
+	type CreateComponentConfigOptions,
+} from "./i18n";
