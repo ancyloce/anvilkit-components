@@ -1,0 +1,21 @@
+{
+	"input.label": "入力欄",
+	"input.fields.label.label": "ラベル",
+	"input.fields.name.label": "名前",
+	"input.fields.type.label": "タイプ",
+	"input.fields.type.options.text": "テキスト",
+	"input.fields.type.options.email": "メール",
+	"input.fields.type.options.password": "パスワード",
+	"input.fields.type.options.search": "検索",
+	"input.fields.type.options.tel": "電話",
+	"input.fields.type.options.url": "URL",
+	"input.fields.placeholder.label": "プレースホルダー",
+	"input.fields.helperText.label": "ヘルプテキスト",
+	"input.fields.defaultValue.label": "デフォルト値",
+	"input.fields.required.label": "必須",
+	"input.fields.required.options.true": "はい",
+	"input.fields.required.options.false": "いいえ",
+	"input.fields.disabled.label": "無効",
+	"input.fields.disabled.options.true": "はい",
+	"input.fields.disabled.options.false": "いいえ"
+}

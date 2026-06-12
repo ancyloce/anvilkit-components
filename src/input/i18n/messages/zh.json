@@ -1,0 +1,21 @@
+{
+	"input.label": "输入框",
+	"input.fields.label.label": "标签",
+	"input.fields.name.label": "名称",
+	"input.fields.type.label": "类型",
+	"input.fields.type.options.text": "文本",
+	"input.fields.type.options.email": "电子邮箱",
+	"input.fields.type.options.password": "密码",
+	"input.fields.type.options.search": "搜索",
+	"input.fields.type.options.tel": "电话",
+	"input.fields.type.options.url": "网址",
+	"input.fields.placeholder.label": "占位文本",
+	"input.fields.helperText.label": "帮助文本",
+	"input.fields.defaultValue.label": "默认值",
+	"input.fields.required.label": "必填",
+	"input.fields.required.options.true": "是",
+	"input.fields.required.options.false": "否",
+	"input.fields.disabled.label": "禁用",
+	"input.fields.disabled.options.true": "是",
+	"input.fields.disabled.options.false": "否"
+}

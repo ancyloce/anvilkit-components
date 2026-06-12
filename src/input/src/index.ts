@@ -2,6 +2,8 @@ import "./styles.css";
 
 export {
 	componentConfig,
+	createComponentConfig,
+	createInputConfig,
 	defaultProps,
 	defaultProps as inputDefaultProps,
 	fields,
@@ -12,3 +14,8 @@ export {
 } from "./config";
 export type { InputProps, InputViewProps } from "./Input";
 export { Input } from "./Input";
+export {
+	type CreateComponentConfigOptions,
+	type InputMessageKey,
+	inputI18nEntry,
+} from "./i18n";

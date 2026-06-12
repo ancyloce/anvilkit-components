@@ -1,0 +1,21 @@
+{
+	"input.label": "Input",
+	"input.fields.label.label": "Label",
+	"input.fields.name.label": "Name",
+	"input.fields.type.label": "Type",
+	"input.fields.type.options.text": "Text",
+	"input.fields.type.options.email": "Email",
+	"input.fields.type.options.password": "Password",
+	"input.fields.type.options.search": "Search",
+	"input.fields.type.options.tel": "Telephone",
+	"input.fields.type.options.url": "URL",
+	"input.fields.placeholder.label": "Placeholder",
+	"input.fields.helperText.label": "Helper text",
+	"input.fields.defaultValue.label": "Default value",
+	"input.fields.required.label": "Required",
+	"input.fields.required.options.true": "Yes",
+	"input.fields.required.options.false": "No",
+	"input.fields.disabled.label": "Disabled",
+	"input.fields.disabled.options.true": "Yes",
+	"input.fields.disabled.options.false": "No"
+}
