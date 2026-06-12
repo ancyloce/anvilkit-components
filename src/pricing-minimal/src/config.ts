@@ -5,6 +5,7 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { PricingMinimalProps } from "./PricingMinimal";
 import { PricingMinimal } from "./PricingMinimal";
 
@@ -91,122 +92,145 @@ export const defaultProps = {
 	],
 } satisfies PricingMinimalProps;
 
-export const fields = {
-	headline: {
-		type: "text",
-		label: "Headline",
-	},
-	description: {
-		type: "textarea",
-		label: "Description",
-	},
-	plans: {
-		type: "array",
-		label: "Plans",
-		defaultItemProps: {
-			name: "New plan",
-			description: "Describe who this plan is for.",
-			price: "$0",
-			billingPeriodLabel: "per month",
-			ctaLabel: "Get Started",
-			ctaHref: "",
-			ctaOpenInNewTab: false,
-			featured: false,
-			badgeLabel: "",
-			features: [{ label: "Feature" }],
-			extraFeatures: [],
+type T = ReturnType<typeof createT>;
+
+function buildFields(t: T): Fields<PricingMinimalProps> {
+	return {
+		headline: {
+			type: "text",
+			label: t("pricing-minimal.fields.headline.label"),
 		},
-		getItemSummary: (item, index) => item.name || `Plan ${(index ?? 0) + 1}`,
-		arrayFields: {
-			name: {
-				type: "text",
-				label: "Name",
+		description: {
+			type: "textarea",
+			label: t("pricing-minimal.fields.description.label"),
+		},
+		plans: {
+			type: "array",
+			label: t("pricing-minimal.fields.plans.label"),
+			defaultItemProps: {
+				name: "New plan",
+				description: "Describe who this plan is for.",
+				price: "$0",
+				billingPeriodLabel: "per month",
+				ctaLabel: "Get Started",
+				ctaHref: "",
+				ctaOpenInNewTab: false,
+				featured: false,
+				badgeLabel: "",
+				features: [{ label: "Feature" }],
+				extraFeatures: [],
 			},
-			description: {
-				type: "textarea",
-				label: "Description",
-			},
-			price: {
-				type: "text",
-				label: "Price",
-			},
-			billingPeriodLabel: {
-				type: "text",
-				label: "Billing period label",
-			},
-			ctaLabel: {
-				type: "text",
-				label: "CTA label",
-			},
-			ctaHref: {
-				type: "text",
-				label: "CTA href",
-			},
-			ctaOpenInNewTab: {
-				type: "radio",
-				label: "CTA opens in new tab",
-				options: [
-					{
-						label: "No",
-						value: false,
-					},
-					{
-						label: "Yes",
-						value: true,
-					},
-				],
-			},
-			featured: {
-				type: "radio",
-				label: "Featured plan",
-				options: [
-					{
-						label: "No",
-						value: false,
-					},
-					{
-						label: "Yes",
-						value: true,
-					},
-				],
-			},
-			badgeLabel: {
-				type: "text",
-				label: "Badge label",
-			},
-			features: {
-				type: "array",
-				label: "Features",
-				defaultItemProps: {
-					label: "Feature",
+			getItemSummary: (item, index) =>
+				item.name ||
+				t("pricing-minimal.fields.plans.itemSummary").replace(
+					"{index}",
+					String((index ?? 0) + 1),
+				),
+			arrayFields: {
+				name: {
+					type: "text",
+					label: t("pricing-minimal.fields.plans.name.label"),
 				},
-				getItemSummary: (item, index) =>
-					item.label || `Feature ${(index ?? 0) + 1}`,
-				arrayFields: {
-					label: {
-						type: "text",
-						label: "Feature label",
+				description: {
+					type: "textarea",
+					label: t("pricing-minimal.fields.plans.description.label"),
+				},
+				price: {
+					type: "text",
+					label: t("pricing-minimal.fields.plans.price.label"),
+				},
+				billingPeriodLabel: {
+					type: "text",
+					label: t("pricing-minimal.fields.plans.billingPeriodLabel.label"),
+				},
+				ctaLabel: {
+					type: "text",
+					label: t("pricing-minimal.fields.plans.ctaLabel.label"),
+				},
+				ctaHref: {
+					type: "text",
+					label: t("pricing-minimal.fields.plans.ctaHref.label"),
+				},
+				ctaOpenInNewTab: {
+					type: "radio",
+					label: t("pricing-minimal.fields.plans.ctaOpenInNewTab.label"),
+					options: [
+						{
+							label: t(
+								"pricing-minimal.fields.plans.ctaOpenInNewTab.options.false",
+							),
+							value: false,
+						},
+						{
+							label: t(
+								"pricing-minimal.fields.plans.ctaOpenInNewTab.options.true",
+							),
+							value: true,
+						},
+					],
+				},
+				featured: {
+					type: "radio",
+					label: t("pricing-minimal.fields.plans.featured.label"),
+					options: [
+						{
+							label: t("pricing-minimal.fields.plans.featured.options.false"),
+							value: false,
+						},
+						{
+							label: t("pricing-minimal.fields.plans.featured.options.true"),
+							value: true,
+						},
+					],
+				},
+				badgeLabel: {
+					type: "text",
+					label: t("pricing-minimal.fields.plans.badgeLabel.label"),
+				},
+				features: {
+					type: "array",
+					label: t("pricing-minimal.fields.plans.features.label"),
+					defaultItemProps: {
+						label: "Feature",
+					},
+					getItemSummary: (item, index) =>
+						item.label ||
+						t("pricing-minimal.fields.plans.features.itemSummary").replace(
+							"{index}",
+							String((index ?? 0) + 1),
+						),
+					arrayFields: {
+						label: {
+							type: "text",
+							label: t("pricing-minimal.fields.plans.features.label.label"),
+						},
 					},
 				},
-			},
-			extraFeatures: {
-				type: "array",
-				label: "Extra features",
-				defaultItemProps: {
-					label: "Extra feature",
-				},
-				getItemSummary: (item, index) =>
-					item.label || `Extra feature ${(index ?? 0) + 1}`,
-				arrayFields: {
-					label: {
-						type: "text",
-						label: "Feature label",
+				extraFeatures: {
+					type: "array",
+					label: t("pricing-minimal.fields.plans.extraFeatures.label"),
+					defaultItemProps: {
+						label: "Extra feature",
+					},
+					getItemSummary: (item, index) =>
+						item.label ||
+						t("pricing-minimal.fields.plans.extraFeatures.itemSummary").replace(
+							"{index}",
+							String((index ?? 0) + 1),
+						),
+					arrayFields: {
+						label: {
+							type: "text",
+							label: t(
+								"pricing-minimal.fields.plans.extraFeatures.label.label",
+							),
+						},
 					},
 				},
 			},
 		},
-	},
-} satisfies Fields<PricingMinimalProps>;
+	};
+}
 
 const renderPricingMinimal: ComponentConfig<PricingMinimalProps>["render"] = ({
 	headline,
@@ -221,14 +245,35 @@ const renderPricingMinimal: ComponentConfig<PricingMinimalProps>["render"] = ({
 		editMode,
 	});
 
-export const pricingMinimalConfig = {
-	label: "Pricing Minimal",
-	defaultProps,
-	fields,
-	metadata,
-	render: renderPricingMinimal,
-	// resolveFields: async () => fields,
-	// resolveData: async (data) => data,
-} satisfies ComponentConfig<PricingMinimalProps>;
+function buildConfig(t: T): ComponentConfig<PricingMinimalProps> {
+	return {
+		label: t("pricing-minimal.label"),
+		defaultProps,
+		fields: buildFields(t),
+		metadata,
+		render: renderPricingMinimal,
+		// resolveFields: async () => fields,
+		// resolveData: async (data) => data,
+	};
+}
+
+const defaultT = createT();
+
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<PricingMinimalProps>;
+
+export const pricingMinimalConfig = buildConfig(
+	defaultT,
+) satisfies ComponentConfig<PricingMinimalProps>;
 
 export const componentConfig = pricingMinimalConfig;
+
+/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+export function createComponentConfig(
+	options?: CreateComponentConfigOptions,
+): ComponentConfig<PricingMinimalProps> {
+	return buildConfig(createT(options));
+}
+
+export const createPricingMinimalConfig = createComponentConfig;
