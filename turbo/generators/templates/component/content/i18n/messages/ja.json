@@ -1,0 +1,9 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.title.label": "タイトル",
+  "{{name}}.fields.body.label": "本文",
+  "{{name}}.fields.alignment.label": "配置",
+  "{{name}}.fields.alignment.options.left": "左揃え",
+  "{{name}}.fields.alignment.options.center": "中央揃え",
+  "{{name}}.fields.alignment.options.right": "右揃え"
+}

@@ -1,0 +1,9 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.title.label": "标题",
+  "{{name}}.fields.body.label": "正文",
+  "{{name}}.fields.alignment.label": "对齐方式",
+  "{{name}}.fields.alignment.options.left": "左对齐",
+  "{{name}}.fields.alignment.options.center": "居中",
+  "{{name}}.fields.alignment.options.right": "右对齐"
+}

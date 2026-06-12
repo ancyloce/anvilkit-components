@@ -95,7 +95,13 @@ function componentExists(value: string): boolean {
 }
 
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
-	const templatesRootDir = path.resolve("turbo/generators/templates/component");
+	// Resolve against the plopfile location, not process.cwd() — turbo gen
+	// re-executes from the repo root, where turbo/generators/ does not exist.
+	const templatesRootDir = path.join(
+		plop.getPlopfilePath(),
+		"templates",
+		"component",
+	);
 
 	plop.setGenerator("component", {
 		description:
@@ -232,6 +238,36 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 					type: "add",
 					path: "src/{{name}}/src/config.ts",
 					templateFile: path.join(templatesDir, "src", "config.ts"),
+					data: templateData,
+				},
+				{
+					type: "add",
+					path: "src/{{name}}/src/i18n.ts",
+					templateFile: path.join(templatesDir, "src", "i18n.ts"),
+					data: templateData,
+				},
+				{
+					type: "add",
+					path: "src/{{name}}/i18n/messages/en.json",
+					templateFile: path.join(templatesDir, "i18n", "messages", "en.json"),
+					data: templateData,
+				},
+				{
+					type: "add",
+					path: "src/{{name}}/i18n/messages/zh.json",
+					templateFile: path.join(templatesDir, "i18n", "messages", "zh.json"),
+					data: templateData,
+				},
+				{
+					type: "add",
+					path: "src/{{name}}/i18n/messages/ja.json",
+					templateFile: path.join(templatesDir, "i18n", "messages", "ja.json"),
+					data: templateData,
+				},
+				{
+					type: "add",
+					path: "src/{{name}}/i18n/messages/ko.json",
+					templateFile: path.join(templatesDir, "i18n", "messages", "ko.json"),
 					data: templateData,
 				},
 			];

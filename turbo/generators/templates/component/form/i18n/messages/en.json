@@ -1,0 +1,21 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.label.label": "Label",
+  "{{name}}.fields.name.label": "Name",
+  "{{name}}.fields.type.label": "Type",
+  "{{name}}.fields.type.options.text": "Text",
+  "{{name}}.fields.type.options.email": "Email",
+  "{{name}}.fields.type.options.password": "Password",
+  "{{name}}.fields.type.options.search": "Search",
+  "{{name}}.fields.type.options.tel": "Telephone",
+  "{{name}}.fields.type.options.url": "URL",
+  "{{name}}.fields.placeholder.label": "Placeholder",
+  "{{name}}.fields.helperText.label": "Helper text",
+  "{{name}}.fields.defaultValue.label": "Default value",
+  "{{name}}.fields.required.label": "Required",
+  "{{name}}.fields.required.options.true": "Yes",
+  "{{name}}.fields.required.options.false": "No",
+  "{{name}}.fields.disabled.label": "Disabled",
+  "{{name}}.fields.disabled.options.true": "Yes",
+  "{{name}}.fields.disabled.options.false": "No"
+}

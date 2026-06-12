@@ -7,6 +7,7 @@ import { createElement } from 'react';
 import packageJson from '../package.json';
 import { {{componentName}} } from './{{componentName}}';
 import type { {{componentName}}Props } from './{{componentName}}';
+import { type CreateComponentConfigOptions, createT } from './i18n';
 
 export const metadata = {
   componentName: '{{componentName}}',
@@ -31,86 +32,90 @@ export const defaultProps = {
   disabled: false,
 } satisfies {{componentName}}Props;
 
-export const fields = {
-  label: {
-    type: 'text',
-    label: 'Label',
-  },
-  name: {
-    type: 'text',
-    label: 'Name',
-  },
-  type: {
-    type: 'select',
-    label: 'Type',
-    options: [
-      {
-        label: 'Text',
-        value: 'text',
-      },
-      {
-        label: 'Email',
-        value: 'email',
-      },
-      {
-        label: 'Password',
-        value: 'password',
-      },
-      {
-        label: 'Search',
-        value: 'search',
-      },
-      {
-        label: 'Telephone',
-        value: 'tel',
-      },
-      {
-        label: 'URL',
-        value: 'url',
-      },
-    ],
-  },
-  placeholder: {
-    type: 'text',
-    label: 'Placeholder',
-  },
-  helperText: {
-    type: 'textarea',
-    label: 'Helper text',
-  },
-  defaultValue: {
-    type: 'text',
-    label: 'Default value',
-  },
-  required: {
-    type: 'radio',
-    label: 'Required',
-    options: [
-      {
-        label: 'No',
-        value: false,
-      },
-      {
-        label: 'Yes',
-        value: true,
-      },
-    ],
-  },
-  disabled: {
-    type: 'radio',
-    label: 'Disabled',
-    options: [
-      {
-        label: 'No',
-        value: false,
-      },
-      {
-        label: 'Yes',
-        value: true,
-      },
-    ],
-  },
-} satisfies Fields<{{componentName}}Props>;
+type T = ReturnType<typeof createT>;
+
+function buildFields(t: T): Fields<{{componentName}}Props> {
+  return {
+    label: {
+      type: 'text',
+      label: t('{{name}}.fields.label.label'),
+    },
+    name: {
+      type: 'text',
+      label: t('{{name}}.fields.name.label'),
+    },
+    type: {
+      type: 'select',
+      label: t('{{name}}.fields.type.label'),
+      options: [
+        {
+          label: t('{{name}}.fields.type.options.text'),
+          value: 'text',
+        },
+        {
+          label: t('{{name}}.fields.type.options.email'),
+          value: 'email',
+        },
+        {
+          label: t('{{name}}.fields.type.options.password'),
+          value: 'password',
+        },
+        {
+          label: t('{{name}}.fields.type.options.search'),
+          value: 'search',
+        },
+        {
+          label: t('{{name}}.fields.type.options.tel'),
+          value: 'tel',
+        },
+        {
+          label: t('{{name}}.fields.type.options.url'),
+          value: 'url',
+        },
+      ],
+    },
+    placeholder: {
+      type: 'text',
+      label: t('{{name}}.fields.placeholder.label'),
+    },
+    helperText: {
+      type: 'textarea',
+      label: t('{{name}}.fields.helperText.label'),
+    },
+    defaultValue: {
+      type: 'text',
+      label: t('{{name}}.fields.defaultValue.label'),
+    },
+    required: {
+      type: 'radio',
+      label: t('{{name}}.fields.required.label'),
+      options: [
+        {
+          label: t('{{name}}.fields.required.options.false'),
+          value: false,
+        },
+        {
+          label: t('{{name}}.fields.required.options.true'),
+          value: true,
+        },
+      ],
+    },
+    disabled: {
+      type: 'radio',
+      label: t('{{name}}.fields.disabled.label'),
+      options: [
+        {
+          label: t('{{name}}.fields.disabled.options.false'),
+          value: false,
+        },
+        {
+          label: t('{{name}}.fields.disabled.options.true'),
+          value: true,
+        },
+      ],
+    },
+  };
+}
 
 const render{{componentName}}: ComponentConfig<{{componentName}}Props>['render'] = ({
   label,
@@ -135,14 +140,31 @@ const render{{componentName}}: ComponentConfig<{{componentName}}Props>['render']
     editMode,
   });
 
-export const {{componentVarName}}Config = {
-  label: '{{componentLabel}}',
-  defaultProps,
-  fields,
-  metadata,
-  render: render{{componentName}},
-  // resolveFields: async () => fields,
-  // resolveData: async (data) => data,
-} satisfies ComponentConfig<{{componentName}}Props>;
+function buildConfig(t: T): ComponentConfig<{{componentName}}Props> {
+  return {
+    label: t('{{name}}.label'),
+    defaultProps,
+    fields: buildFields(t),
+    metadata,
+    render: render{{componentName}},
+    // resolveFields: async () => fields,
+    // resolveData: async (data) => data,
+  };
+}
+
+const defaultT = createT();
+
+export const fields = buildFields(defaultT) satisfies Fields<{{componentName}}Props>;
+
+export const {{componentVarName}}Config = buildConfig(defaultT) satisfies ComponentConfig<{{componentName}}Props>;
 
 export const componentConfig = {{componentVarName}}Config;
+
+/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+export function createComponentConfig(
+  options?: CreateComponentConfigOptions,
+): ComponentConfig<{{componentName}}Props> {
+  return buildConfig(createT(options));
+}
+
+export const create{{componentName}}Config = createComponentConfig;

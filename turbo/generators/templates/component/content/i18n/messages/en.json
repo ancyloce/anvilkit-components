@@ -1,0 +1,9 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.title.label": "Title",
+  "{{name}}.fields.body.label": "Body",
+  "{{name}}.fields.alignment.label": "Alignment",
+  "{{name}}.fields.alignment.options.left": "Left",
+  "{{name}}.fields.alignment.options.center": "Center",
+  "{{name}}.fields.alignment.options.right": "Right"
+}

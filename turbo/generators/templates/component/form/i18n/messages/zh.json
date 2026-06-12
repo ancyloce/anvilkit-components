@@ -1,0 +1,21 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.label.label": "标签",
+  "{{name}}.fields.name.label": "名称",
+  "{{name}}.fields.type.label": "类型",
+  "{{name}}.fields.type.options.text": "文本",
+  "{{name}}.fields.type.options.email": "电子邮箱",
+  "{{name}}.fields.type.options.password": "密码",
+  "{{name}}.fields.type.options.search": "搜索",
+  "{{name}}.fields.type.options.tel": "电话",
+  "{{name}}.fields.type.options.url": "网址",
+  "{{name}}.fields.placeholder.label": "占位文本",
+  "{{name}}.fields.helperText.label": "帮助文本",
+  "{{name}}.fields.defaultValue.label": "默认值",
+  "{{name}}.fields.required.label": "必填",
+  "{{name}}.fields.required.options.true": "是",
+  "{{name}}.fields.required.options.false": "否",
+  "{{name}}.fields.disabled.label": "禁用",
+  "{{name}}.fields.disabled.options.true": "是",
+  "{{name}}.fields.disabled.options.false": "否"
+}

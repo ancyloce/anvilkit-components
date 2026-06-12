@@ -7,6 +7,7 @@ import { createElement } from 'react';
 import packageJson from '../package.json';
 import { {{componentName}} } from './{{componentName}}';
 import type { {{componentName}}Props } from './{{componentName}}';
+import { type CreateComponentConfigOptions, createT } from './i18n';
 
 export const metadata = {
   componentName: '{{componentName}}',
@@ -27,34 +28,38 @@ export const defaultProps = {
   emphasis: 'balanced',
 } satisfies {{componentName}}Props;
 
-export const fields = {
-  title: {
-    type: 'text',
-    label: 'Title',
-  },
-  emphasis: {
-    type: 'radio',
-    label: 'Emphasis',
-    options: [
-      {
-        label: 'Balanced',
-        value: 'balanced',
-      },
-      {
-        label: 'Accent',
-        value: 'accent',
-      },
-    ],
-  },
-  leftColumn: {
-    type: 'slot',
-    label: 'Left column',
-  },
-  rightColumn: {
-    type: 'slot',
-    label: 'Right column',
-  },
-} satisfies Fields<{{componentName}}Props>;
+type T = ReturnType<typeof createT>;
+
+function buildFields(t: T): Fields<{{componentName}}Props> {
+  return {
+    title: {
+      type: 'text',
+      label: t('{{name}}.fields.title.label'),
+    },
+    emphasis: {
+      type: 'radio',
+      label: t('{{name}}.fields.emphasis.label'),
+      options: [
+        {
+          label: t('{{name}}.fields.emphasis.options.balanced'),
+          value: 'balanced',
+        },
+        {
+          label: t('{{name}}.fields.emphasis.options.accent'),
+          value: 'accent',
+        },
+      ],
+    },
+    leftColumn: {
+      type: 'slot',
+      label: t('{{name}}.fields.leftColumn.label'),
+    },
+    rightColumn: {
+      type: 'slot',
+      label: t('{{name}}.fields.rightColumn.label'),
+    },
+  };
+}
 
 const render{{componentName}}: ComponentConfig<{{componentName}}Props>['render'] = ({
   title,
@@ -71,14 +76,31 @@ const render{{componentName}}: ComponentConfig<{{componentName}}Props>['render']
     editMode,
   });
 
-export const {{componentVarName}}Config = {
-  label: '{{componentLabel}}',
-  defaultProps,
-  fields,
-  metadata,
-  render: render{{componentName}},
-  // resolveFields: async () => fields,
-  // resolveData: async (data) => data,
-} satisfies ComponentConfig<{{componentName}}Props>;
+function buildConfig(t: T): ComponentConfig<{{componentName}}Props> {
+  return {
+    label: t('{{name}}.label'),
+    defaultProps,
+    fields: buildFields(t),
+    metadata,
+    render: render{{componentName}},
+    // resolveFields: async () => fields,
+    // resolveData: async (data) => data,
+  };
+}
+
+const defaultT = createT();
+
+export const fields = buildFields(defaultT) satisfies Fields<{{componentName}}Props>;
+
+export const {{componentVarName}}Config = buildConfig(defaultT) satisfies ComponentConfig<{{componentName}}Props>;
 
 export const componentConfig = {{componentVarName}}Config;
+
+/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+export function createComponentConfig(
+  options?: CreateComponentConfigOptions,
+): ComponentConfig<{{componentName}}Props> {
+  return buildConfig(createT(options));
+}
+
+export const create{{componentName}}Config = createComponentConfig;

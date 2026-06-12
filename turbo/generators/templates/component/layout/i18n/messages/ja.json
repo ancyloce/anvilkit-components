@@ -1,0 +1,9 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.title.label": "タイトル",
+  "{{name}}.fields.emphasis.label": "強調",
+  "{{name}}.fields.emphasis.options.balanced": "バランス",
+  "{{name}}.fields.emphasis.options.accent": "アクセント",
+  "{{name}}.fields.leftColumn.label": "左カラム",
+  "{{name}}.fields.rightColumn.label": "右カラム"
+}

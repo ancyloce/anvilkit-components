@@ -1,0 +1,9 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.title.label": "标题",
+  "{{name}}.fields.emphasis.label": "强调",
+  "{{name}}.fields.emphasis.options.balanced": "均衡",
+  "{{name}}.fields.emphasis.options.accent": "突出",
+  "{{name}}.fields.leftColumn.label": "左栏",
+  "{{name}}.fields.rightColumn.label": "右栏"
+}

@@ -1,0 +1,9 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.title.label": "제목",
+  "{{name}}.fields.emphasis.label": "강조",
+  "{{name}}.fields.emphasis.options.balanced": "균형",
+  "{{name}}.fields.emphasis.options.accent": "액센트",
+  "{{name}}.fields.leftColumn.label": "왼쪽 열",
+  "{{name}}.fields.rightColumn.label": "오른쪽 열"
+}

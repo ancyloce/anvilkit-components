@@ -1,0 +1,9 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.title.label": "Title",
+  "{{name}}.fields.emphasis.label": "Emphasis",
+  "{{name}}.fields.emphasis.options.balanced": "Balanced",
+  "{{name}}.fields.emphasis.options.accent": "Accent",
+  "{{name}}.fields.leftColumn.label": "Left column",
+  "{{name}}.fields.rightColumn.label": "Right column"
+}

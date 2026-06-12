@@ -1,0 +1,21 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.label.label": "라벨",
+  "{{name}}.fields.name.label": "이름",
+  "{{name}}.fields.type.label": "유형",
+  "{{name}}.fields.type.options.text": "텍스트",
+  "{{name}}.fields.type.options.email": "이메일",
+  "{{name}}.fields.type.options.password": "비밀번호",
+  "{{name}}.fields.type.options.search": "검색",
+  "{{name}}.fields.type.options.tel": "전화",
+  "{{name}}.fields.type.options.url": "URL",
+  "{{name}}.fields.placeholder.label": "플레이스홀더",
+  "{{name}}.fields.helperText.label": "도움말 텍스트",
+  "{{name}}.fields.defaultValue.label": "기본값",
+  "{{name}}.fields.required.label": "필수",
+  "{{name}}.fields.required.options.true": "예",
+  "{{name}}.fields.required.options.false": "아니요",
+  "{{name}}.fields.disabled.label": "비활성화",
+  "{{name}}.fields.disabled.options.true": "예",
+  "{{name}}.fields.disabled.options.false": "아니요"
+}

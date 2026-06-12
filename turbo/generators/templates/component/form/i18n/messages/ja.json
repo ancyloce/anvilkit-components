@@ -1,0 +1,21 @@
+{
+  "{{name}}.label": "{{componentLabel}}",
+  "{{name}}.fields.label.label": "ラベル",
+  "{{name}}.fields.name.label": "名前",
+  "{{name}}.fields.type.label": "タイプ",
+  "{{name}}.fields.type.options.text": "テキスト",
+  "{{name}}.fields.type.options.email": "メール",
+  "{{name}}.fields.type.options.password": "パスワード",
+  "{{name}}.fields.type.options.search": "検索",
+  "{{name}}.fields.type.options.tel": "電話",
+  "{{name}}.fields.type.options.url": "URL",
+  "{{name}}.fields.placeholder.label": "プレースホルダー",
+  "{{name}}.fields.helperText.label": "ヘルプテキスト",
+  "{{name}}.fields.defaultValue.label": "デフォルト値",
+  "{{name}}.fields.required.label": "必須",
+  "{{name}}.fields.required.options.true": "はい",
+  "{{name}}.fields.required.options.false": "いいえ",
+  "{{name}}.fields.disabled.label": "無効",
+  "{{name}}.fields.disabled.options.true": "はい",
+  "{{name}}.fields.disabled.options.false": "いいえ"
+}
