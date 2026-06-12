@@ -1,0 +1,14 @@
+{
+	"helps.label": "コントリビューター",
+	"helps.fields.message.label": "メッセージ",
+	"helps.fields.buttonLabel.label": "ボタンラベル",
+	"helps.fields.buttonHref.label": "ボタンリンク",
+	"helps.fields.buttonOpenInNewTab.label": "ボタンを新しいタブで開く",
+	"helps.fields.buttonOpenInNewTab.options.true": "はい",
+	"helps.fields.buttonOpenInNewTab.options.false": "いいえ",
+	"helps.fields.avatars.label": "コントリビューター",
+	"helps.fields.avatars.itemSummary": "コントリビューター {index}",
+	"helps.fields.avatars.name.label": "名前",
+	"helps.fields.avatars.imageUrl.label": "画像URL",
+	"helps.fields.avatars.initials.label": "代替イニシャル"
+}

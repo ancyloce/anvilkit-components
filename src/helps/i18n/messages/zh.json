@@ -1,0 +1,14 @@
+{
+	"helps.label": "贡献者",
+	"helps.fields.message.label": "消息",
+	"helps.fields.buttonLabel.label": "按钮文案",
+	"helps.fields.buttonHref.label": "按钮链接",
+	"helps.fields.buttonOpenInNewTab.label": "按钮在新标签页打开",
+	"helps.fields.buttonOpenInNewTab.options.true": "是",
+	"helps.fields.buttonOpenInNewTab.options.false": "否",
+	"helps.fields.avatars.label": "贡献者",
+	"helps.fields.avatars.itemSummary": "贡献者 {index}",
+	"helps.fields.avatars.name.label": "姓名",
+	"helps.fields.avatars.imageUrl.label": "图片地址",
+	"helps.fields.avatars.initials.label": "备用首字母"
+}

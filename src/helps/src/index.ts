@@ -2,6 +2,8 @@ import "./styles.css";
 
 export {
 	componentConfig,
+	createComponentConfig,
+	createHelpsConfig,
 	defaultProps,
 	defaultProps as helpsDefaultProps,
 	fields,
@@ -12,3 +14,8 @@ export {
 } from "./config";
 export type { HelpsAvatar, HelpsProps, HelpsViewProps } from "./Helps";
 export { Helps } from "./Helps";
+export {
+	type CreateComponentConfigOptions,
+	type HelpsMessageKey,
+	helpsI18nEntry,
+} from "./i18n";

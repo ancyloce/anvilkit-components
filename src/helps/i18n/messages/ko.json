@@ -1,0 +1,14 @@
+{
+	"helps.label": "기여자",
+	"helps.fields.message.label": "메시지",
+	"helps.fields.buttonLabel.label": "버튼 라벨",
+	"helps.fields.buttonHref.label": "버튼 링크",
+	"helps.fields.buttonOpenInNewTab.label": "버튼을 새 탭에서 열기",
+	"helps.fields.buttonOpenInNewTab.options.true": "예",
+	"helps.fields.buttonOpenInNewTab.options.false": "아니요",
+	"helps.fields.avatars.label": "기여자",
+	"helps.fields.avatars.itemSummary": "기여자 {index}",
+	"helps.fields.avatars.name.label": "이름",
+	"helps.fields.avatars.imageUrl.label": "이미지 URL",
+	"helps.fields.avatars.initials.label": "대체 이니셜"
+}

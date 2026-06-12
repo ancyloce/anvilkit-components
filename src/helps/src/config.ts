@@ -7,6 +7,7 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import type { HelpsProps } from "./Helps";
 import { Helps } from "./Helps";
+import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 export const metadata = {
 	componentName: "Helps",
@@ -58,59 +59,67 @@ export const defaultProps = {
 	],
 } satisfies HelpsProps;
 
-export const fields = {
-	message: {
-		type: "textarea",
-		label: "Message",
-	},
-	buttonLabel: {
-		type: "text",
-		label: "Button label",
-	},
-	buttonHref: {
-		type: "text",
-		label: "Button link",
-	},
-	buttonOpenInNewTab: {
-		type: "radio",
-		label: "Button opens in new tab",
-		options: [
-			{
-				label: "No",
-				value: false,
-			},
-			{
-				label: "Yes",
-				value: true,
-			},
-		],
-	},
-	avatars: {
-		type: "array",
-		label: "Contributors",
-		defaultItemProps: {
-			name: "New contributor",
-			imageUrl: "",
-			initials: "NC",
+type T = ReturnType<typeof createT>;
+
+function buildFields(t: T): Fields<HelpsProps> {
+	return {
+		message: {
+			type: "textarea",
+			label: t("helps.fields.message.label"),
 		},
-		getItemSummary: (item, index) =>
-			item.name || `Contributor ${(index ?? 0) + 1}`,
-		arrayFields: {
-			name: {
-				type: "text",
-				label: "Name",
+		buttonLabel: {
+			type: "text",
+			label: t("helps.fields.buttonLabel.label"),
+		},
+		buttonHref: {
+			type: "text",
+			label: t("helps.fields.buttonHref.label"),
+		},
+		buttonOpenInNewTab: {
+			type: "radio",
+			label: t("helps.fields.buttonOpenInNewTab.label"),
+			options: [
+				{
+					label: t("helps.fields.buttonOpenInNewTab.options.false"),
+					value: false,
+				},
+				{
+					label: t("helps.fields.buttonOpenInNewTab.options.true"),
+					value: true,
+				},
+			],
+		},
+		avatars: {
+			type: "array",
+			label: t("helps.fields.avatars.label"),
+			defaultItemProps: {
+				name: "New contributor",
+				imageUrl: "",
+				initials: "NC",
 			},
-			imageUrl: {
-				type: "text",
-				label: "Image URL",
-			},
-			initials: {
-				type: "text",
-				label: "Fallback initials",
+			getItemSummary: (item, index) =>
+				item.name ||
+				t("helps.fields.avatars.itemSummary").replace(
+					"{index}",
+					String((index ?? 0) + 1),
+				),
+			arrayFields: {
+				name: {
+					type: "text",
+					label: t("helps.fields.avatars.name.label"),
+				},
+				imageUrl: {
+					type: "text",
+					label: t("helps.fields.avatars.imageUrl.label"),
+				},
+				initials: {
+					type: "text",
+					label: t("helps.fields.avatars.initials.label"),
+				},
 			},
 		},
-	},
-} satisfies Fields<HelpsProps>;
+	};
+}
 
 const renderHelps: ComponentConfig<HelpsProps>["render"] = ({
 	message,
@@ -129,14 +138,33 @@ const renderHelps: ComponentConfig<HelpsProps>["render"] = ({
 		editMode,
 	});
 
-export const helpsConfig = {
-	label: "Helps",
-	defaultProps,
-	fields,
-	metadata,
-	render: renderHelps,
-	// resolveFields: async () => fields,
-	// resolveData: async (data) => data,
-} satisfies ComponentConfig<HelpsProps>;
+function buildConfig(t: T): ComponentConfig<HelpsProps> {
+	return {
+		label: t("helps.label"),
+		defaultProps,
+		fields: buildFields(t),
+		metadata,
+		render: renderHelps,
+		// resolveFields: async () => fields,
+		// resolveData: async (data) => data,
+	};
+}
+
+const defaultT = createT();
+
+export const fields = buildFields(defaultT) satisfies Fields<HelpsProps>;
+
+export const helpsConfig = buildConfig(
+	defaultT,
+) satisfies ComponentConfig<HelpsProps>;
 
 export const componentConfig = helpsConfig;
+
+/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+export function createComponentConfig(
+	options?: CreateComponentConfigOptions,
+): ComponentConfig<HelpsProps> {
+	return buildConfig(createT(options));
+}
+
+export const createHelpsConfig = createComponentConfig;

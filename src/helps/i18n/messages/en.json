@@ -1,0 +1,14 @@
+{
+	"helps.label": "Helps",
+	"helps.fields.message.label": "Message",
+	"helps.fields.buttonLabel.label": "Button label",
+	"helps.fields.buttonHref.label": "Button link",
+	"helps.fields.buttonOpenInNewTab.label": "Button opens in new tab",
+	"helps.fields.buttonOpenInNewTab.options.true": "Yes",
+	"helps.fields.buttonOpenInNewTab.options.false": "No",
+	"helps.fields.avatars.label": "Contributors",
+	"helps.fields.avatars.itemSummary": "Contributor {index}",
+	"helps.fields.avatars.name.label": "Name",
+	"helps.fields.avatars.imageUrl.label": "Image URL",
+	"helps.fields.avatars.initials.label": "Fallback initials"
+}
