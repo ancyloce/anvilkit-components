@@ -2,6 +2,8 @@ import "./styles.css";
 
 export {
 	componentConfig,
+	createComponentConfig,
+	createNavbarConfig,
 	defaultProps,
 	defaultProps as navbarDefaultProps,
 	fields,
@@ -10,6 +12,11 @@ export {
 	metadata as navbarMetadata,
 	navbarConfig,
 } from "./config";
+export {
+	type CreateComponentConfigOptions,
+	type NavbarMessageKey,
+	navbarI18nEntry,
+} from "./i18n";
 export type {
 	NavbarAction,
 	NavbarActionSize,

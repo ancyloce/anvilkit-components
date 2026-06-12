@@ -54,6 +54,14 @@ export interface NavbarProps {
 	items: NavbarMenuItem[];
 	actions: NavbarAction[];
 	active?: string;
+	/** Screen-reader label for the mobile menu toggle when the menu is closed. */
+	menuOpenLabel?: string;
+	/** Screen-reader label for the mobile menu toggle when the menu is open. */
+	menuCloseLabel?: string;
+	/** Accessible label for the top-level <nav> landmark. */
+	navAriaLabel?: string;
+	/** Fallback logo text when no logo text or image is configured. */
+	brandFallbackText?: string;
 }
 
 export interface NavbarViewProps extends Omit<NavbarProps, "actions"> {
@@ -104,7 +112,11 @@ function preventNavigation(
 	event.preventDefault();
 }
 
-function getLogoContent(logo: NavbarLogoProps, logoNode?: ReactNode) {
+function getLogoContent(
+	logo: NavbarLogoProps,
+	brandFallbackText: string,
+	logoNode?: ReactNode,
+) {
 	if (logoNode) {
 		return logoNode;
 	}
@@ -119,7 +131,9 @@ function getLogoContent(logo: NavbarLogoProps, logoNode?: ReactNode) {
 		);
 	}
 
-	return <span className={logoTextClassName}>{logo.text || "Brand"}</span>;
+	return (
+		<span className={logoTextClassName}>{logo.text || brandFallbackText}</span>
+	);
 }
 
 function renderAction(
@@ -267,10 +281,14 @@ export function Navbar({
 	items,
 	actions = [],
 	active,
+	menuOpenLabel = "Open navigation menu",
+	menuCloseLabel = "Close navigation menu",
+	navAriaLabel = "Primary",
+	brandFallbackText = "Brand",
 	className,
 	editMode = false,
 }: NavbarViewProps) {
-	const logoContent = getLogoContent(logo, logoNode);
+	const logoContent = getLogoContent(logo, brandFallbackText, logoNode);
 	const isLogoInteractive = Boolean(logo.href && !editMode);
 	const hasMobileMenu = items.length > 0 || actions.length > 0;
 	const mobileMenuId = useId();
@@ -289,7 +307,7 @@ export function Navbar({
 
 	return (
 		<nav
-			aria-label="Primary"
+			aria-label={navAriaLabel}
 			className={cn("w-full bg-background text-foreground", className)}
 		>
 			<div className="px-3 py-3 md:px-7 md:py-4 lg:px-8">
@@ -320,9 +338,7 @@ export function Navbar({
 								onClick={handleMobileMenuToggle}
 							>
 								<span className="sr-only">
-									{isMobileMenuOpen
-										? "Close navigation menu"
-										: "Open navigation menu"}
+									{isMobileMenuOpen ? menuCloseLabel : menuOpenLabel}
 								</span>
 								{renderMobileToggleIcon(isMobileMenuOpen)}
 							</BaseButton>
