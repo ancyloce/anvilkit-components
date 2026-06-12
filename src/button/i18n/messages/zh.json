@@ -1,0 +1,14 @@
+{
+	"button.label": "按钮",
+	"button.fields.label.label": "标签",
+	"button.fields.variant.label": "变体",
+	"button.fields.variant.options.primary": "主要",
+	"button.fields.variant.options.secondary": "次要",
+	"button.fields.href.label": "链接地址",
+	"button.fields.openInNewTab.label": "在新标签页打开",
+	"button.fields.openInNewTab.options.true": "是",
+	"button.fields.openInNewTab.options.false": "否",
+	"button.fields.disabled.label": "禁用",
+	"button.fields.disabled.options.true": "是",
+	"button.fields.disabled.options.false": "否"
+}

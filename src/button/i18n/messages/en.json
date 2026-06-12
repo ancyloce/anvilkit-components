@@ -1,0 +1,14 @@
+{
+	"button.label": "Button",
+	"button.fields.label.label": "Label",
+	"button.fields.variant.label": "Variant",
+	"button.fields.variant.options.primary": "Primary",
+	"button.fields.variant.options.secondary": "Secondary",
+	"button.fields.href.label": "Link URL",
+	"button.fields.openInNewTab.label": "Open in new tab",
+	"button.fields.openInNewTab.options.true": "Yes",
+	"button.fields.openInNewTab.options.false": "No",
+	"button.fields.disabled.label": "Disabled",
+	"button.fields.disabled.options.true": "Yes",
+	"button.fields.disabled.options.false": "No"
+}

@@ -1,0 +1,14 @@
+{
+	"button.label": "버튼",
+	"button.fields.label.label": "라벨",
+	"button.fields.variant.label": "변형",
+	"button.fields.variant.options.primary": "기본",
+	"button.fields.variant.options.secondary": "보조",
+	"button.fields.href.label": "링크 URL",
+	"button.fields.openInNewTab.label": "새 탭에서 열기",
+	"button.fields.openInNewTab.options.true": "예",
+	"button.fields.openInNewTab.options.false": "아니요",
+	"button.fields.disabled.label": "비활성화",
+	"button.fields.disabled.options.true": "예",
+	"button.fields.disabled.options.false": "아니요"
+}

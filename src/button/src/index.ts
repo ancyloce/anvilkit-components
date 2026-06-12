@@ -5,6 +5,8 @@ export { Button } from "./Button";
 export {
 	buttonConfig,
 	componentConfig,
+	createButtonConfig,
+	createComponentConfig,
 	defaultProps,
 	defaultProps as buttonDefaultProps,
 	fields,
@@ -12,3 +14,8 @@ export {
 	metadata,
 	metadata as buttonMetadata,
 } from "./config";
+export {
+	type ButtonMessageKey,
+	buttonI18nEntry,
+	type CreateComponentConfigOptions,
+} from "./i18n";

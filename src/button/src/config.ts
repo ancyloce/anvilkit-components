@@ -7,6 +7,7 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
+import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 export const metadata = {
 	componentName: "Button",
@@ -26,58 +27,62 @@ export const defaultProps = {
 	openInNewTab: false,
 } satisfies ButtonProps;
 
-export const fields = {
-	label: {
-		type: "text",
-		label: "Label",
-	},
-	variant: {
-		type: "radio",
-		label: "Variant",
-		options: [
-			{
-				label: "Primary",
-				value: "primary",
-			},
-			{
-				label: "Secondary",
-				value: "secondary",
-			},
-		],
-	},
-	href: {
-		type: "text",
-		label: "Link URL",
-	},
-	openInNewTab: {
-		type: "radio",
-		label: "Open in new tab",
-		options: [
-			{
-				label: "No",
-				value: false,
-			},
-			{
-				label: "Yes",
-				value: true,
-			},
-		],
-	},
-	disabled: {
-		type: "radio",
-		label: "Disabled",
-		options: [
-			{
-				label: "No",
-				value: false,
-			},
-			{
-				label: "Yes",
-				value: true,
-			},
-		],
-	},
-} satisfies Fields<ButtonProps>;
+type T = ReturnType<typeof createT>;
+
+function buildFields(t: T): Fields<ButtonProps> {
+	return {
+		label: {
+			type: "text",
+			label: t("button.fields.label.label"),
+		},
+		variant: {
+			type: "radio",
+			label: t("button.fields.variant.label"),
+			options: [
+				{
+					label: t("button.fields.variant.options.primary"),
+					value: "primary",
+				},
+				{
+					label: t("button.fields.variant.options.secondary"),
+					value: "secondary",
+				},
+			],
+		},
+		href: {
+			type: "text",
+			label: t("button.fields.href.label"),
+		},
+		openInNewTab: {
+			type: "radio",
+			label: t("button.fields.openInNewTab.label"),
+			options: [
+				{
+					label: t("button.fields.openInNewTab.options.false"),
+					value: false,
+				},
+				{
+					label: t("button.fields.openInNewTab.options.true"),
+					value: true,
+				},
+			],
+		},
+		disabled: {
+			type: "radio",
+			label: t("button.fields.disabled.label"),
+			options: [
+				{
+					label: t("button.fields.disabled.options.false"),
+					value: false,
+				},
+				{
+					label: t("button.fields.disabled.options.true"),
+					value: true,
+				},
+			],
+		},
+	};
+}
 
 const renderButton: ComponentConfig<ButtonProps>["render"] = ({
 	label,
@@ -96,14 +101,33 @@ const renderButton: ComponentConfig<ButtonProps>["render"] = ({
 		editMode,
 	});
 
-export const buttonConfig = {
-	label: "Button",
-	defaultProps,
-	fields,
-	metadata,
-	render: renderButton,
-	// resolveFields: async () => fields,
-	// resolveData: async (data) => data,
-} satisfies ComponentConfig<ButtonProps>;
+function buildConfig(t: T): ComponentConfig<ButtonProps> {
+	return {
+		label: t("button.label"),
+		defaultProps,
+		fields: buildFields(t),
+		metadata,
+		render: renderButton,
+		// resolveFields: async () => fields,
+		// resolveData: async (data) => data,
+	};
+}
+
+const defaultT = createT();
+
+export const fields = buildFields(defaultT) satisfies Fields<ButtonProps>;
+
+export const buttonConfig = buildConfig(
+	defaultT,
+) satisfies ComponentConfig<ButtonProps>;
 
 export const componentConfig = buttonConfig;
+
+/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+export function createComponentConfig(
+	options?: CreateComponentConfigOptions,
+): ComponentConfig<ButtonProps> {
+	return buildConfig(createT(options));
+}
+
+export const createButtonConfig = createComponentConfig;
