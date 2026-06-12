@@ -27,8 +27,11 @@ pnpm release       # changeset version + build + changeset publish
 **Validation before finishing any component work:**
 
 ```bash
-pnpm lint && pnpm typecheck && pnpm build
+pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
+
+(`pnpm test` runs the workspace-level vitest suite in `tests/`, including the
+i18n catalog/factory checks for every package.)
 
 ## Component package contract
 
@@ -41,8 +44,39 @@ Every `src/<slug>/` must export from `src/index.ts`:
 | `fields`                                                                   | `Fields<Props>`       |
 | `metadata`                                                                 | `ComponentMetadata`   |
 | `<camel>Config`, `<camel>DefaultProps`, `<camel>Fields`, `<camel>Metadata` | convenience aliases   |
+| `createComponentConfig(options?)`                                          | locale-aware config factory |
+| `create<Pascal>Config`                                                     | convenience alias for the factory |
+| `<camel>I18nEntry`                                                         | i18n registry entry (`{ namespace, en, loadMessages }`) |
+| `<Pascal>MessageKey`                                                       | type — union of the package's catalog keys |
 
 `config.ts` must import `packageJson` and populate `metadata` from it (`componentName`, `componentSlug`, `packageName`, `packageVersion`, `scaffoldType`, `schemaVersion`). The `render` function must be a pure adapter built with `createElement(...)` and must pass `editMode` through.
+
+## i18n
+
+Every package ships per-locale message catalogs and a config factory:
+
+- **Catalogs**: `i18n/messages/{en,zh,ja,ko}.json` at the **package root**
+  (outside `src/` — the bundleless rslib build keeps these imports external,
+  same mechanism as the `../package.json` import). All four locales must have
+  exactly the same key set (enforced by `tests/i18n.test.ts`).
+- **Keys**: flat, slug-namespaced —
+  `<slug>.label`, `<slug>.fields.<path>.label`,
+  `<slug>.fields.<path>.options.<value>`, `<slug>.fields.<path>.itemSummary`
+  (`{index}` placeholder), `<slug>.a11y.<name>`, `<slug>.fallback.<name>`.
+- **Resolver**: `src/i18n.ts` (self-contained per package, no `@anvilkit/core`
+  dependency). Per-key resolution order: `options.messages` override → locale
+  pack → en baseline. Unknown locales fall back to en.
+- **Factory**: `createComponentConfig({ locale?, messages? })` builds a
+  translated `ComponentConfig`; the static `componentConfig` export stays the
+  English default (`createComponentConfig()` deep-equals it).
+- **Scope**: translate editor chrome only — field/option labels, item
+  summaries, and aria/fallback JSX strings (exposed as optional serializable
+  string props with English component defaults; the factory injects localized
+  values into the returned config's `defaultProps`). `defaultProps` page
+  content (headlines, sample copy) stays English.
+- `<camel>I18nEntry` is structurally compatible with `@anvilkit/core`'s i18n
+  `RegistryEntry` so hosts can merge component catalogs into the Studio
+  message registry — without the package importing core.
 
 ## Naming conventions
 

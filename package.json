@@ -13,6 +13,7 @@
 		"lint": "pnpm exec biome lint .",
 		"format": "pnpm exec biome check --write .",
 		"typecheck": "pnpm -r --filter \"./src/*\" typecheck",
+		"test": "vitest run",
 		"gen:component": "node ./turbo/generators/run-component-generator.mjs",
 		"changeset": "changeset",
 		"release": "changeset version && pnpm build && changeset publish"
@@ -21,6 +22,7 @@
 		"@anvilkit/biome-config": "workspace:*",
 		"@anvilkit/tailwind-config": "workspace:*",
 		"@anvilkit/typescript-config": "workspace:*",
+		"@anvilkit/vitest-config": "workspace:*",
 		"@biomejs/biome": "2.4.16",
 		"@changesets/cli": "^2.31.0",
 		"@puckeditor/core": "^0.21.2",
@@ -32,6 +34,7 @@
 		"react": "^19.2.6",
 		"react-dom": "^19.2.6",
 		"turbo": "^2.9.14",
-		"typescript": "6.0.3"
+		"typescript": "6.0.3",
+		"vitest": "^4.1.7"
 	}
 }
