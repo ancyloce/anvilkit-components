@@ -5,6 +5,7 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { LogoCloudsProps } from "./LogoClouds";
 import { LogoClouds } from "./LogoClouds";
 
@@ -24,36 +25,64 @@ export const defaultProps = {
 		"Trusted by the teams building polished, high-performance products for the modern web.",
 } satisfies LogoCloudsProps;
 
-export const fields = {
-	title: {
-		type: "text",
-		label: "Title",
-	},
-	subtitle: {
-		type: "textarea",
-		label: "Subtitle",
-	},
-} satisfies Fields<LogoCloudsProps>;
+type T = ReturnType<typeof createT>;
+
+function buildFields(t: T): Fields<LogoCloudsProps> {
+	return {
+		title: {
+			type: "text",
+			label: t("logo-clouds.fields.title.label"),
+		},
+		subtitle: {
+			type: "textarea",
+			label: t("logo-clouds.fields.subtitle.label"),
+		},
+	};
+}
 
 const renderLogoClouds: ComponentConfig<LogoCloudsProps>["render"] = ({
 	title,
 	subtitle,
+	marqueeAriaLabel,
 	editMode,
 }) =>
 	createElement(LogoClouds, {
 		title,
 		subtitle,
+		marqueeAriaLabel,
 		editMode,
 	});
 
-export const logoCloudsConfig = {
-	label: "Logo Clouds",
-	defaultProps,
-	fields,
-	metadata,
-	render: renderLogoClouds,
-	// resolveFields: async () => fields,
-	// resolveData: async (data) => data,
-} satisfies ComponentConfig<LogoCloudsProps>;
+function buildConfig(t: T): ComponentConfig<LogoCloudsProps> {
+	return {
+		label: t("logo-clouds.label"),
+		defaultProps: {
+			...defaultProps,
+			marqueeAriaLabel: t("logo-clouds.a11y.marquee"),
+		},
+		fields: buildFields(t),
+		metadata,
+		render: renderLogoClouds,
+		// resolveFields: async () => fields,
+		// resolveData: async (data) => data,
+	};
+}
+
+const defaultT = createT();
+
+export const fields = buildFields(defaultT) satisfies Fields<LogoCloudsProps>;
+
+export const logoCloudsConfig = buildConfig(
+	defaultT,
+) satisfies ComponentConfig<LogoCloudsProps>;
 
 export const componentConfig = logoCloudsConfig;
+
+/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+export function createComponentConfig(
+	options?: CreateComponentConfigOptions,
+): ComponentConfig<LogoCloudsProps> {
+	return buildConfig(createT(options));
+}
+
+export const createLogoCloudsConfig = createComponentConfig;
