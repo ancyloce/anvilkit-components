@@ -1,0 +1,20 @@
+{
+	"hero.label": "히어로",
+	"hero.fields.announcementLabel.label": "공지 라벨",
+	"hero.fields.announcementHref.label": "공지 링크",
+	"hero.fields.announcementOpenInNewTab.label": "공지를 새 탭에서 열기",
+	"hero.fields.announcementOpenInNewTab.options.true": "예",
+	"hero.fields.announcementOpenInNewTab.options.false": "아니요",
+	"hero.fields.headline.label": "헤드라인",
+	"hero.fields.description.label": "설명",
+	"hero.fields.linuxLabel.label": "Linux 버튼 라벨",
+	"hero.fields.linuxHref.label": "Linux 버튼 링크",
+	"hero.fields.linuxOpenInNewTab.label": "Linux를 새 탭에서 열기",
+	"hero.fields.linuxOpenInNewTab.options.true": "예",
+	"hero.fields.linuxOpenInNewTab.options.false": "아니요",
+	"hero.fields.windowsLabel.label": "Windows 버튼 라벨",
+	"hero.fields.windowsHref.label": "Windows 버튼 링크",
+	"hero.fields.windowsOpenInNewTab.label": "Windows를 새 탭에서 열기",
+	"hero.fields.windowsOpenInNewTab.options.true": "예",
+	"hero.fields.windowsOpenInNewTab.options.false": "아니요"
+}

@@ -1,0 +1,20 @@
+{
+	"hero.label": "ヒーロー",
+	"hero.fields.announcementLabel.label": "アナウンスラベル",
+	"hero.fields.announcementHref.label": "アナウンスリンク",
+	"hero.fields.announcementOpenInNewTab.label": "アナウンスを新しいタブで開く",
+	"hero.fields.announcementOpenInNewTab.options.true": "はい",
+	"hero.fields.announcementOpenInNewTab.options.false": "いいえ",
+	"hero.fields.headline.label": "見出し",
+	"hero.fields.description.label": "説明",
+	"hero.fields.linuxLabel.label": "Linuxボタンラベル",
+	"hero.fields.linuxHref.label": "Linuxボタンリンク",
+	"hero.fields.linuxOpenInNewTab.label": "Linuxを新しいタブで開く",
+	"hero.fields.linuxOpenInNewTab.options.true": "はい",
+	"hero.fields.linuxOpenInNewTab.options.false": "いいえ",
+	"hero.fields.windowsLabel.label": "Windowsボタンラベル",
+	"hero.fields.windowsHref.label": "Windowsボタンリンク",
+	"hero.fields.windowsOpenInNewTab.label": "Windowsを新しいタブで開く",
+	"hero.fields.windowsOpenInNewTab.options.true": "はい",
+	"hero.fields.windowsOpenInNewTab.options.false": "いいえ"
+}

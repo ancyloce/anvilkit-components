@@ -1,0 +1,20 @@
+{
+	"hero.label": "英雄区块",
+	"hero.fields.announcementLabel.label": "公告文案",
+	"hero.fields.announcementHref.label": "公告链接",
+	"hero.fields.announcementOpenInNewTab.label": "公告在新标签页打开",
+	"hero.fields.announcementOpenInNewTab.options.true": "是",
+	"hero.fields.announcementOpenInNewTab.options.false": "否",
+	"hero.fields.headline.label": "主标题",
+	"hero.fields.description.label": "描述",
+	"hero.fields.linuxLabel.label": "Linux 按钮文案",
+	"hero.fields.linuxHref.label": "Linux 按钮链接",
+	"hero.fields.linuxOpenInNewTab.label": "Linux 在新标签页打开",
+	"hero.fields.linuxOpenInNewTab.options.true": "是",
+	"hero.fields.linuxOpenInNewTab.options.false": "否",
+	"hero.fields.windowsLabel.label": "Windows 按钮文案",
+	"hero.fields.windowsHref.label": "Windows 按钮链接",
+	"hero.fields.windowsOpenInNewTab.label": "Windows 在新标签页打开",
+	"hero.fields.windowsOpenInNewTab.options.true": "是",
+	"hero.fields.windowsOpenInNewTab.options.false": "否"
+}

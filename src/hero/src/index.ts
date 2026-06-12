@@ -2,6 +2,8 @@ import "./styles.css";
 
 export {
 	componentConfig,
+	createComponentConfig,
+	createHeroConfig,
 	defaultProps,
 	defaultProps as heroDefaultProps,
 	fields,
@@ -12,3 +14,8 @@ export {
 } from "./config";
 export type { HeroProps, HeroViewProps } from "./Hero";
 export { Hero } from "./Hero";
+export {
+	type CreateComponentConfigOptions,
+	type HeroMessageKey,
+	heroI18nEntry,
+} from "./i18n";

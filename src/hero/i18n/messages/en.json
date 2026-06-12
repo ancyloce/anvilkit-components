@@ -1,0 +1,20 @@
+{
+	"hero.label": "Hero",
+	"hero.fields.announcementLabel.label": "Announcement label",
+	"hero.fields.announcementHref.label": "Announcement link",
+	"hero.fields.announcementOpenInNewTab.label": "Announcement opens in new tab",
+	"hero.fields.announcementOpenInNewTab.options.true": "Yes",
+	"hero.fields.announcementOpenInNewTab.options.false": "No",
+	"hero.fields.headline.label": "Headline",
+	"hero.fields.description.label": "Description",
+	"hero.fields.linuxLabel.label": "Linux button label",
+	"hero.fields.linuxHref.label": "Linux button link",
+	"hero.fields.linuxOpenInNewTab.label": "Linux opens in new tab",
+	"hero.fields.linuxOpenInNewTab.options.true": "Yes",
+	"hero.fields.linuxOpenInNewTab.options.false": "No",
+	"hero.fields.windowsLabel.label": "Windows button label",
+	"hero.fields.windowsHref.label": "Windows button link",
+	"hero.fields.windowsOpenInNewTab.label": "Windows opens in new tab",
+	"hero.fields.windowsOpenInNewTab.options.true": "Yes",
+	"hero.fields.windowsOpenInNewTab.options.false": "No"
+}
