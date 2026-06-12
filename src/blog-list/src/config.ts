@@ -7,6 +7,7 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import type { BlogListProps } from "./BlogList";
 import { BlogList } from "./BlogList";
+import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 const defaultPreviewImageSrc =
 	"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80";
@@ -62,72 +63,81 @@ export const defaultProps = {
 	],
 } satisfies BlogListProps;
 
-export const fields = {
-	posts: {
-		type: "array",
-		label: "Posts",
-		defaultItemProps: {
-			title: "New post",
-			description: "Write a short summary for this article.",
-			href: "/blog/new-post",
-			openInNewTab: false,
-			imageSrc: defaultPreviewImageSrc,
-			imageAlt: "New post",
-			publishedAt: "2024-11-01",
-			publishedLabel: "November 1, 2024",
-			relativeLabel: "8mo ago",
+type T = ReturnType<typeof createT>;
+
+function buildFields(t: T): Fields<BlogListProps> {
+	return {
+		posts: {
+			type: "array",
+			label: t("blog-list.fields.posts.label"),
+			defaultItemProps: {
+				title: "New post",
+				description: "Write a short summary for this article.",
+				href: "/blog/new-post",
+				openInNewTab: false,
+				imageSrc: defaultPreviewImageSrc,
+				imageAlt: "New post",
+				publishedAt: "2024-11-01",
+				publishedLabel: "November 1, 2024",
+				relativeLabel: "8mo ago",
+			},
+			getItemSummary: (item, index) =>
+				item.title ||
+				t("blog-list.fields.posts.itemSummary").replace(
+					"{index}",
+					String((index ?? 0) + 1),
+				),
+			arrayFields: {
+				title: {
+					type: "text",
+					label: t("blog-list.fields.posts.title.label"),
+				},
+				description: {
+					type: "textarea",
+					label: t("blog-list.fields.posts.description.label"),
+				},
+				href: {
+					type: "text",
+					label: t("blog-list.fields.posts.href.label"),
+				},
+				openInNewTab: {
+					type: "radio",
+					label: t("blog-list.fields.posts.openInNewTab.label"),
+					options: [
+						{
+							label: t("blog-list.fields.posts.openInNewTab.options.false"),
+							value: false,
+						},
+						{
+							label: t("blog-list.fields.posts.openInNewTab.options.true"),
+							value: true,
+						},
+					],
+				},
+				imageSrc: {
+					type: "text",
+					label: t("blog-list.fields.posts.imageSrc.label"),
+				},
+				imageAlt: {
+					type: "text",
+					label: t("blog-list.fields.posts.imageAlt.label"),
+				},
+				publishedAt: {
+					type: "text",
+					label: t("blog-list.fields.posts.publishedAt.label"),
+				},
+				publishedLabel: {
+					type: "text",
+					label: t("blog-list.fields.posts.publishedLabel.label"),
+				},
+				relativeLabel: {
+					type: "text",
+					label: t("blog-list.fields.posts.relativeLabel.label"),
+				},
+			},
 		},
-		getItemSummary: (item, index) => item.title || `Post ${(index ?? 0) + 1}`,
-		arrayFields: {
-			title: {
-				type: "text",
-				label: "Title",
-			},
-			description: {
-				type: "textarea",
-				label: "Description",
-			},
-			href: {
-				type: "text",
-				label: "Href",
-			},
-			openInNewTab: {
-				type: "radio",
-				label: "Open in new tab",
-				options: [
-					{
-						label: "No",
-						value: false,
-					},
-					{
-						label: "Yes",
-						value: true,
-					},
-				],
-			},
-			imageSrc: {
-				type: "text",
-				label: "Image URL",
-			},
-			imageAlt: {
-				type: "text",
-				label: "Image alt text",
-			},
-			publishedAt: {
-				type: "text",
-				label: "Published ISO date",
-			},
-			publishedLabel: {
-				type: "text",
-				label: "Published date label",
-			},
-			relativeLabel: {
-				type: "text",
-				label: "Relative label",
-			},
-		},
-	},
-} satisfies Fields<BlogListProps>;
+	};
+}
 
 const renderBlogList: ComponentConfig<BlogListProps>["render"] = ({
 	posts,
@@ -138,14 +148,33 @@ const renderBlogList: ComponentConfig<BlogListProps>["render"] = ({
 		editMode,
 	});
 
-export const blogListConfig = {
-	label: "Blog List",
-	defaultProps,
-	fields,
-	metadata,
-	render: renderBlogList,
-	// resolveFields: async () => fields,
-	// resolveData: async (data) => data,
-} satisfies ComponentConfig<BlogListProps>;
+function buildConfig(t: T): ComponentConfig<BlogListProps> {
+	return {
+		label: t("blog-list.label"),
+		defaultProps,
+		fields: buildFields(t),
+		metadata,
+		render: renderBlogList,
+		// resolveFields: async () => fields,
+		// resolveData: async (data) => data,
+	};
+}
+
+const defaultT = createT();
+
+export const fields = buildFields(defaultT) satisfies Fields<BlogListProps>;
+
+export const blogListConfig = buildConfig(
+	defaultT,
+) satisfies ComponentConfig<BlogListProps>;
 
 export const componentConfig = blogListConfig;
+
+/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+export function createComponentConfig(
+	options?: CreateComponentConfigOptions,
+): ComponentConfig<BlogListProps> {
+	return buildConfig(createT(options));
+}
+
+export const createBlogListConfig = createComponentConfig;

@@ -1,0 +1,16 @@
+{
+	"blog-list.label": "博客列表",
+	"blog-list.fields.posts.label": "文章",
+	"blog-list.fields.posts.itemSummary": "文章 {index}",
+	"blog-list.fields.posts.title.label": "标题",
+	"blog-list.fields.posts.description.label": "描述",
+	"blog-list.fields.posts.href.label": "链接地址",
+	"blog-list.fields.posts.openInNewTab.label": "在新标签页打开",
+	"blog-list.fields.posts.openInNewTab.options.true": "是",
+	"blog-list.fields.posts.openInNewTab.options.false": "否",
+	"blog-list.fields.posts.imageSrc.label": "图片地址",
+	"blog-list.fields.posts.imageAlt.label": "图片替代文本",
+	"blog-list.fields.posts.publishedAt.label": "发布日期（ISO）",
+	"blog-list.fields.posts.publishedLabel.label": "发布日期文案",
+	"blog-list.fields.posts.relativeLabel.label": "相对时间文案"
+}

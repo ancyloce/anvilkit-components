@@ -9,6 +9,8 @@ export { BlogList } from "./BlogList";
 export {
 	blogListConfig,
 	componentConfig,
+	createBlogListConfig,
+	createComponentConfig,
 	defaultProps,
 	defaultProps as blogListDefaultProps,
 	fields,
@@ -16,3 +18,8 @@ export {
 	metadata,
 	metadata as blogListMetadata,
 } from "./config";
+export {
+	type BlogListMessageKey,
+	blogListI18nEntry,
+	type CreateComponentConfigOptions,
+} from "./i18n";

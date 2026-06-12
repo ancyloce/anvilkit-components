@@ -1,0 +1,16 @@
+{
+	"blog-list.label": "ブログリスト",
+	"blog-list.fields.posts.label": "投稿",
+	"blog-list.fields.posts.itemSummary": "投稿 {index}",
+	"blog-list.fields.posts.title.label": "タイトル",
+	"blog-list.fields.posts.description.label": "説明",
+	"blog-list.fields.posts.href.label": "リンク先",
+	"blog-list.fields.posts.openInNewTab.label": "新しいタブで開く",
+	"blog-list.fields.posts.openInNewTab.options.true": "はい",
+	"blog-list.fields.posts.openInNewTab.options.false": "いいえ",
+	"blog-list.fields.posts.imageSrc.label": "画像URL",
+	"blog-list.fields.posts.imageAlt.label": "画像の代替テキスト",
+	"blog-list.fields.posts.publishedAt.label": "公開日（ISO）",
+	"blog-list.fields.posts.publishedLabel.label": "公開日ラベル",
+	"blog-list.fields.posts.relativeLabel.label": "相対時間ラベル"
+}

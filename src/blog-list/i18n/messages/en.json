@@ -1,0 +1,16 @@
+{
+	"blog-list.label": "Blog List",
+	"blog-list.fields.posts.label": "Posts",
+	"blog-list.fields.posts.itemSummary": "Post {index}",
+	"blog-list.fields.posts.title.label": "Title",
+	"blog-list.fields.posts.description.label": "Description",
+	"blog-list.fields.posts.href.label": "Href",
+	"blog-list.fields.posts.openInNewTab.label": "Open in new tab",
+	"blog-list.fields.posts.openInNewTab.options.true": "Yes",
+	"blog-list.fields.posts.openInNewTab.options.false": "No",
+	"blog-list.fields.posts.imageSrc.label": "Image URL",
+	"blog-list.fields.posts.imageAlt.label": "Image alt text",
+	"blog-list.fields.posts.publishedAt.label": "Published ISO date",
+	"blog-list.fields.posts.publishedLabel.label": "Published date label",
+	"blog-list.fields.posts.relativeLabel.label": "Relative label"
+}

@@ -1,0 +1,16 @@
+{
+	"blog-list.label": "블로그 목록",
+	"blog-list.fields.posts.label": "게시물",
+	"blog-list.fields.posts.itemSummary": "게시물 {index}",
+	"blog-list.fields.posts.title.label": "제목",
+	"blog-list.fields.posts.description.label": "설명",
+	"blog-list.fields.posts.href.label": "링크",
+	"blog-list.fields.posts.openInNewTab.label": "새 탭에서 열기",
+	"blog-list.fields.posts.openInNewTab.options.true": "예",
+	"blog-list.fields.posts.openInNewTab.options.false": "아니요",
+	"blog-list.fields.posts.imageSrc.label": "이미지 URL",
+	"blog-list.fields.posts.imageAlt.label": "이미지 대체 텍스트",
+	"blog-list.fields.posts.publishedAt.label": "게시일(ISO)",
+	"blog-list.fields.posts.publishedLabel.label": "게시일 라벨",
+	"blog-list.fields.posts.relativeLabel.label": "상대 시간 라벨"
+}
