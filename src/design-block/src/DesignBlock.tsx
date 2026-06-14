@@ -1,4 +1,8 @@
 import { lazy, Suspense } from "react";
+import {
+	getDesignPreview,
+	isDesignPreviewReference,
+} from "./design-preview-store";
 
 // Edit-mode-only wrapper, loaded via a dynamic import. `registerOverlayPortal`
 // (used inside) pulls the Puck *editor* runtime (@puckeditor/core → @dnd-kit),
@@ -57,7 +61,22 @@ export function DesignBlock({
 }: DesignBlockViewProps) {
 	const ratio = aspectRatioStyle[aspectRatio];
 
-	const content = !previewUrl ? (
+	// Preview resolution. New canvas commits write only a tiny `design://`
+	// reference into the node props (the heavy image bytes live in the
+	// plugin's object-URL store, off Puck's undo history); resolve that
+	// reference — and the default empty-prop case — through the registered
+	// store. A legacy/explicit `previewUrl` that is a real renderable URL
+	// (an inlined data URL or an http asset) is honored as-is. The lookup is
+	// synchronous: the commit's Puck `replace` re-renders this block, so the
+	// freshly stored object URL is picked up without a subscription. On the
+	// server (no store registered) it resolves to `null` → empty state.
+	const resolvedPreview = isDesignPreviewReference(previewUrl)
+		? getDesignPreview(designId, artboardId)
+		: previewUrl && previewUrl.length > 0
+			? previewUrl
+			: getDesignPreview(designId, artboardId);
+
+	const content = !resolvedPreview ? (
 		<div
 			data-testid="design-block-empty"
 			data-design-id={designId}
@@ -74,7 +93,7 @@ export function DesignBlock({
 			style={ratio ? { aspectRatio: ratio } : undefined}
 		>
 			<img
-				src={previewUrl}
+				src={resolvedPreview}
 				alt={alt}
 				className="block h-auto w-full rounded-lg border border-border object-cover"
 				loading="lazy"

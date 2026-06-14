@@ -29,6 +29,14 @@ export type {
 } from "./DesignBlock";
 export { DesignBlock } from "./DesignBlock";
 export {
+	DESIGN_PREVIEW_REFERENCE_PREFIX,
+	type DesignPreviewSource,
+	getDesignPreview,
+	getDesignPreviewSource,
+	isDesignPreviewReference,
+	setDesignPreviewSource,
+} from "./design-preview-store";
+export {
 	type CreateComponentConfigOptions,
 	type DesignBlockMessageKey,
 	designBlockI18nEntry,
