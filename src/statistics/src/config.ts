@@ -21,6 +21,8 @@ export const metadata = {
 
 export const defaultProps = {
 	title: "Statistics",
+	dataSource: "static",
+	metrics: [],
 } satisfies StatisticsProps;
 
 type T = ReturnType<typeof createT>;
@@ -30,6 +32,34 @@ function buildFields(t: T): Fields<StatisticsProps> {
 		title: {
 			type: "text",
 			label: t("statistics.fields.title.label"),
+		},
+		dataSource: {
+			type: "radio",
+			label: t("statistics.fields.dataSource.label"),
+			options: [
+				{
+					label: t("statistics.fields.dataSource.options.static"),
+					value: "static",
+				},
+				{
+					label: t("statistics.fields.dataSource.options.remote_csv"),
+					value: "remote_csv",
+				},
+			],
+		},
+		metrics: {
+			type: "array",
+			label: t("statistics.fields.metrics.label"),
+			arrayFields: {
+				label: {
+					type: "text",
+					label: t("statistics.fields.metrics.fields.label.label"),
+				},
+				value: {
+					type: "text",
+					label: t("statistics.fields.metrics.fields.value.label"),
+				},
+			},
 		},
 	};
 }

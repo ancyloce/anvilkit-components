@@ -1,4 +1,10 @@
 {
 	"statistics.label": "统计",
-	"statistics.fields.title.label": "标题"
+	"statistics.fields.title.label": "标题",
+	"statistics.fields.dataSource.label": "数据源",
+	"statistics.fields.dataSource.options.static": "静态用户输入",
+	"statistics.fields.dataSource.options.remote_csv": "远程数据适配器",
+	"statistics.fields.metrics.label": "指标",
+	"statistics.fields.metrics.fields.label.label": "标签",
+	"statistics.fields.metrics.fields.value.label": "数值"
 }

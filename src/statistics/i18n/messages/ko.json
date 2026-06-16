@@ -1,4 +1,10 @@
 {
 	"statistics.label": "통계",
-	"statistics.fields.title.label": "제목"
+	"statistics.fields.title.label": "제목",
+	"statistics.fields.dataSource.label": "데이터 소스",
+	"statistics.fields.dataSource.options.static": "정적 사용자 입력",
+	"statistics.fields.dataSource.options.remote_csv": "원격 데이터 어댑터",
+	"statistics.fields.metrics.label": "지표",
+	"statistics.fields.metrics.fields.label.label": "레이블",
+	"statistics.fields.metrics.fields.value.label": "값"
 }

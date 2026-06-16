@@ -1,7 +1,20 @@
 import { FlickeringGrid } from "@anvilkit/ui/flickering-grid";
 
+/** A single metric row (label + value). Serializable. */
+export interface StatisticsMetric {
+	label: string;
+	value: string;
+}
+
 export interface StatisticsProps {
 	title: string;
+	/**
+	 * Where `metrics` come from: author-entered (`static`) or resolved
+	 * server-side by the F11 `dataSource` adapter (`remote_csv`). The component
+	 * never fetches — it only renders the resolved `metrics` prop.
+	 */
+	dataSource?: "static" | "remote_csv";
+	metrics?: StatisticsMetric[];
 }
 
 export interface StatisticsViewProps extends StatisticsProps {

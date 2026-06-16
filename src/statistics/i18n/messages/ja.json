@@ -1,4 +1,10 @@
 {
 	"statistics.label": "統計",
-	"statistics.fields.title.label": "タイトル"
+	"statistics.fields.title.label": "タイトル",
+	"statistics.fields.dataSource.label": "データソース",
+	"statistics.fields.dataSource.options.static": "静的ユーザー入力",
+	"statistics.fields.dataSource.options.remote_csv": "リモートデータアダプター",
+	"statistics.fields.metrics.label": "メトリクス",
+	"statistics.fields.metrics.fields.label.label": "ラベル",
+	"statistics.fields.metrics.fields.value.label": "値"
 }
