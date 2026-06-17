@@ -10,5 +10,12 @@
 	"button.fields.openInNewTab.options.false": "否",
 	"button.fields.disabled.label": "禁用",
 	"button.fields.disabled.options.true": "是",
-	"button.fields.disabled.options.false": "否"
+	"button.fields.disabled.options.false": "否",
+	"button.fields.trackClick.label": "追踪点击",
+	"button.fields.trackClick.options.false": "关闭",
+	"button.fields.trackClick.options.true": "开启",
+	"button.fields.eventName.label": "事件名称",
+	"button.fields.eventProps.label": "事件属性",
+	"button.fields.eventProps.fields.category.label": "类别",
+	"button.fields.eventProps.fields.placement.label": "位置"
 }

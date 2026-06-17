@@ -25,6 +25,7 @@ export const defaultProps = {
 	disabled: false,
 	href: "",
 	openInNewTab: false,
+	trackClick: false,
 } satisfies ButtonProps;
 
 type T = ReturnType<typeof createT>;
@@ -81,6 +82,38 @@ function buildFields(t: T): Fields<ButtonProps> {
 				},
 			],
 		},
+		trackClick: {
+			type: "radio",
+			label: t("button.fields.trackClick.label"),
+			options: [
+				{
+					label: t("button.fields.trackClick.options.false"),
+					value: false,
+				},
+				{
+					label: t("button.fields.trackClick.options.true"),
+					value: true,
+				},
+			],
+		},
+		eventName: {
+			type: "text",
+			label: t("button.fields.eventName.label"),
+		},
+		eventProps: {
+			type: "object",
+			label: t("button.fields.eventProps.label"),
+			objectFields: {
+				category: {
+					type: "text",
+					label: t("button.fields.eventProps.fields.category.label"),
+				},
+				placement: {
+					type: "text",
+					label: t("button.fields.eventProps.fields.placement.label"),
+				},
+			},
+		},
 	};
 }
 
@@ -91,6 +124,9 @@ const renderButton: ComponentConfig<ButtonProps>["render"] = ({
 	href,
 	openInNewTab,
 	editMode,
+	trackClick,
+	eventName,
+	eventProps,
 }) =>
 	createElement(Button, {
 		label,
@@ -99,6 +135,9 @@ const renderButton: ComponentConfig<ButtonProps>["render"] = ({
 		href,
 		openInNewTab,
 		editMode,
+		trackClick,
+		eventName,
+		eventProps,
 	});
 
 function buildConfig(t: T): ComponentConfig<ButtonProps> {

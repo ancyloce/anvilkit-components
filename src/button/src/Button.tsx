@@ -1,5 +1,16 @@
+import { useComponentTrack } from "@anvilkit/analytics-react";
 import { Button as BaseButton, buttonVariants } from "@anvilkit/ui/button";
 import { cn } from "@anvilkit/ui/lib/utils";
+
+/**
+ * Optional analytics properties sent with the click event (F13). Declared as a
+ * type alias (not an interface) so it satisfies the helper's
+ * `Record<string, string | undefined>` index signature.
+ */
+export type ButtonEventProps = {
+	category?: string;
+	placement?: string;
+};
 
 export interface ButtonProps {
 	label: string;
@@ -7,6 +18,12 @@ export interface ButtonProps {
 	disabled?: boolean;
 	href?: string;
 	openInNewTab?: boolean;
+	/** Fire an analytics event on click (F13). Default off — render unchanged. */
+	trackClick?: boolean;
+	/** Event name; defaults to `button_click`. */
+	eventName?: string;
+	/** Extra properties merged into the click event. */
+	eventProps?: ButtonEventProps;
 }
 
 export interface ButtonViewProps extends ButtonProps {
@@ -33,10 +50,23 @@ export function Button({
 	href,
 	openInNewTab = false,
 	editMode = false,
+	trackClick = false,
+	eventName,
+	eventProps,
 }: ButtonViewProps) {
 	const isInactive = disabled || editMode;
 	const resolvedHref = isInactive ? undefined : href;
 	const resolvedVariant = getVariant(variant);
+
+	// F13: context-only tracking — no-op without trackClick or a provider, and
+	// never wired while inactive. Attached only when enabled so the default
+	// render stays byte-identical.
+	const fireTrack = useComponentTrack("button", {
+		trackClick,
+		eventName,
+		eventProps,
+	});
+	const onClick = trackClick && !isInactive ? fireTrack : undefined;
 
 	if (href) {
 		return (
@@ -46,6 +76,7 @@ export function Button({
 				rel={resolvedHref && openInNewTab ? "noreferrer noopener" : undefined}
 				aria-disabled={isInactive || undefined}
 				tabIndex={isInactive ? -1 : undefined}
+				onClick={onClick}
 				className={cn(
 					buttonVariants({ size: "lg", variant: resolvedVariant }),
 					baseClassName,
@@ -63,6 +94,7 @@ export function Button({
 			size="lg"
 			disabled={isInactive}
 			aria-disabled={isInactive || undefined}
+			onClick={onClick}
 			className={cn(baseClassName, isInactive && inactiveClassName)}
 		>
 			{label}

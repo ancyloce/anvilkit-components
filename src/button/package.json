@@ -43,12 +43,14 @@
 		"size": "size-limit"
 	},
 	"peerDependencies": {
+		"@anvilkit/analytics-react": "^0.1.0",
 		"@anvilkit/ui": "^0.1.5",
 		"@puckeditor/core": "^0.21.3",
 		"react": ">=19.0.0",
 		"react-dom": ">=19.0.0"
 	},
 	"devDependencies": {
+		"@anvilkit/analytics-react": "workspace:*",
 		"@anvilkit/tailwind-config": "workspace:*",
 		"@anvilkit/ui": "workspace:*"
 	},

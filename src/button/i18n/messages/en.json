@@ -10,5 +10,12 @@
 	"button.fields.openInNewTab.options.false": "No",
 	"button.fields.disabled.label": "Disabled",
 	"button.fields.disabled.options.true": "Yes",
-	"button.fields.disabled.options.false": "No"
+	"button.fields.disabled.options.false": "No",
+	"button.fields.trackClick.label": "Track click",
+	"button.fields.trackClick.options.false": "Off",
+	"button.fields.trackClick.options.true": "On",
+	"button.fields.eventName.label": "Event name",
+	"button.fields.eventProps.label": "Event properties",
+	"button.fields.eventProps.fields.category.label": "Category",
+	"button.fields.eventProps.fields.placement.label": "Placement"
 }

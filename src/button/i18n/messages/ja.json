@@ -10,5 +10,12 @@
 	"button.fields.openInNewTab.options.false": "いいえ",
 	"button.fields.disabled.label": "無効",
 	"button.fields.disabled.options.true": "はい",
-	"button.fields.disabled.options.false": "いいえ"
+	"button.fields.disabled.options.false": "いいえ",
+	"button.fields.trackClick.label": "クリックを追跡",
+	"button.fields.trackClick.options.false": "オフ",
+	"button.fields.trackClick.options.true": "オン",
+	"button.fields.eventName.label": "イベント名",
+	"button.fields.eventProps.label": "イベントプロパティ",
+	"button.fields.eventProps.fields.category.label": "カテゴリ",
+	"button.fields.eventProps.fields.placement.label": "配置"
 }

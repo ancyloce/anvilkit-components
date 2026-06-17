@@ -10,5 +10,12 @@
 	"button.fields.openInNewTab.options.false": "아니요",
 	"button.fields.disabled.label": "비활성화",
 	"button.fields.disabled.options.true": "예",
-	"button.fields.disabled.options.false": "아니요"
+	"button.fields.disabled.options.false": "아니요",
+	"button.fields.trackClick.label": "클릭 추적",
+	"button.fields.trackClick.options.false": "끄기",
+	"button.fields.trackClick.options.true": "켜기",
+	"button.fields.eventName.label": "이벤트 이름",
+	"button.fields.eventProps.label": "이벤트 속성",
+	"button.fields.eventProps.fields.category.label": "카테고리",
+	"button.fields.eventProps.fields.placement.label": "배치"
 }
