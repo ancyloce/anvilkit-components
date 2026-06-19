@@ -9,13 +9,11 @@ export type {
 	BentoGridProps,
 	BentoGridTheme,
 	BentoGridViewProps,
-} from "./BentoGrid";
-export {
-	BentoCard,
-	BentoGrid,
-	BentoGridExample,
-	bentoGridExampleItems,
-} from "./BentoGrid";
+} from "./types";
+export { BentoCard } from "./BentoCard";
+export { BentoGrid } from "./BentoGrid";
+export { BentoGridExample } from "./BentoGridExample";
+export { bentoGridExampleItems } from "./data";
 export {
 	bentoGridConfig,
 	componentConfig,

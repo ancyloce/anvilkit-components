@@ -5,9 +5,10 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
-import type { BentoGridProps } from "./BentoGrid";
-import { BentoGrid, bentoGridExampleItems } from "./BentoGrid";
+import { BentoGrid } from "./BentoGrid";
+import { bentoGridExampleItems } from "./data";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
+import type { BentoGridProps } from "./types";
 
 export const metadata = {
 	componentName: "BentoGrid",
