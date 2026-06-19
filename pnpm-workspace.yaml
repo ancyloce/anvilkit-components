@@ -1,0 +1,8 @@
+packages:
+  - "src/*"
+  - "../analytics/*"
+  - "../configs/*"
+  - "../ui"
+minimumReleaseAge: 10080
+trustPolicy: no-downgrade
+blockExoticSubdeps: true
