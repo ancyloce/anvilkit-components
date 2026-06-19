@@ -31,10 +31,6 @@ export interface PricingMinimalViewProps extends PricingMinimalProps {
 	editMode?: boolean;
 }
 
-function renderAnchor(href?: string, target?: string, rel?: string) {
-	return <a href={href} target={target} rel={rel} />;
-}
-
 function getPlanKey(plan: PricingPlan, index: number) {
 	return [plan.name, plan.price, plan.ctaLabel, index]
 		.filter(Boolean)
@@ -60,11 +56,14 @@ function PricingPlanButton({
 	if (isInteractive) {
 		return (
 			<BaseButton
-				render={renderAnchor(
-					plan.ctaHref,
-					plan.ctaOpenInNewTab ? "_blank" : undefined,
-					plan.ctaOpenInNewTab ? "noreferrer noopener" : undefined,
-				)}
+				render={
+					<a
+						href={plan.ctaHref}
+						target={plan.ctaOpenInNewTab ? "_blank" : undefined}
+						rel={plan.ctaOpenInNewTab ? "noreferrer noopener" : undefined}
+						aria-label={plan.ctaLabel}
+					/>
+				}
 				nativeButton={false}
 				variant={isFeatured ? "default" : "outline"}
 				size="lg"

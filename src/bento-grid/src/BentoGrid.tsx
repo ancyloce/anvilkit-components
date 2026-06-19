@@ -8,8 +8,10 @@ import {
 import type { BentoGridViewProps } from "./types";
 import { cn, getItemKey } from "./utils";
 
+const EMPTY_BENTO_GRID_ITEMS: NonNullable<BentoGridViewProps["items"]> = [];
+
 export function BentoGrid({
-	items = [],
+	items = EMPTY_BENTO_GRID_ITEMS,
 	children,
 	className,
 	platform = "adaptive",

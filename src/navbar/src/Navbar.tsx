@@ -71,6 +71,8 @@ export interface NavbarViewProps extends Omit<NavbarProps, "actions"> {
 	editMode?: boolean;
 }
 
+const EMPTY_NAVBAR_ACTIONS: NavbarActionViewProps[] = [];
+
 const logoTextClassName =
 	"text-[1.05rem] font-semibold tracking-[-0.03em] text-foreground";
 
@@ -263,7 +265,7 @@ function renderMobileMenuItem(
 	);
 }
 
-function renderMobileToggleIcon(isOpen: boolean) {
+function MobileToggleIcon({ isOpen }: { isOpen: boolean }) {
 	if (isOpen) {
 		return (
 			<XIcon aria-hidden="true" className="size-[1.125rem]" strokeWidth={2} />
@@ -279,7 +281,7 @@ export function Navbar({
 	logo,
 	logoNode,
 	items,
-	actions = [],
+	actions = EMPTY_NAVBAR_ACTIONS,
 	active,
 	menuOpenLabel = "Open navigation menu",
 	menuCloseLabel = "Close navigation menu",
@@ -340,7 +342,7 @@ export function Navbar({
 								<span className="sr-only">
 									{isMobileMenuOpen ? menuCloseLabel : menuOpenLabel}
 								</span>
-								{renderMobileToggleIcon(isMobileMenuOpen)}
+								<MobileToggleIcon isOpen={isMobileMenuOpen} />
 							</BaseButton>
 						</div>
 					) : null}

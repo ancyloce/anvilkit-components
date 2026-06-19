@@ -24,6 +24,12 @@ const cardBaseClassName =
 const cardInteractiveClassName =
 	"hover:bg-secondary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 
+const publishedDateFormatter = new Intl.DateTimeFormat("en-US", {
+	month: "long",
+	day: "numeric",
+	year: "numeric",
+});
+
 function formatPublishedLabel(post: BlogListPost) {
 	if (post.publishedLabel?.trim()) {
 		return post.publishedLabel.trim();
@@ -35,11 +41,7 @@ function formatPublishedLabel(post: BlogListPost) {
 		return post.publishedAt;
 	}
 
-	return new Intl.DateTimeFormat("en-US", {
-		month: "long",
-		day: "numeric",
-		year: "numeric",
-	}).format(publishedDate);
+	return publishedDateFormatter.format(publishedDate);
 }
 
 function getPublishedText(post: BlogListPost) {

@@ -32,10 +32,6 @@ interface DownloadButtonProps {
 const ctaBaseClassName =
 	"h-12 w-full max-w-[22rem] rounded-[0.95rem] px-6 text-sm font-semibold shadow-none sm:h-14 sm:w-auto sm:min-w-[15.5rem] sm:px-7 sm:text-base lg:h-[3.75rem] lg:min-w-[17rem] lg:text-[1.125rem]";
 
-function renderAnchor(href?: string, target?: string, rel?: string) {
-	return <a href={href} target={target} rel={rel} />;
-}
-
 function DownloadButton({
 	label,
 	href,
@@ -49,11 +45,14 @@ function DownloadButton({
 	if (isInteractive) {
 		return (
 			<BaseButton
-				render={renderAnchor(
-					href,
-					openInNewTab ? "_blank" : undefined,
-					openInNewTab ? "noreferrer noopener" : undefined,
-				)}
+				render={
+					<a
+						href={href}
+						target={openInNewTab ? "_blank" : undefined}
+						rel={openInNewTab ? "noreferrer noopener" : undefined}
+						aria-label={label}
+					/>
+				}
 				nativeButton={false}
 				variant={variant}
 				size="lg"
