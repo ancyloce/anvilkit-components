@@ -1,0 +1,24 @@
+diff --git a/internals/composite/root/useCompositeRoot.js b/internals/composite/root/useCompositeRoot.js
+--- a/internals/composite/root/useCompositeRoot.js
++++ b/internals/composite/root/useCompositeRoot.js
+@@ -243,7 +243,7 @@ function isModifierKeySet(event, ignoredModifierKeys) {
+     if (ignoredModifierKeys.includes(key)) {
+       continue;
+     }
+-    if (event.getModifierState(key)) {
++    if (typeof event.getModifierState === 'function' && event.getModifierState(key)) {
+       return true;
+     }
+   }
+diff --git a/internals/composite/root/useCompositeRoot.mjs b/internals/composite/root/useCompositeRoot.mjs
+--- a/internals/composite/root/useCompositeRoot.mjs
++++ b/internals/composite/root/useCompositeRoot.mjs
+@@ -237,7 +237,7 @@ function isModifierKeySet(event, ignoredModifierKeys) {
+     if (ignoredModifierKeys.includes(key)) {
+       continue;
+     }
+-    if (event.getModifierState(key)) {
++    if (typeof event.getModifierState === 'function' && event.getModifierState(key)) {
+       return true;
+     }
+   }
