@@ -6,6 +6,33 @@ packages:
 minimumReleaseAge: 10080
 trustPolicy: no-downgrade
 blockExoticSubdeps: true
+# pnpm 11 reads build-script approvals from pnpm-workspace.yaml, NOT from
+# .npmrc — `strict-dep-builds` / `verify-deps-before-run` set in this
+# workspace's .npmrc resolve to `undefined` (verify with `pnpm config get`)
+# and are silently dead. Without these keys here, turbo's `pnpm run build`
+# inside a component leaf triggers pnpm 11's deps-status auto-install, which
+# then fails with [ERR_PNPM_IGNORED_BUILDS] on core-js/esbuild/msw. Mirror
+# the repo-root pnpm-workspace.yaml so the same mitigations actually apply to
+# this nested workspace.
+#
+# allowBuilds: acknowledge each package's install script and decline to run
+# it (native bindings come from prebuilt platform packages / aren't needed at
+# build time), which suppresses the ignored-builds hard error.
+allowBuilds:
+  '@parcel/watcher': false
+  core-js: false
+  esbuild: false
+  leveldown: false
+  msgpackr-extract: false
+  msw: false
+  sharp: false
+# Disable the pre-`run` deps-status check; CI installs this workspace
+# explicitly before builds, and the turbo-triggered auto-install is both slow
+# and (pre-allowBuilds) a failure source.
+verifyDepsBeforeRun: false
+# Belt-and-suspenders: downgrade ignored-build scripts from a hard error to a
+# warning even if allowBuilds ever misses an entry.
+strictDepBuilds: false
 minimumReleaseAgeExclude:
   - '@base-ui/react@1.6.0'
   - '@base-ui/utils@0.3.1'
