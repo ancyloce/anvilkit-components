@@ -64,9 +64,13 @@ const config: Config<{ Statistics: StatisticsProps }> = {
 
 Derived from the exported `StatisticsProps` type and the Puck `fields` schema.
 
-| Prop    | Type     | Default        | Description                  |
-| ------- | -------- | -------------- | ---------------------------- |
-| `title` | `string` | `"Statistics"` | Uppercase header title text. |
+| Prop         | Type                            | Default        | Description                                                          |
+| ------------ | ------------------------------- | -------------- | ------------------------------------------------------------------- |
+| `title`      | `string`                        | `"Statistics"` | Uppercase header title text.                                        |
+| `dataSource` | `"static"` \| `"remote_csv"`    | `"static"`     | Where metrics come from: author-entered or host-resolved CSV.       |
+| `metrics`    | `StatisticsMetric[]`            | `[]`           | Resolved metric rows (each `{ label, value }`).                     |
+| `metrics[].label` | `string`                   | —              | Metric label.                                                       |
+| `metrics[].value` | `string`                   | —              | Metric value.                                                       |
 
 ## Theme & Responsiveness
 

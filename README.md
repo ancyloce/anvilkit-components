@@ -14,8 +14,18 @@
 │       ├── config.ts
 │       └── templates
 └── src
+      ├── bento-grid
+      ├── blog-list
       ├── button
-      └── input
+      ├── design-block
+      ├── helps
+      ├── hero
+      ├── input
+      ├── logo-clouds
+      ├── navbar
+      ├── pricing-minimal
+      ├── section
+      └── statistics
 ```
 
 Each folder in `src/*` is its own npm package. Every package is designed to work with Puck's `ComponentConfig` API and exports:
@@ -29,8 +39,18 @@ Each folder in `src/*` is its own npm package. Every package is designed to work
 
 The current packages include:
 
+- `src/bento-grid` -> `@anvilkit/bento-grid`
+- `src/blog-list` -> `@anvilkit/blog-list`
 - `src/button` -> `@anvilkit/button`
+- `src/design-block` -> `@anvilkit/design-block`
+- `src/helps` -> `@anvilkit/helps`
+- `src/hero` -> `@anvilkit/hero`
 - `src/input` -> `@anvilkit/input`
+- `src/logo-clouds` -> `@anvilkit/logo-clouds`
+- `src/navbar` -> `@anvilkit/navbar`
+- `src/pricing-minimal` -> `@anvilkit/pricing-minimal`
+- `src/section` -> `@anvilkit/section`
+- `src/statistics` -> `@anvilkit/statistics`
 
 ## Local Development
 

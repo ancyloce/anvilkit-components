@@ -77,13 +77,16 @@ const config: Config<{ Button: ButtonProps }> = {
 
 Derived from the exported `ButtonProps` type and the Puck `fields` schema.
 
-| Prop           | Type                         | Default          | Description                           |
-| -------------- | ---------------------------- | ---------------- | ------------------------------------- |
-| `label`        | `string`                     | `"Save changes"` | Button label text.                    |
-| `variant`      | `"primary"` \| `"secondary"` | `"primary"`      | Visual variant.                       |
-| `href`         | `string`                     | `""`             | Link URL; renders an anchor when set. |
-| `openInNewTab` | `boolean`                    | `false`          | Open the link in a new tab.           |
-| `disabled`     | `boolean`                    | `false`          | Disable interaction.                  |
+| Prop           | Type                         | Default          | Description                                                  |
+| -------------- | ---------------------------- | ---------------- | ----------------------------------------------------------- |
+| `label`        | `string`                     | `"Save changes"` | Button label text.                                          |
+| `variant`      | `"primary"` \| `"secondary"` | `"primary"`      | Visual variant.                                             |
+| `href`         | `string`                     | `""`             | Link URL; renders an anchor when set.                       |
+| `openInNewTab` | `boolean`                    | `false`          | Open the link in a new tab.                                 |
+| `disabled`     | `boolean`                    | `false`          | Disable interaction.                                        |
+| `trackClick`   | `boolean`                    | `false`          | Fire an analytics event on click (requires an analytics provider). |
+| `eventName`    | `string`                     | —                | Event name; defaults to `button_click`.                     |
+| `eventProps`   | `{ category?: string; placement?: string }` | — | Extra properties merged into the click event.               |
 
 ## Theme & Responsiveness
 
