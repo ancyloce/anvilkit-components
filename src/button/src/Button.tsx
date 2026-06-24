@@ -1,3 +1,5 @@
+"use client";
+
 import { useComponentTrack } from "@anvilkit/analytics-react";
 import { Button as BaseButton, buttonVariants } from "@anvilkit/ui/button";
 import { cn } from "@anvilkit/ui/lib/utils";
