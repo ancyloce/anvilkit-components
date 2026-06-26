@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "private": true,
   "license": "MIT",
-  "packageManager": "pnpm@11.5.1",
+  "packageManager": "pnpm@11.9.0",
   "engines": {
     "node": ">=18"
   },
@@ -24,10 +24,10 @@
     "@anvilkit/tailwind-config": "workspace:*",
     "@anvilkit/typescript-config": "workspace:*",
     "@anvilkit/vitest-config": "workspace:*",
-    "@biomejs/biome": "2.4.16",
+    "@biomejs/biome": "2.5.1",
     "@changesets/cli": "^2.31.0",
-    "@puckeditor/core": "^0.21.3",
-    "@rsbuild/plugin-react": "^2.0.0",
+    "@puckeditor/core": "^0.22.0",
+    "@rsbuild/plugin-react": "^2.1.0",
     "@rslib/core": "^0.23.0",
     "@turbo/gen": "^2.9.14",
     "@types/react": "^19.2.17",
