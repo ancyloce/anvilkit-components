@@ -24,7 +24,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  COMPONENTS_DIR: ${{ github.workspace }}/workspace/packages/components
+  COMPONENTS_DIR: ${{ github.workspace }}/workspace/packages/extensions/components
   SUPPORT_DIR: ${{ github.workspace }}/workspace/support
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          path: workspace/packages/components
+          path: workspace/packages/extensions/components
 
       - name: Check out monorepo workspace dependencies
         uses: actions/checkout@v4
@@ -48,8 +48,8 @@ jobs:
           ref: ${{ inputs.support_ref || 'main' }}
           fetch-depth: 1
           sparse-checkout: |
-            packages/configs
-            packages/ui
+            packages/tooling/configs
+            packages/runtime/ui
           path: workspace/support
 
       - name: Set up pnpm
@@ -63,7 +63,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          cache-dependency-path: workspace/packages/components/pnpm-lock.yaml
+          cache-dependency-path: workspace/packages/extensions/components/pnpm-lock.yaml
           registry-url: "https://registry.npmjs.org"
 
       - name: Prepare monorepo-style workspace
@@ -71,8 +71,8 @@ jobs:
           set -euo pipefail
 
           mkdir -p "${GITHUB_WORKSPACE}/workspace/packages"
-          rsync -a --delete "${SUPPORT_DIR}/packages/configs/" "${GITHUB_WORKSPACE}/workspace/packages/configs/"
-          rsync -a --delete "${SUPPORT_DIR}/packages/ui/" "${GITHUB_WORKSPACE}/workspace/packages/ui/"
+          rsync -a --delete "${SUPPORT_DIR}/packages/tooling/configs/" "${GITHUB_WORKSPACE}/workspace/packages/tooling/configs/"
+          rsync -a --delete "${SUPPORT_DIR}/packages/runtime/ui/" "${GITHUB_WORKSPACE}/workspace/packages/runtime/ui/"
 
       - name: Resolve release metadata
         id: release

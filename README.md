@@ -80,7 +80,7 @@ pnpm typecheck
 
 ## Add A New Component Package
 
-From `packages/components`, run:
+From `packages/extensions/components`, run:
 
 ```sh
 pnpm gen:component

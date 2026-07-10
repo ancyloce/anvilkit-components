@@ -10,19 +10,19 @@ importers:
     devDependencies:
       '@anvilkit/biome-config':
         specifier: workspace:*
-        version: link:../configs/biome-config
+        version: link:../../tooling/configs/biome
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../configs/tailwind-config
+        version: link:../../tooling/configs/tailwind
       '@anvilkit/typescript-config':
         specifier: workspace:*
-        version: link:../configs/typescript-config
+        version: link:../../tooling/configs/typescript
       '@anvilkit/vitest-config':
         specifier: workspace:*
-        version: link:../configs/vitest-config
+        version: link:../../tooling/configs/vitest
       '@biomejs/biome':
-        specifier: 2.5.1
-        version: 2.5.1
+        specifier: 2.5.3
+        version: 2.5.3
       '@changesets/cli':
         specifier: ^2.31.0
         version: 2.31.0(@types/node@26.0.1)
@@ -60,17 +60,17 @@ importers:
         specifier: ^4.1.9
         version: 4.1.9(@types/node@26.0.1)(happy-dom@20.10.6)(jsdom@29.1.1)(vite@8.0.16(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
 
-  ../analytics/core:
+  ../../capabilities/analytics/core:
     devDependencies:
       '@anvilkit/biome-config':
         specifier: workspace:*
-        version: link:../../configs/biome-config
+        version: link:../../../tooling/configs/biome
       '@anvilkit/typescript-config':
         specifier: workspace:*
-        version: link:../../configs/typescript-config
+        version: link:../../../tooling/configs/typescript
       '@anvilkit/vitest-config':
         specifier: workspace:*
-        version: link:../../configs/vitest-config
+        version: link:../../../tooling/configs/vitest
       '@rslib/core':
         specifier: ^0.23.0
         version: 0.23.0(core-js@3.49.0)(typescript@6.0.3)
@@ -99,7 +99,7 @@ importers:
         specifier: ^4.1.9
         version: 4.1.9(@types/node@26.0.1)(happy-dom@20.10.6)(jsdom@29.1.1)(vite@8.0.16(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
 
-  ../analytics/react:
+  ../../capabilities/analytics/react:
     dependencies:
       '@anvilkit/analytics-core':
         specifier: workspace:*
@@ -107,13 +107,13 @@ importers:
     devDependencies:
       '@anvilkit/biome-config':
         specifier: workspace:*
-        version: link:../../configs/biome-config
+        version: link:../../../tooling/configs/biome
       '@anvilkit/typescript-config':
         specifier: workspace:*
-        version: link:../../configs/typescript-config
+        version: link:../../../tooling/configs/typescript
       '@anvilkit/vitest-config':
         specifier: workspace:*
-        version: link:../../configs/vitest-config
+        version: link:../../../tooling/configs/vitest
       '@rsbuild/plugin-react':
         specifier: ^2.1.0
         version: 2.1.0(@rsbuild/core@2.0.15(core-js@3.49.0))(@rspack/core@2.0.8(@swc/helpers@0.5.23))
@@ -163,51 +163,7 @@ importers:
         specifier: ^4.1.9
         version: 4.1.9(@types/node@26.0.1)(happy-dom@20.10.6)(jsdom@29.1.1)(vite@8.0.16(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
 
-  ../configs/biome-config: {}
-
-  ../configs/tailwind-config:
-    dependencies:
-      '@tailwindcss/postcss':
-        specifier: 4.3.1
-        version: 4.3.1
-      postcss:
-        specifier: 8.5.8
-        version: 8.5.8
-      shadcn:
-        specifier: ^4.1.1
-        version: 4.11.0(typescript@6.0.3)
-      tailwindcss:
-        specifier: 4.3.1
-        version: 4.3.1
-      tw-animate-css:
-        specifier: ^1.4.0
-        version: 1.4.0
-
-  ../configs/typescript-config: {}
-
-  ../configs/vitest-config:
-    dependencies:
-      jsdom:
-        specifier: ^29.0.0
-        version: 29.1.1
-    devDependencies:
-      '@anvilkit/biome-config':
-        specifier: workspace:*
-        version: link:../biome-config
-      '@anvilkit/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-      '@testing-library/jest-dom':
-        specifier: ^6.9.1
-        version: 6.9.1
-      typescript:
-        specifier: 6.0.3
-        version: 6.0.3
-      vitest:
-        specifier: ^4.1.9
-        version: 4.1.9(@types/node@26.0.1)(happy-dom@20.10.6)(jsdom@29.1.1)(vite@8.0.16(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
-
-  ../ui:
+  ../../runtime/ui:
     dependencies:
       '@base-ui/react':
         specifier: ^1.4.1
@@ -260,13 +216,13 @@ importers:
     devDependencies:
       '@anvilkit/biome-config':
         specifier: workspace:*
-        version: link:../configs/biome-config
+        version: link:../../tooling/configs/biome
       '@anvilkit/typescript-config':
         specifier: workspace:*
-        version: link:../configs/typescript-config
+        version: link:../../tooling/configs/typescript
       '@anvilkit/vitest-config':
         specifier: workspace:*
-        version: link:../configs/vitest-config
+        version: link:../../tooling/configs/vitest
       '@rsbuild/plugin-react':
         specifier: ^2.1.0
         version: 2.1.0(@rsbuild/core@2.0.15(core-js@3.49.0))(@rspack/core@2.0.8(@swc/helpers@0.5.23))
@@ -307,6 +263,50 @@ importers:
         specifier: ^4.1.9
         version: 4.1.9(@types/node@26.0.1)(happy-dom@20.10.6)(jsdom@29.1.1)(vite@8.0.16(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
 
+  ../../tooling/configs/biome: {}
+
+  ../../tooling/configs/tailwind:
+    dependencies:
+      '@tailwindcss/postcss':
+        specifier: 4.3.1
+        version: 4.3.1
+      postcss:
+        specifier: 8.5.8
+        version: 8.5.8
+      shadcn:
+        specifier: ^4.1.1
+        version: 4.11.0(typescript@6.0.3)
+      tailwindcss:
+        specifier: 4.3.1
+        version: 4.3.1
+      tw-animate-css:
+        specifier: ^1.4.0
+        version: 1.4.0
+
+  ../../tooling/configs/typescript: {}
+
+  ../../tooling/configs/vitest:
+    dependencies:
+      jsdom:
+        specifier: ^29.0.0
+        version: 29.1.1
+    devDependencies:
+      '@anvilkit/biome-config':
+        specifier: workspace:*
+        version: link:../biome
+      '@anvilkit/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript
+      '@testing-library/jest-dom':
+        specifier: ^6.9.1
+        version: 6.9.1
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: ^4.1.9
+        version: 4.1.9(@types/node@26.0.1)(happy-dom@20.10.6)(jsdom@29.1.1)(vite@8.0.16(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
+
   src/bento-grid:
     dependencies:
       '@puckeditor/core':
@@ -324,7 +324,7 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
 
   src/blog-list:
     dependencies:
@@ -340,7 +340,7 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
 
   src/button:
     dependencies:
@@ -356,13 +356,13 @@ importers:
     devDependencies:
       '@anvilkit/analytics-react':
         specifier: workspace:*
-        version: link:../../../analytics/react
+        version: link:../../../../capabilities/analytics/react
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
   src/design-block:
     dependencies:
@@ -378,7 +378,7 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
 
   src/helps:
     dependencies:
@@ -397,10 +397,10 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
   src/hero:
     dependencies:
@@ -416,10 +416,10 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
   src/input:
     dependencies:
@@ -435,10 +435,10 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
   src/logo-clouds:
     dependencies:
@@ -454,10 +454,10 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
   src/navbar:
     dependencies:
@@ -476,10 +476,10 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
   src/pricing-minimal:
     dependencies:
@@ -498,10 +498,10 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
   src/section:
     dependencies:
@@ -517,10 +517,10 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
   src/statistics:
     dependencies:
@@ -536,10 +536,10 @@ importers:
     devDependencies:
       '@anvilkit/tailwind-config':
         specifier: workspace:*
-        version: link:../../../configs/tailwind-config
+        version: link:../../../../tooling/configs/tailwind
       '@anvilkit/ui':
         specifier: workspace:*
-        version: link:../../../ui
+        version: link:../../../../runtime/ui
 
 packages:
 
@@ -787,59 +787,59 @@ packages:
       '@types/react':
         optional: true
 
-  '@biomejs/biome@2.5.1':
-    resolution: {integrity: sha512-IXWLCxKmae+rI7LOHS1B3EbVisQ6GRAWbhN9msa6KjNCyFWrvKZWR4oUdinaNssrV852OrSHuSPa95h1GPJc7Q==}
+  '@biomejs/biome@2.5.3':
+    resolution: {integrity: sha512-MrJswFdei9EfDwwUy2tQrPDpK0AO+RmMFvBoaaJ6ayBc3sUbHdCE+XG5N8vp+5So41ZupZJQm0roHFFhMGVD7A==}
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/cli-darwin-arm64@2.5.1':
-    resolution: {integrity: sha512-npqDzvqv7vFaWRiNN1Te71siRgPaqS9MpqgYCdP/CrUbkJ7ApezaeaKjueKHRN/JH/6lRjJQAHi8acQDCAz22w==}
+  '@biomejs/cli-darwin-arm64@2.5.3':
+    resolution: {integrity: sha512-QhYP9muVQ0nUO5zztFuPbEwi4+94sJWVjaZds9aMi1l/KNZBiUjdiSUrGHsTaMGDXrYl+r4AS2sUKfgH3w+V3g==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@2.5.1':
-    resolution: {integrity: sha512-RgwTqPAM8g2tn1j+b5oRjF/DbSBX8a4gwojtuG9XuhfK7GgomvZ9+T+tqjXiVbjLEeGJOoL6VEk8mvRTVeSybw==}
+  '@biomejs/cli-darwin-x64@2.5.3':
+    resolution: {integrity: sha512-NC1Ss13UaW7QZX+y8j44bF7AP0jSJdBl6iRhe0MAkvaSqZy+mWg3GaXsrb+eSoHoGDBtaXWEbMVV0iVN2cZ7cQ==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-linux-arm64-musl@2.5.1':
-    resolution: {integrity: sha512-WMcvMLgByyTqVxGlq918NBBYliq9FRR9GAQVETHb+VjGVqXCZFfHlZHC1FX4ibuYY/Hg6TJE3rHU0xVrdJXNRw==}
+  '@biomejs/cli-linux-arm64-musl@2.5.3':
+    resolution: {integrity: sha512-fccix0w6xp6csCXgxeC0dU/3ecgRQal0y+cv2SP9ajNlhe7Yrk2Ug7UDe2j9AT9ZDYitkXpvUKgZjjuoYeP4Vg==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-arm64@2.5.1':
-    resolution: {integrity: sha512-yhV35CzZh38VyMvTEXi3JTjxZBs++oCKK9KG8vB6VI5+uvQvZNR3BFWEKKzuOmx9DJJj7sQpZ4LQJcmbGTs3+Q==}
+  '@biomejs/cli-linux-arm64@2.5.3':
+    resolution: {integrity: sha512-ksx1KWeyYW18ILL04msF/J4ZBtBDN33znYK8Z/aNv/vlBVxL9/g3mGP+omgHJKy4+KWbK87vcmmpmurfNjSgiA==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-linux-x64-musl@2.5.1':
-    resolution: {integrity: sha512-ANTowtlLmPYm5yeMckWY8Xzb9Ix+JJP3tgHR/n6xRj1VWyIzzWtfRfih9hv9VmClwadpBvZduISZIbBsIlYG3A==}
+  '@biomejs/cli-linux-x64-musl@2.5.3':
+    resolution: {integrity: sha512-O/yU9YKRUiHhmcjF2f38PSjseVk3G4VLWYc0G2HWpzdBVREV6G8IGWIVEFf7MFPfWIzNUIvPsEjeAZQIOgnLcQ==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-x64@2.5.1':
-    resolution: {integrity: sha512-J/7uHSX7NfoYDI7HijAkd8lnQIOrRb2W7j3X+tw4R+N5ExvXGsyXFiGdQcfcxfOmNQmZVSQOCDk757fwpzqQcg==}
+  '@biomejs/cli-linux-x64@2.5.3':
+    resolution: {integrity: sha512-yMkJtilsgvILDcVkh187aVLTb64xYsrxYajx5kym+r1ULkO5HUOfu9AYKLGQbOVLwJtT2utNw7hhFNg+17mUYA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-win32-arm64@2.5.1':
-    resolution: {integrity: sha512-zgXnKNgWPC4iPF7Y1lR3STUeCUuZRpD6IiOrC7TZTlh0Lx6FiVUT05myuMQHQ9D+1cc7uyMldi4forE6lp0ivQ==}
+  '@biomejs/cli-win32-arm64@2.5.3':
+    resolution: {integrity: sha512-cX5z+GYwRcqEok0AH3KSfQGgqYd0Nomfp6Fbe1uiTtELE38hdH2k842wQ9wLNaF/JJ7r4rjJQ4VR+ce+fRmQbw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-x64@2.5.1':
-    resolution: {integrity: sha512-6uxpR9hvaglANkZemeSiN/FhYgkGasrEGn267eXIWvjrjJ2LhDlk251IhjVJq6MXzkV2/bcXwLwSroLyPtqRZg==}
+  '@biomejs/cli-win32-x64@2.5.3':
+    resolution: {integrity: sha512-ExSaJWi4/u6+GXCszlSKpWSjKNbDseAYqqkCznsCsZ/4uidZ/BEqsCc5/3ctlq6dfIubdIIRSVLC/PG9xPl70Q==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -2382,9 +2382,6 @@ packages:
 
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
-
-  '@types/node@26.0.0':
-    resolution: {integrity: sha512-vf2YFi1iY9lHGwNJMs01biZFbKJkrZR1T6/MlzjhJLPdntOHLhTrDSnSVcdtvjihi4VQNlrFRIxLsDBlQpAipA==}
 
   '@types/node@26.0.1':
     resolution: {integrity: sha512-fc3KiUoBt6kie0N9bIW3E47vZsuaMf0PM2AaUpLCLT0s/LvX1nxAim6Fc049cNxODPpGm6qRAuUOB86SkRuPQw==}
@@ -5238,39 +5235,39 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.17
 
-  '@biomejs/biome@2.5.1':
+  '@biomejs/biome@2.5.3':
     optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 2.5.1
-      '@biomejs/cli-darwin-x64': 2.5.1
-      '@biomejs/cli-linux-arm64': 2.5.1
-      '@biomejs/cli-linux-arm64-musl': 2.5.1
-      '@biomejs/cli-linux-x64': 2.5.1
-      '@biomejs/cli-linux-x64-musl': 2.5.1
-      '@biomejs/cli-win32-arm64': 2.5.1
-      '@biomejs/cli-win32-x64': 2.5.1
+      '@biomejs/cli-darwin-arm64': 2.5.3
+      '@biomejs/cli-darwin-x64': 2.5.3
+      '@biomejs/cli-linux-arm64': 2.5.3
+      '@biomejs/cli-linux-arm64-musl': 2.5.3
+      '@biomejs/cli-linux-x64': 2.5.3
+      '@biomejs/cli-linux-x64-musl': 2.5.3
+      '@biomejs/cli-win32-arm64': 2.5.3
+      '@biomejs/cli-win32-x64': 2.5.3
 
-  '@biomejs/cli-darwin-arm64@2.5.1':
+  '@biomejs/cli-darwin-arm64@2.5.3':
     optional: true
 
-  '@biomejs/cli-darwin-x64@2.5.1':
+  '@biomejs/cli-darwin-x64@2.5.3':
     optional: true
 
-  '@biomejs/cli-linux-arm64-musl@2.5.1':
+  '@biomejs/cli-linux-arm64-musl@2.5.3':
     optional: true
 
-  '@biomejs/cli-linux-arm64@2.5.1':
+  '@biomejs/cli-linux-arm64@2.5.3':
     optional: true
 
-  '@biomejs/cli-linux-x64-musl@2.5.1':
+  '@biomejs/cli-linux-x64-musl@2.5.3':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.5.1':
+  '@biomejs/cli-linux-x64@2.5.3':
     optional: true
 
-  '@biomejs/cli-win32-arm64@2.5.1':
+  '@biomejs/cli-win32-arm64@2.5.3':
     optional: true
 
-  '@biomejs/cli-win32-x64@2.5.1':
+  '@biomejs/cli-win32-x64@2.5.3':
     optional: true
 
   '@bramus/specificity@2.4.2':
@@ -6731,10 +6728,6 @@ snapshots:
 
   '@types/node@12.20.55': {}
 
-  '@types/node@26.0.0':
-    dependencies:
-      undici-types: 8.3.0
-
   '@types/node@26.0.1':
     dependencies:
       undici-types: 8.3.0
@@ -6760,7 +6753,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 26.0.0
+      '@types/node': 26.0.1
 
   '@typescript-eslint/project-service@8.61.1(typescript@5.9.3)':
     dependencies:
@@ -6990,7 +6983,7 @@ snapshots:
 
   buffer-image-size@0.6.4:
     dependencies:
-      '@types/node': 26.0.0
+      '@types/node': 26.0.1
 
   buffer@5.7.1:
     dependencies:
@@ -7680,7 +7673,7 @@ snapshots:
 
   happy-dom@20.10.6:
     dependencies:
-      '@types/node': 26.0.0
+      '@types/node': 26.0.1
       '@types/whatwg-mimetype': 3.0.2
       '@types/ws': 8.18.1
       buffer-image-size: 0.6.4

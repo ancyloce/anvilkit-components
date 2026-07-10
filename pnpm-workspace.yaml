@@ -1,8 +1,8 @@
 packages:
   - "src/*"
-  - "../analytics/*"
-  - "../configs/*"
-  - "../ui"
+  - "../../capabilities/analytics/*"
+  - "../../tooling/configs/*"
+  - "../../runtime/ui"
 minimumReleaseAge: 10080
 trustPolicy: no-downgrade
 blockExoticSubdeps: true
@@ -36,15 +36,15 @@ strictDepBuilds: false
 minimumReleaseAgeExclude:
   - '@base-ui/react@1.6.0'
   - '@base-ui/utils@0.3.1'
-  - '@biomejs/biome@2.5.1'
-  - '@biomejs/cli-darwin-arm64@2.5.1'
-  - '@biomejs/cli-darwin-x64@2.5.1'
-  - '@biomejs/cli-linux-arm64-musl@2.5.1'
-  - '@biomejs/cli-linux-arm64@2.5.1'
-  - '@biomejs/cli-linux-x64-musl@2.5.1'
-  - '@biomejs/cli-linux-x64@2.5.1'
-  - '@biomejs/cli-win32-arm64@2.5.1'
-  - '@biomejs/cli-win32-x64@2.5.1'
+  - '@biomejs/biome@2.5.1 || 2.5.3'
+  - '@biomejs/cli-darwin-arm64@2.5.1 || 2.5.3'
+  - '@biomejs/cli-darwin-x64@2.5.1 || 2.5.3'
+  - '@biomejs/cli-linux-arm64-musl@2.5.1 || 2.5.3'
+  - '@biomejs/cli-linux-arm64@2.5.1 || 2.5.3'
+  - '@biomejs/cli-linux-x64-musl@2.5.1 || 2.5.3'
+  - '@biomejs/cli-linux-x64@2.5.1 || 2.5.3'
+  - '@biomejs/cli-win32-arm64@2.5.1 || 2.5.3'
+  - '@biomejs/cli-win32-x64@2.5.1 || 2.5.3'
   - '@csstools/css-color-parser@4.1.8'
   - '@dotenvx/dotenvx@1.75.1'
   - '@dotenvx/primitives@0.8.0'
