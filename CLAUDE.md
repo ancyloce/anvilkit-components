@@ -6,6 +6,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A workspace of independently publishable **Puck-native React component packages**. Each package under `src/<slug>/` ships both a React component and a Puck `ComponentConfig` contract. Packages are installed individually (e.g. `@anvilkit/button`), never via an umbrella package.
 
+## ⚠️ Never run `pnpm install` inside this directory standalone
+
+This directory is a **git submodule** *and* a nested pnpm workspace whose
+`pnpm-workspace.yaml` reaches out of the submodule into the superproject via
+`../../` globs (`../../capabilities/analytics/*`, `../../tooling/configs/*`,
+`../../runtime/ui`). Those same packages are **also** importers of the
+repo-root `pnpm-lock.yaml`, so two resolvers cover one package set.
+
+Running `pnpm install` here (i.e. `cd packages/extensions/components && pnpm
+install`) regenerates the **nested** `pnpm-lock.yaml` and re-resolves
+`@anvilkit/ui` (plus analytics/configs) into *this* workspace's
+`node_modules`, clobbering the root install — the recorded **"components
+install clobbers `ui` → duplicate React"** runtime failure (two React copies
+→ invalid-hook / context-mismatch crashes).
+
+**Always install from the monorepo root with the whole workspace.** No
+pre-commit hook guards this — it is a discipline rule until the nested
+workspace is dissolved by the planned components absorption (which removes the
+nested `pnpm-workspace.yaml`, `pnpm-lock.yaml`, orphaned `.changeset/`, and the
+local publish CI, folding publishing into the root `publish.yml`). If you must
+build/test only these packages, use the root workspace filter
+(`pnpm -C <repo-root> --filter "./packages/extensions/components/**" <script>`),
+not a standalone install here.
+
 ## Commands
 
 ```bash
@@ -140,6 +164,6 @@ re-emits the entire workspace utility superset + preflight into every package
 
 ### How publishing actually works
 
-This workspace is no longer a standalone changesets repo — its `pnpm-workspace.yaml` was removed and the packages are governed by the **repo-root** workspace. The release workflow (`.github/workflows/publish.yml`) **does not run `changeset version`**: on push to `main` it compares every public `package.json` version against npm (`scripts/ensure-npm-packages-exist.mjs`) and publishes any version that is absent. So a release is driven by **editing the `version` field in `package.json` directly** — that is the intended mechanism, not a changeset.
+This workspace is no longer a standalone changesets repo — the packages are governed by the **repo-root** workspace. (A nested `pnpm-workspace.yaml` and `pnpm-lock.yaml` do still exist in this directory — see the install rule at the top of this file — but the repo-root workspace is the authoritative resolver for day-to-day work; the nested files are a legacy dual-resolution seam scheduled for removal in the components absorption.) The release workflow (`.github/workflows/publish.yml`) **does not run `changeset version`**: on push to `main` it compares every public `package.json` version against npm (`scripts/ensure-npm-packages-exist.mjs`) and publishes any version that is absent. So a release is driven by **editing the `version` field in `package.json` directly** — that is the intended mechanism, not a changeset.
 
 > ⚠️ A local `.changeset/` still exists here but is **orphaned**: `changeset` resolves to the repo-root `.changeset/`, so changesets added in this submodule are never read and `pnpm release` here will not behave as documented in older notes. Bump versions by editing `package.json`.
