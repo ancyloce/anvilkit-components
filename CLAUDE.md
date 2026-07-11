@@ -22,10 +22,12 @@ install clobbers `ui` → duplicate React"** runtime failure (two React copies
 → invalid-hook / context-mismatch crashes).
 
 **Always install from the monorepo root with the whole workspace.** No
-pre-commit hook guards this — it is a discipline rule until the nested
-workspace is dissolved by the planned components absorption (which removes the
-nested `pnpm-workspace.yaml`, `pnpm-lock.yaml`, orphaned `.changeset/`, and the
-local publish CI, folding publishing into the root `publish.yml`). If you must
+pre-commit hook guards this — it is a discipline rule for as long as the nested
+workspace exists. The repo's 2026-07-11 submodule retention decision keeps this
+submodule but flags its superproject-reaching `pnpm-workspace.yaml` as a
+**grandfathered exception that must not set precedent for new plugins**; any
+future cleanup would remove the nested `pnpm-workspace.yaml`, `pnpm-lock.yaml`,
+and orphaned `.changeset/`. If you must
 build/test only these packages, use the root workspace filter
 (`pnpm -C <repo-root> --filter "./packages/extensions/components/**" <script>`),
 not a standalone install here.
@@ -164,6 +166,6 @@ re-emits the entire workspace utility superset + preflight into every package
 
 ### How publishing actually works
 
-This workspace is no longer a standalone changesets repo — the packages are governed by the **repo-root** workspace. (A nested `pnpm-workspace.yaml` and `pnpm-lock.yaml` do still exist in this directory — see the install rule at the top of this file — but the repo-root workspace is the authoritative resolver for day-to-day work; the nested files are a legacy dual-resolution seam scheduled for removal in the components absorption.) The release workflow (`.github/workflows/publish.yml`) **does not run `changeset version`**: on push to `main` it compares every public `package.json` version against npm (`scripts/ensure-npm-packages-exist.mjs`) and publishes any version that is absent. So a release is driven by **editing the `version` field in `package.json` directly** — that is the intended mechanism, not a changeset.
+This workspace is no longer a standalone changesets repo — the packages are governed by the **repo-root** workspace. (A nested `pnpm-workspace.yaml` and `pnpm-lock.yaml` do still exist in this directory — see the install rule at the top of this file — but the repo-root workspace is the authoritative resolver for day-to-day work; the nested files are a legacy dual-resolution seam kept as a **grandfathered exception** under the repo's 2026-07-11 submodule retention decision — they must not set precedent for new plugins and may be dissolved by a future workspace cleanup.) The release workflow (`.github/workflows/publish.yml`) **does not run `changeset version`**: on push to `main` it compares every public `package.json` version against npm (`scripts/ensure-npm-packages-exist.mjs`) and publishes any version that is absent. So a release is driven by **editing the `version` field in `package.json` directly** — that is the intended mechanism, not a changeset.
 
 > ⚠️ A local `.changeset/` still exists here but is **orphaned**: `changeset` resolves to the repo-root `.changeset/`, so changesets added in this submodule are never read and `pnpm release` here will not behave as documented in older notes. Bump versions by editing `package.json`.
