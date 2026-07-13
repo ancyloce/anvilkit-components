@@ -43,7 +43,7 @@
 		"size": "size-limit"
 	},
 	"peerDependencies": {
-		"@puckeditor/core": "^0.22.0",
+		"@puckeditor/core": "^0.22.1",
 		"react": ">=19.0.0",
 		"react-dom": ">=19.0.0"
 	},
@@ -54,6 +54,6 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"lucide-react": "^1.17.0"
+		"lucide-react": "^1.24.0"
 	}
 }

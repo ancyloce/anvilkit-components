@@ -26,16 +26,16 @@
     "@anvilkit/vitest-config": "workspace:*",
     "@biomejs/biome": "2.5.3",
     "@changesets/cli": "^2.31.0",
-    "@puckeditor/core": "^0.22.0",
+    "@puckeditor/core": "^0.22.1",
     "@rsbuild/plugin-react": "^2.1.0",
-    "@rslib/core": "^0.23.0",
+    "@rslib/core": "^0.23.2",
     "@turbo/gen": "^2.9.14",
     "@types/react": "^19.2.17",
     "@types/react-dom": "19.2.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "turbo": "^2.9.14",
-    "typescript": "6.0.3",
-    "vitest": "^4.1.9"
+    "typescript": "7.0.2",
+    "vitest": "^4.1.10"
   }
 }

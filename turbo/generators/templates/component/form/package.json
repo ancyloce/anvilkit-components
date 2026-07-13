@@ -37,7 +37,7 @@
   },
   "peerDependencies": {
     "@anvilkit/ui": "^0.1.5",
-    "@puckeditor/core": "^0.22.0",
+    "@puckeditor/core": "^0.22.1",
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0"
   },
