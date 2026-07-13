@@ -1,41 +1,41 @@
 {
-  "name": "anvilkit-components",
-  "version": "0.0.2",
-  "private": true,
-  "license": "MIT",
-  "packageManager": "pnpm@11.10.0",
-  "engines": {
-    "node": ">=18"
-  },
-  "scripts": {
-    "dev": "pnpm -r --filter \"./src/*\" --parallel dev",
-    "build": "pnpm -r --filter \"./src/*\" build",
-    "lint": "pnpm exec biome lint .",
-    "format": "pnpm exec biome check --write .",
-    "typecheck": "pnpm -r --filter \"./src/*\" typecheck",
-    "test": "vitest run",
-    "gen:component": "node ./turbo/generators/run-component-generator.mjs",
-    "changeset": "changeset",
-    "release": "changeset version && pnpm build && changeset publish",
-    "doctor": "npx react-doctor@latest"
-  },
-  "devDependencies": {
-    "@anvilkit/biome-config": "workspace:*",
-    "@anvilkit/tailwind-config": "workspace:*",
-    "@anvilkit/typescript-config": "workspace:*",
-    "@anvilkit/vitest-config": "workspace:*",
-    "@biomejs/biome": "2.5.3",
-    "@changesets/cli": "^2.31.0",
-    "@puckeditor/core": "^0.22.1",
-    "@rsbuild/plugin-react": "^2.1.0",
-    "@rslib/core": "^0.23.2",
-    "@turbo/gen": "^2.9.14",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "19.2.3",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "turbo": "^2.9.14",
-    "typescript": "7.0.2",
-    "vitest": "^4.1.10"
-  }
+	"name": "anvilkit-components",
+	"version": "0.0.2",
+	"private": true,
+	"license": "MIT",
+	"packageManager": "pnpm@11.10.0",
+	"engines": {
+		"node": ">=18"
+	},
+	"scripts": {
+		"dev": "pnpm -r --filter \"./src/*\" --parallel dev",
+		"build": "pnpm -r --filter \"./src/*\" build",
+		"lint": "pnpm exec biome lint .",
+		"format": "pnpm exec biome check --write .",
+		"typecheck": "pnpm -r --filter \"./src/*\" typecheck",
+		"test": "vitest run",
+		"gen:component": "node ./turbo/generators/run-component-generator.mjs",
+		"changeset": "changeset",
+		"release": "changeset version && pnpm build && changeset publish",
+		"doctor": "npx react-doctor@latest"
+	},
+	"devDependencies": {
+		"@anvilkit/biome-config": "workspace:*",
+		"@anvilkit/tailwind-config": "workspace:*",
+		"@anvilkit/typescript-config": "workspace:*",
+		"@anvilkit/vitest-config": "workspace:*",
+		"@biomejs/biome": "2.5.3",
+		"@changesets/cli": "^2.31.0",
+		"@puckeditor/core": "^0.22.1",
+		"@rsbuild/plugin-react": "^2.1.0",
+		"@rslib/core": "^0.23.2",
+		"@turbo/gen": "^2.9.14",
+		"@types/react": "^19.2.17",
+		"@types/react-dom": "19.2.3",
+		"react": "^19.2.7",
+		"react-dom": "^19.2.7",
+		"turbo": "^2.9.14",
+		"typescript": "7.0.2",
+		"vitest": "^4.1.10"
+	}
 }
