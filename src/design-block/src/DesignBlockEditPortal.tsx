@@ -37,7 +37,7 @@ export function DesignBlockEditPortal({
 	children,
 	label = "Open this design in the canvas editor",
 }: DesignBlockEditPortalProps) {
-	const ref = useRef<HTMLDivElement>(null);
+	const ref = useRef<HTMLButtonElement>(null);
 
 	useEffect(() => {
 		const el = ref.current;
@@ -48,25 +48,19 @@ export function DesignBlockEditPortal({
 
 	const open = () => dispatchOpenCanvas({ designId, puckNodeId, artboardId });
 
-	// A button-role div (not a <button>) because a <button> cannot legally
-	// wrap the <figure>/<img> preview content.
+	// Keep the rich preview outside the button's content model while the
+	// positioned native control preserves the whole-block affordance.
 	return (
-		<div
-			ref={ref}
-			role="button"
-			tabIndex={0}
-			data-testid="design-block-open"
-			aria-label={label}
-			className="w-full cursor-pointer rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring"
-			onClick={open}
-			onKeyDown={(event) => {
-				if (event.key === "Enter" || event.key === " ") {
-					event.preventDefault();
-					open();
-				}
-			}}
-		>
+		<div className="relative w-full">
 			{children}
+			<button
+				ref={ref}
+				type="button"
+				data-testid="design-block-open"
+				aria-label={label}
+				className="absolute inset-0 cursor-pointer rounded-lg bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-ring"
+				onClick={open}
+			/>
 		</div>
 	);
 }

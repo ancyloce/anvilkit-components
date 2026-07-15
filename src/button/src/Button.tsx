@@ -75,7 +75,7 @@ export function Button({
 			<a
 				href={resolvedHref}
 				target={resolvedHref && openInNewTab ? "_blank" : undefined}
-				rel={resolvedHref && openInNewTab ? "noreferrer noopener" : undefined}
+				rel="noreferrer noopener"
 				aria-disabled={isInactive || undefined}
 				tabIndex={isInactive ? -1 : undefined}
 				onClick={onClick}
