@@ -140,13 +140,12 @@ function getLogoContent(
 
 function renderAction(
 	action: NavbarActionViewProps,
-	index: number,
 	editMode: boolean,
 	mobile: boolean,
 	onClick?: MouseEventHandler<HTMLElement>,
 ) {
 	const isDisabled = Boolean(action.disabled || editMode);
-	const key = `${action.label}-${action.href || "button"}-${index}`;
+	const key = `${action.label}-${action.href || "button"}`;
 	const composedOnClick = isDisabled
 		? undefined
 		: composeHandlers(action.onClick, onClick);
@@ -191,7 +190,6 @@ function renderAction(
 
 function renderDesktopMenuItem(
 	item: NavbarMenuItem,
-	index: number,
 	active: string | undefined,
 	editMode: boolean,
 	isHighlighted: boolean,
@@ -201,7 +199,7 @@ function renderDesktopMenuItem(
 	onFocusEnd?: FocusEventHandler<HTMLAnchorElement>,
 ) {
 	const isActive = item.href === active;
-	const key = `${item.label}-${item.href}-${index}`;
+	const key = `${item.label}-${item.href}`;
 
 	return (
 		<li key={key}>
@@ -233,13 +231,12 @@ function renderDesktopMenuItem(
 
 function renderMobileMenuItem(
 	item: NavbarMenuItem,
-	index: number,
 	active: string | undefined,
 	editMode: boolean,
 	onClick?: MouseEventHandler<HTMLElement>,
 ) {
 	const isActive = item.href === active;
-	const key = `${item.label}-${item.href}-${index}`;
+	const key = `${item.label}-${item.href}`;
 
 	return (
 		<li key={key}>
@@ -350,10 +347,9 @@ export function Navbar({
 					{items.length > 0 ? (
 						<div className="hidden min-w-0 justify-center md:flex">
 							<ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-10">
-								{items.map((item, index) =>
+								{items.map((item) =>
 									renderDesktopMenuItem(
 										item,
-										index,
 										active,
 										editMode,
 										item.href === active ||
@@ -378,9 +374,7 @@ export function Navbar({
 
 					{actions.length > 0 ? (
 						<div className="hidden flex-wrap items-center justify-start gap-4 md:flex md:justify-self-end md:justify-end">
-							{actions.map((action, index) =>
-								renderAction(action, index, editMode, false),
-							)}
+							{actions.map((action) => renderAction(action, editMode, false))}
 						</div>
 					) : (
 						<div className="hidden md:block" />
@@ -397,10 +391,9 @@ export function Navbar({
 					<div id={mobileMenuId} className={mobileMenuPanelClassName}>
 						{items.length > 0 ? (
 							<ul className="space-y-2.5">
-								{items.map((item, index) =>
+								{items.map((item) =>
 									renderMobileMenuItem(
 										item,
-										index,
 										active,
 										editMode,
 										handleMobileMenuClose,
@@ -411,14 +404,8 @@ export function Navbar({
 
 						{actions.length > 0 ? (
 							<div className="flex flex-wrap justify-end gap-3 pt-2">
-								{actions.map((action, index) =>
-									renderAction(
-										action,
-										index,
-										editMode,
-										true,
-										handleMobileMenuClose,
-									),
+								{actions.map((action) =>
+									renderAction(action, editMode, true, handleMobileMenuClose),
 								)}
 							</div>
 						) : null}
