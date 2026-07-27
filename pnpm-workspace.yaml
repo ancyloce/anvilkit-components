@@ -140,12 +140,98 @@ minimumReleaseAgeExclude:
   - prosemirror-model@1.25.9
   - rsbuild-plugin-dts@0.23.0
   - semver@7.8.5
+  - shadcn@4.15.0
   - tabbable@6.5.0
   - tldts@7.4.3
   - tldts-core@7.4.3
   - typescript@7.0.2
   - undici@7.28.0
   - vitest@4.1.9
+  # Mirrored from the repo-root pnpm-workspace.yaml. `packages/tooling/configs/*`,
+  # `packages/runtime/ui` and `packages/capabilities/analytics/*` are importers of
+  # BOTH lockfiles, so a dep bump admitted at the root must be admitted here too or
+  # this workspace's `--frozen-lockfile` install (apps/*/Dockerfile) cannot resolve it.
+  - '@vitest/expect@4.1.7'
+  - '@vitest/mocker@4.1.7'
+  - '@vitest/pretty-format@4.1.7'
+  - '@vitest/runner@4.1.7'
+  - '@vitest/snapshot@4.1.7'
+  - '@vitest/spy@4.1.7'
+  - '@vitest/utils@4.1.7'
+  - vitest@4.1.7
+  - '@turbo/darwin-64@2.9.15 || 2.10.7'
+  - '@turbo/darwin-arm64@2.9.15 || 2.10.7'
+  - '@turbo/linux-64@2.9.15 || 2.10.7'
+  - '@turbo/linux-arm64@2.9.15 || 2.10.7'
+  - '@turbo/windows-64@2.9.15 || 2.10.7'
+  - '@turbo/windows-arm64@2.9.15 || 2.10.7'
+  - 'turbo@2.9.15 || 2.10.7'
+  - 'deslop-js@0.5.8 || 0.9.1'
+  - 'oxlint-plugin-react-doctor@0.2.14 || 0.5.8 || 0.9.1'
+  - 'react-doctor@0.2.14 || 0.5.8 || 0.9.1'
+  - 'nanoid@3.3.14 || 5.1.15'
+  - '@puckeditor/core@0.22.0 || 0.22.2'
+  - '@tiptap/core@3.27.4 || 3.29.0'
+  - '@tiptap/extension-blockquote@3.27.4 || 3.29.0'
+  - '@tiptap/extension-bold@3.27.4 || 3.29.0'
+  - '@tiptap/extension-bubble-menu@3.27.4 || 3.29.0'
+  - '@tiptap/extension-bullet-list@3.27.4 || 3.29.0'
+  - '@tiptap/extension-code-block@3.27.4 || 3.29.0'
+  - '@tiptap/extension-code@3.27.4 || 3.29.0'
+  - '@tiptap/extension-document@3.27.4 || 3.29.0'
+  - '@tiptap/extension-dropcursor@3.27.4 || 3.29.0'
+  - '@tiptap/extension-floating-menu@3.27.4 || 3.29.0'
+  - '@tiptap/extension-gapcursor@3.27.4 || 3.29.0'
+  - '@tiptap/extension-hard-break@3.27.4 || 3.29.0'
+  - '@tiptap/extension-heading@3.27.4 || 3.29.0'
+  - '@tiptap/extension-horizontal-rule@3.27.4 || 3.29.0'
+  - '@tiptap/extension-italic@3.27.4 || 3.29.0'
+  - '@tiptap/extension-link@3.27.4 || 3.29.0'
+  - '@tiptap/extension-list-item@3.27.4 || 3.29.0'
+  - '@tiptap/extension-list-keymap@3.27.4 || 3.29.0'
+  - '@tiptap/extension-list@3.27.4 || 3.29.0'
+  - '@tiptap/extension-ordered-list@3.27.4 || 3.29.0'
+  - '@tiptap/extension-paragraph@3.27.4 || 3.29.0'
+  - '@tiptap/extension-strike@3.27.4 || 3.29.0'
+  - '@tiptap/extension-text@3.27.4 || 3.29.0'
+  - '@tiptap/extension-underline@3.27.4 || 3.29.0'
+  - '@tiptap/extensions@3.27.4 || 3.29.0'
+  - '@tiptap/pm@3.27.4 || 3.29.0'
+  - '@tiptap/react@3.27.4 || 3.29.0'
+  - '@tiptap/starter-kit@3.27.4 || 3.29.0'
+  - '@oxc-parser/binding-android-arm-eabi@0.141.0'
+  - '@oxc-parser/binding-android-arm64@0.141.0'
+  - '@oxc-parser/binding-darwin-arm64@0.141.0'
+  - '@oxc-parser/binding-darwin-x64@0.141.0'
+  - '@oxc-parser/binding-freebsd-x64@0.141.0'
+  - '@oxc-parser/binding-linux-arm-gnueabihf@0.141.0'
+  - '@oxc-parser/binding-linux-arm-musleabihf@0.141.0'
+  - '@oxc-parser/binding-linux-arm64-gnu@0.141.0'
+  - '@oxc-parser/binding-linux-arm64-musl@0.141.0'
+  - '@oxc-parser/binding-linux-ppc64-gnu@0.141.0'
+  - '@oxc-parser/binding-linux-riscv64-gnu@0.141.0'
+  - '@oxc-parser/binding-linux-riscv64-musl@0.141.0'
+  - '@oxc-parser/binding-linux-s390x-gnu@0.141.0'
+  - '@oxc-parser/binding-linux-x64-gnu@0.141.0'
+  - '@oxc-parser/binding-linux-x64-musl@0.141.0'
+  - '@oxc-parser/binding-openharmony-arm64@0.141.0'
+  - '@oxc-parser/binding-wasm32-wasi@0.141.0'
+  - '@oxc-parser/binding-win32-arm64-msvc@0.141.0'
+  - '@oxc-parser/binding-win32-ia32-msvc@0.141.0'
+  - '@oxc-parser/binding-win32-x64-msvc@0.141.0'
+  - '@oxc-project/types@0.141.0'
+  - oxc-parser@0.141.0
+  - react-dom@19.2.8
+  - react@19.2.8
+  - playwright-core@1.62.0
+  - playwright@1.62.0
+  - '@publint/pack@0.1.6'
+  - publint@0.3.22
+  - '@tanstack/react-virtual@3.14.8'
+  - '@tanstack/virtual-core@3.17.6'
+  - lucide-react@1.26.0
+  - '@radix-ui/react-compose-refs@1.1.5'
+  - '@radix-ui/react-slot@1.3.3'
 trustPolicyExclude:
   - nanoid@3.3.14
   - semver@6.3.1
