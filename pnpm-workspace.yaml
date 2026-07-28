@@ -235,3 +235,11 @@ minimumReleaseAgeExclude:
 trustPolicyExclude:
   - nanoid@3.3.14
   - semver@6.3.1
+# Mirrors the repo-root `overrides`. Without this pin the workspace root's
+# `react@^19.2.8` devDependency and the component packages' `react@>=19.0.0`
+# peer range resolve to DIFFERENT versions (19.2.8 vs 19.2.7), putting two
+# React copies in one nested install — the duplicate-React landmine described
+# in apps/*/Dockerfile and .github/actions/setup-workspace/action.yml.
+overrides:
+  react: 19.2.8
+  react-dom: 19.2.8
