@@ -19,6 +19,19 @@ export const metadata = {
 {{#if suggestedCategory}}
   suggestedCategory: '{{suggestedCategory}}',
 {{/if}}
+  // AnvilKit visual-editor capability declaration (contract:
+  // `EditorCapabilityMetadata` in `@anvilkit/contracts/editor`).
+  // Scaffolded at Level 1 (selectable): "wrapper" needs no render
+  // changes. To go further, declare only the capabilities the
+  // component honours (Level 2+) and consider `styleTarget: 'root'`
+  // with an `editorDataAttributes` spread on the root element — see
+  // the "Adopting the visual editor" docs guide and
+  // `src/section/src/config.ts` for a worked Level 3 example.
+  editor: {
+    version: '1',
+    styleTarget: 'wrapper',
+    capabilities: {},
+  },
 } satisfies ComponentMetadata;
 
 export const defaultProps = {

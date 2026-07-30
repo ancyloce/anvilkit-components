@@ -18,6 +18,12 @@ export interface HeroProps {
 
 export interface HeroViewProps extends HeroProps {
 	editMode?: boolean;
+	/**
+	 * Editor-stamped root attributes (AnvilKit visual editor,
+	 * `styleTarget: "root"`). Spread onto the root element; absent in
+	 * normal rendering.
+	 */
+	editorDataAttributes?: Readonly<Record<string, string>>;
 }
 
 interface DownloadButtonProps {
@@ -89,6 +95,7 @@ export function Hero({
 	windowsHref,
 	windowsOpenInNewTab = false,
 	editMode = false,
+	editorDataAttributes,
 }: HeroViewProps) {
 	const isAnnouncementInteractive = Boolean(announcementHref && !editMode);
 	const contentClassName = cn(
@@ -99,7 +106,7 @@ export function Hero({
 	);
 
 	return (
-		<section className="anvilkit-hero">
+		<section {...editorDataAttributes} className="anvilkit-hero">
 			<div aria-hidden="true" className="anvilkit-hero__backdrop" />
 
 			<div className={contentClassName}>
@@ -129,12 +136,18 @@ export function Hero({
 				)}
 
 				<div className="mt-8 max-w-[19rem] sm:mt-10 sm:max-w-[34rem] lg:max-w-[58rem]">
-					<h1 className="whitespace-pre-line text-[clamp(2.9rem,14vw,7.25rem)] leading-[0.92] font-black tracking-[-0.06em] text-foreground sm:tracking-[-0.075em]">
+					<h1
+						data-ak-text-target="headline"
+						className="whitespace-pre-line text-[clamp(2.9rem,14vw,7.25rem)] leading-[0.92] font-black tracking-[-0.06em] text-foreground sm:tracking-[-0.075em]"
+					>
 						{headline}
 					</h1>
 				</div>
 
-				<p className="mt-5 max-w-[22rem] whitespace-pre-line text-base leading-[1.5] font-normal text-muted-foreground sm:mt-6 sm:max-w-[34rem] sm:text-[1.12rem] lg:mt-7 lg:max-w-[48rem] lg:text-[1.45rem]">
+				<p
+					data-ak-text-target="description"
+					className="mt-5 max-w-[22rem] whitespace-pre-line text-base leading-[1.5] font-normal text-muted-foreground sm:mt-6 sm:max-w-[34rem] sm:text-[1.12rem] lg:mt-7 lg:max-w-[48rem] lg:text-[1.45rem]"
+				>
 					{description}
 				</p>
 

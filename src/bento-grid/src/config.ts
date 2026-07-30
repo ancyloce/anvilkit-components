@@ -18,6 +18,22 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
+	// AnvilKit visual-editor capability declaration (contract:
+	// `EditorCapabilityMetadata` in `@anvilkit/contracts/editor` —
+	// mirrored literally to avoid a new dependency). `styleTarget:
+	// "root"`: BentoGrid spreads `editorDataAttributes` onto its root
+	// section. `layoutContainer` covers the display/padding the root
+	// honours; the inner card grid keeps its own gap classes, and
+	// items are serialized props (no slot fields), so no `slotMap`.
+	editor: {
+		version: "1",
+		styleTarget: "root",
+		capabilities: {
+			layoutContainer: true,
+			visualStyle: true,
+			responsive: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -202,17 +218,18 @@ function buildFields(t: T): Fields<BentoGridProps> {
 	};
 }
 
-const renderBentoGrid: ComponentConfig<BentoGridProps>["render"] = ({
-	items,
-	platform,
-	theme,
-	editMode,
-}) =>
+/** Editor-injected render props (present only when authoring is on). */
+type EditorRenderProps = {
+	editorDataAttributes?: Readonly<Record<string, string>>;
+};
+
+const renderBentoGrid: ComponentConfig<BentoGridProps>["render"] = (props) =>
 	createElement(BentoGrid, {
-		items,
-		platform,
-		theme,
-		editMode,
+		items: props.items,
+		platform: props.platform,
+		theme: props.theme,
+		editMode: props.editMode,
+		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
 	});
 
 function buildConfig(t: T): ComponentConfig<BentoGridProps> {

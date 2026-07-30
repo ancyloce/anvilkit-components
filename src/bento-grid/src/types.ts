@@ -33,6 +33,12 @@ export interface BentoGridProps {
 
 export interface BentoGridViewProps extends BentoGridProps {
 	editMode?: boolean;
+	/**
+	 * Editor-stamped root attributes (AnvilKit visual editor,
+	 * `styleTarget: "root"`). Spread onto the root element; absent in
+	 * normal rendering.
+	 */
+	editorDataAttributes?: Readonly<Record<string, string>>;
 }
 
 export interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {

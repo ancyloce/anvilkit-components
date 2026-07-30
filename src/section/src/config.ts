@@ -17,6 +17,26 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
+	// AnvilKit visual-editor capability declaration (contract:
+	// `EditorCapabilityMetadata` in `@anvilkit/contracts/editor` —
+	// mirrored literally to avoid a new dependency). `styleTarget:
+	// "root"`: Section spreads `editorDataAttributes` onto its root
+	// div. Only honoured capabilities are declared: typography is
+	// deliberately absent because the headline/description carry
+	// fixed text classes a root-level override would not beat.
+	editor: {
+		version: "1",
+		styleTarget: "root",
+		capabilities: {
+			layoutItem: true,
+			visualStyle: true,
+			responsive: true,
+			inlineText: [
+				{ id: "headline", propPath: "headline", format: "plain" },
+				{ id: "description", propPath: "description", format: "plain" },
+			],
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -50,19 +70,19 @@ function buildFields(t: T): Fields<SectionProps> {
 	};
 }
 
-const renderSection: ComponentConfig<SectionProps>["render"] = ({
-	badgeLabel,
-	headline,
-	highlightedHeadline,
-	description,
-	editMode,
-}) =>
+/** Editor-injected render props (present only when authoring is on). */
+type EditorRenderProps = {
+	editorDataAttributes?: Readonly<Record<string, string>>;
+};
+
+const renderSection: ComponentConfig<SectionProps>["render"] = (props) =>
 	createElement(Section, {
-		badgeLabel,
-		headline,
-		highlightedHeadline,
-		description,
-		editMode,
+		badgeLabel: props.badgeLabel,
+		headline: props.headline,
+		highlightedHeadline: props.highlightedHeadline,
+		description: props.description,
+		editMode: props.editMode,
+		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
 	});
 
 function buildConfig(t: T): ComponentConfig<SectionProps> {

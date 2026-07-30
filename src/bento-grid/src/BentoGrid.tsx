@@ -17,9 +17,11 @@ export function BentoGrid({
 	platform = "adaptive",
 	theme = "dark",
 	editMode = false,
+	editorDataAttributes,
 }: BentoGridViewProps) {
 	return (
 		<section
+			{...editorDataAttributes}
 			className={cn(
 				"anvilkit-bento-grid relative isolate mx-auto w-full overflow-hidden rounded-none !border-0 !bg-[var(--bento-theme-background)] !shadow-none",
 				platformContainerClassNames[platform],

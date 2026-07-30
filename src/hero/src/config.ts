@@ -17,6 +17,26 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
+	// AnvilKit visual-editor capability declaration (contract:
+	// `EditorCapabilityMetadata` in `@anvilkit/contracts/editor` —
+	// mirrored literally to avoid a new dependency). `styleTarget:
+	// "root"`: Hero spreads `editorDataAttributes` onto its root
+	// section; the h1/p carry `data-ak-text-target` stamps for the
+	// inline targets. Typography stays undeclared — the headline and
+	// description set their own text classes.
+	editor: {
+		version: "1",
+		styleTarget: "root",
+		capabilities: {
+			layoutItem: true,
+			visualStyle: true,
+			responsive: true,
+			inlineText: [
+				{ id: "headline", propPath: "headline", format: "plain" },
+				{ id: "description", propPath: "description", format: "plain" },
+			],
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -115,33 +135,26 @@ function buildFields(t: T): Fields<HeroProps> {
 	};
 }
 
-const renderHero: ComponentConfig<HeroProps>["render"] = ({
-	announcementLabel,
-	announcementHref,
-	announcementOpenInNewTab,
-	headline,
-	description,
-	linuxLabel,
-	linuxHref,
-	linuxOpenInNewTab,
-	windowsLabel,
-	windowsHref,
-	windowsOpenInNewTab,
-	editMode,
-}) =>
+/** Editor-injected render props (present only when authoring is on). */
+type EditorRenderProps = {
+	editorDataAttributes?: Readonly<Record<string, string>>;
+};
+
+const renderHero: ComponentConfig<HeroProps>["render"] = (props) =>
 	createElement(Hero, {
-		announcementLabel,
-		announcementHref,
-		announcementOpenInNewTab,
-		headline,
-		description,
-		linuxLabel,
-		linuxHref,
-		linuxOpenInNewTab,
-		windowsLabel,
-		windowsHref,
-		windowsOpenInNewTab,
-		editMode,
+		announcementLabel: props.announcementLabel,
+		announcementHref: props.announcementHref,
+		announcementOpenInNewTab: props.announcementOpenInNewTab,
+		headline: props.headline,
+		description: props.description,
+		linuxLabel: props.linuxLabel,
+		linuxHref: props.linuxHref,
+		linuxOpenInNewTab: props.linuxOpenInNewTab,
+		windowsLabel: props.windowsLabel,
+		windowsHref: props.windowsHref,
+		windowsOpenInNewTab: props.windowsOpenInNewTab,
+		editMode: props.editMode,
+		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
 	});
 
 function buildConfig(t: T): ComponentConfig<HeroProps> {
