@@ -56,6 +56,6 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"lucide-react": "^1.26.0"
+		"lucide-react": "^1.28.0"
 	}
 }
