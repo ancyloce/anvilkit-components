@@ -26,7 +26,7 @@
 		"@anvilkit/vitest-config": "workspace:*",
 		"@biomejs/biome": "2.5.3",
 		"@changesets/cli": "^2.31.0",
-		"@puckeditor/core": "^0.22.2",
+		"@puckeditor/core": "^0.22.4",
 		"@rsbuild/plugin-react": "^2.1.0",
 		"@rslib/core": "^0.23.2",
 		"@turbo/gen": "^2.9.14",
