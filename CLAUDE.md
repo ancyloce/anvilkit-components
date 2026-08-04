@@ -35,9 +35,9 @@ not a standalone install here.
 ## Commands
 
 ```bash
-pnpm dev           # Watch all packages (Rslib)
-pnpm build         # Build all packages
-pnpm typecheck     # tsc --noEmit across all packages
+pnpm dev             # Watch all packages (Rslib)
+pnpm build:packages  # Build all packages (NOT `build` — see note below)
+pnpm typecheck       # tsc --noEmit across all packages
 pnpm lint          # Biome lint
 pnpm format        # Biome format
 
@@ -47,14 +47,24 @@ pnpm gen:component -- --name <slug> --label "Display Name" --template <content|l
 
 # Versioning / publishing
 pnpm changeset     # Create a changeset
-pnpm release       # changeset version + build + changeset publish
+pnpm release       # changeset version + build:packages + changeset publish (see the orphaned-.changeset caveat under Release)
 ```
 
 **Validation before finishing any component work:**
 
 ```bash
-pnpm lint && pnpm typecheck && pnpm test && pnpm build
+pnpm lint && pnpm typecheck && pnpm test && pnpm build:packages
 ```
+
+> **Why `build:packages` and not `build`?** This directory is registered in the
+> repo-root `pnpm-workspace.yaml` *alongside* each `src/*` package, so the root
+> turbo graph already builds all 12 components directly. When this manifest also
+> exposed a `build` script, turbo ran a **second**, unordered rebuild of every
+> component — and because each component's first rslib pass cleans `dist/`, that
+> deleted `dist/styles.css` out from under any app build reading it, failing
+> `playground#build` with an `ENOENT`. Renaming the script removes it from the
+> root `build` graph while keeping it available here. See
+> `.claude/rules/gate-playbook.md` **GP-014** in the superproject.
 
 (`pnpm test` runs the workspace-level vitest suite in `tests/`, including the
 i18n catalog/factory checks for every package.)

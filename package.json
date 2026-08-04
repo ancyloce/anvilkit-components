@@ -9,14 +9,14 @@
 	},
 	"scripts": {
 		"dev": "pnpm -r --filter \"./src/*\" --parallel dev",
-		"build": "pnpm -r --filter \"./src/*\" build",
+		"build:packages": "pnpm -r --filter \"./src/*\" build",
 		"lint": "node -e \"require.resolve('@anvilkit/biome-config/base')\" && pnpm exec biome lint .",
 		"format": "pnpm exec biome check --write .",
 		"typecheck": "pnpm -r --filter \"./src/*\" typecheck",
 		"test": "vitest run",
 		"gen:component": "node ./turbo/generators/run-component-generator.mjs",
 		"changeset": "changeset",
-		"release": "changeset version && pnpm build && changeset publish",
+		"release": "changeset version && pnpm build:packages && changeset publish",
 		"doctor": "npx react-doctor@latest"
 	},
 	"devDependencies": {
