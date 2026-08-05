@@ -15,6 +15,11 @@ export interface BlogListProps {
 }
 
 export interface BlogListViewProps extends BlogListProps {
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025).
+	 */
+	rootAttrs?: Record<string, string>;
 	editMode?: boolean;
 }
 
@@ -112,17 +117,27 @@ function BlogListCard({
 	return <div className={cardClassName}>{cardContent}</div>;
 }
 
-export function BlogList({ posts, editMode = false }: BlogListViewProps) {
+export function BlogList({
+	posts,
+	editMode = false,
+	rootAttrs,
+}: BlogListViewProps) {
 	if (posts.length === 0) {
 		return (
-			<section className="border border-border bg-background p-6 text-center text-sm text-muted-foreground md:p-8">
+			<section
+				{...rootAttrs}
+				className="border border-border bg-background p-6 text-center text-sm text-muted-foreground md:p-8"
+			>
 				Add blog posts to populate this list.
 			</section>
 		);
 	}
 
 	return (
-		<section className="grid grid-cols-1 border border-border border-b-0 bg-background lg:grid-cols-3">
+		<section
+			{...rootAttrs}
+			className="grid grid-cols-1 border border-border border-b-0 bg-background lg:grid-cols-3"
+		>
 			{posts.map((post) => (
 				<BlogListCard
 					key={`${post.title}-${post.publishedAt}-${post.href || "card"}`}

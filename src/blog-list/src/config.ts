@@ -5,12 +5,21 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import type { BlogListProps } from "./BlogList";
 import { BlogList } from "./BlogList";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 const defaultPreviewImageSrc =
 	"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type BlogListAuthorableProps = AuthorableProps<BlogListProps>;
 
 export const metadata = {
 	componentName: "BlogList",
@@ -20,6 +29,35 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
+	// PLAN-0025 metadata v2 (§6.1/§6.5). DEVIATION confirmed against
+	// the real DOM: the posts grid IS the root <section> (both render
+	// branches), so no separate `list` container exists to target —
+	// grid properties are granted at root instead.
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Blog list",
+					responsive: true,
+					properties: [
+						"display",
+						"gap",
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"opacity",
+					],
+				},
+			},
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -65,8 +103,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<BlogListProps> {
+function buildFields(t: T): Fields<BlogListAuthorableProps> {
 	return {
+		...authoringFields,
 		posts: {
 			type: "array",
 			label: t("blog-list.fields.posts.label"),
@@ -139,16 +178,19 @@ function buildFields(t: T): Fields<BlogListProps> {
 	};
 }
 
-const renderBlogList: ComponentConfig<BlogListProps>["render"] = ({
+const renderBlogList: ComponentConfig<BlogListAuthorableProps>["render"] = ({
+	id,
 	posts,
 	editMode,
 }) =>
 	createElement(BlogList, {
 		posts,
 		editMode,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(id),
 	});
 
-function buildConfig(t: T): ComponentConfig<BlogListProps> {
+function buildConfig(t: T): ComponentConfig<BlogListAuthorableProps> {
 	return {
 		label: t("blog-list.label"),
 		defaultProps,
@@ -162,18 +204,20 @@ function buildConfig(t: T): ComponentConfig<BlogListProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<BlogListProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<BlogListAuthorableProps>;
 
 export const blogListConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<BlogListProps>;
+) satisfies ComponentConfig<BlogListAuthorableProps>;
 
 export const componentConfig = blogListConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<BlogListProps> {
+): ComponentConfig<BlogListAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

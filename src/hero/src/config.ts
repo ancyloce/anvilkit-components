@@ -5,9 +5,18 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import type { HeroProps } from "./Hero";
 import { Hero } from "./Hero";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type HeroAuthorableProps = AuthorableProps<HeroProps>;
 
 export const metadata = {
 	componentName: "Hero",
@@ -37,6 +46,58 @@ export const metadata = {
 			],
 		},
 	},
+	// PLAN-0025 metadata v2 (§6.1/§6.5), alongside v1 until cutover.
+	// DEVIATION vs the §6.5 sketch, confirmed against the real DOM:
+	// Hero has NO media element (no img/video anywhere in the render),
+	// so no `media` target exists — fabricating an empty container
+	// would be the §8.5 fabrication this phase removes. Typography
+	// stays ungranted for the same fixed-text-class reason as v1.
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Hero",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"opacity",
+					],
+				},
+				content: {
+					label: "Content",
+					responsive: true,
+					properties: ["width", "maxWidth", "padding", "gap", "opacity"],
+				},
+				actions: {
+					label: "Actions",
+					responsive: true,
+					properties: [
+						"display",
+						"gap",
+						"margin",
+						"padding",
+						"width",
+						"maxWidth",
+						"alignItems",
+						"justifyContent",
+					],
+				},
+			},
+			inlineText: [
+				{ id: "headline", propPath: "headline", format: "plain" },
+				{ id: "description", propPath: "description", format: "plain" },
+			],
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -56,8 +117,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<HeroProps> {
+function buildFields(t: T): Fields<HeroAuthorableProps> {
 	return {
+		...authoringFields,
 		announcementLabel: {
 			type: "text",
 			label: t("hero.fields.announcementLabel.label"),
@@ -140,7 +202,7 @@ type EditorRenderProps = {
 	editorDataAttributes?: Readonly<Record<string, string>>;
 };
 
-const renderHero: ComponentConfig<HeroProps>["render"] = (props) =>
+const renderHero: ComponentConfig<HeroAuthorableProps>["render"] = (props) =>
 	createElement(Hero, {
 		announcementLabel: props.announcementLabel,
 		announcementHref: props.announcementHref,
@@ -155,9 +217,15 @@ const renderHero: ComponentConfig<HeroProps>["render"] = (props) =>
 		windowsOpenInNewTab: props.windowsOpenInNewTab,
 		editMode: props.editMode,
 		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(props.id),
+		targetAttrs: {
+			content: anvilTargetAttrs(props.id, "content"),
+			actions: anvilTargetAttrs(props.id, "actions"),
+		},
 	});
 
-function buildConfig(t: T): ComponentConfig<HeroProps> {
+function buildConfig(t: T): ComponentConfig<HeroAuthorableProps> {
 	return {
 		label: t("hero.label"),
 		defaultProps,
@@ -171,18 +239,20 @@ function buildConfig(t: T): ComponentConfig<HeroProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<HeroProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<HeroAuthorableProps>;
 
 export const heroConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<HeroProps>;
+) satisfies ComponentConfig<HeroAuthorableProps>;
 
 export const componentConfig = heroConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<HeroProps> {
+): ComponentConfig<HeroAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

@@ -18,12 +18,17 @@ export interface StatisticsProps {
 }
 
 export interface StatisticsViewProps extends StatisticsProps {
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025).
+	 */
+	rootAttrs?: Record<string, string>;
 	editMode?: boolean;
 }
 
-export function Statistics({ title }: StatisticsViewProps) {
+export function Statistics({ title, rootAttrs }: StatisticsViewProps) {
 	return (
-		<section className="w-full">
+		<section {...rootAttrs} className="w-full">
 			<div className="relative isolate mx-auto w-full overflow-hidden bg-background px-2 py-8 text-center md:px-12 md:py-12">
 				<h2 className="text-balance text-md font-semibold tracking-[0.26em] text-muted-foreground uppercase">
 					{title}

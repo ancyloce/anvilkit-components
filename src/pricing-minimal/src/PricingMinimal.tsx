@@ -28,6 +28,13 @@ export interface PricingMinimalProps {
 }
 
 export interface PricingMinimalViewProps extends PricingMinimalProps {
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025).
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id (`plans`). */
+	targetAttrs?: Record<string, Record<string, string>>;
 	editMode?: boolean;
 }
 
@@ -205,9 +212,11 @@ export function PricingMinimal({
 	description,
 	plans,
 	editMode = false,
+	rootAttrs,
+	targetAttrs,
 }: PricingMinimalViewProps) {
 	return (
-		<section className="bg-background py-12 sm:py-16 lg:py-20">
+		<section {...rootAttrs} className="bg-background py-12 sm:py-16 lg:py-20">
 			<div className="mx-auto flex w-full max-w-7xl flex-col px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto max-w-2xl text-center">
 					<h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
@@ -218,17 +227,20 @@ export function PricingMinimal({
 					</p>
 				</div>
 
-				{plans.length > 0 ? (
-					<div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-						{plans.map((plan, index) => (
-							<PricingCard
-								key={getPlanKey(plan, index)}
-								plan={plan}
-								editMode={editMode}
-							/>
-						))}
-					</div>
-				) : null}
+				{/* §6.4: the collection target keeps a stable container even
+				    with zero plans. */}
+				<div
+					{...targetAttrs?.plans}
+					className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6"
+				>
+					{plans.map((plan, index) => (
+						<PricingCard
+							key={getPlanKey(plan, index)}
+							plan={plan}
+							editMode={editMode}
+						/>
+					))}
+				</div>
 			</div>
 		</section>
 	);

@@ -5,10 +5,19 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import { listArtboards } from "./artboard-catalog";
 import type { DesignBlockProps } from "./DesignBlock";
 import { DesignBlock } from "./DesignBlock";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type DesignBlockAuthorableProps = AuthorableProps<DesignBlockProps>;
 
 export const metadata = {
 	componentName: "DesignBlock",
@@ -18,6 +27,36 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "layout",
+	// PLAN-0025 metadata v2 (§6.1/§6.5): ONLY explicitly safe size/
+	// background properties — the design canvas is an arbitrary-content
+	// surface with its own protocol; granting broad CSS here is
+	// explicitly prohibited ("never grant all CSS by default").
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Design block",
+					responsive: true,
+					properties: [
+						"width",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+					],
+				},
+				canvas: {
+					label: "Canvas",
+					responsive: true,
+					properties: ["width", "height", "borderRadius", "opacity"],
+				},
+			},
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -31,8 +70,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<DesignBlockProps> {
+function buildFields(t: T): Fields<DesignBlockAuthorableProps> {
 	return {
+		...authoringFields,
 		designId: {
 			type: "text",
 			label: t("design-block.fields.designId.label"),
@@ -78,7 +118,9 @@ function buildFields(t: T): Fields<DesignBlockProps> {
 	};
 }
 
-const renderDesignBlock: ComponentConfig<DesignBlockProps>["render"] = ({
+const renderDesignBlock: ComponentConfig<
+	DesignBlockAuthorableProps
+>["render"] = ({
 	designId,
 	previewUrl,
 	previewAssetId,
@@ -105,9 +147,12 @@ const renderDesignBlock: ComponentConfig<DesignBlockProps>["render"] = ({
 		editPortalLabel,
 		editMode,
 		puckNodeId: id,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(id),
+		targetAttrs: { canvas: anvilTargetAttrs(id, "canvas") },
 	});
 
-function buildConfig(t: T): ComponentConfig<DesignBlockProps> {
+function buildConfig(t: T): ComponentConfig<DesignBlockAuthorableProps> {
 	const localizedFields = buildFields(t);
 
 	/**
@@ -161,18 +206,20 @@ function buildConfig(t: T): ComponentConfig<DesignBlockProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<DesignBlockProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<DesignBlockAuthorableProps>;
 
 export const designBlockConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<DesignBlockProps>;
+) satisfies ComponentConfig<DesignBlockAuthorableProps>;
 
 export const componentConfig = designBlockConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<DesignBlockProps> {
+): ComponentConfig<DesignBlockAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

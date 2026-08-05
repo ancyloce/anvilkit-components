@@ -14,6 +14,14 @@ export interface InputProps {
 
 export interface InputViewProps extends InputProps {
 	editMode?: boolean;
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * (serializable). The view never converts authored appearance into
+	 * inline styles.
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id (`control`, `label`). */
+	targetAttrs?: Record<string, Record<string, string>>;
 }
 
 export function Input({
@@ -26,16 +34,19 @@ export function Input({
 	required = false,
 	disabled = false,
 	editMode = false,
+	rootAttrs,
+	targetAttrs,
 }: InputViewProps) {
 	const isDisabled = disabled || editMode;
 
 	return (
-		<label className="grid max-w-md gap-2 text-foreground">
-			<span className="text-sm font-semibold">
+		<label {...rootAttrs} className="grid max-w-md gap-2 text-foreground">
+			<span {...targetAttrs?.label} className="text-sm font-semibold">
 				{label}
 				{required ? " *" : ""}
 			</span>
 			<BaseInput
+				{...targetAttrs?.control}
 				type={type}
 				name={name}
 				defaultValue={defaultValue}

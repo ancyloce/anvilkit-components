@@ -30,6 +30,12 @@ export interface ButtonProps {
 
 export interface ButtonViewProps extends ButtonProps {
 	editMode?: boolean;
+	/**
+	 * Stable §6.2 target attributes stamped on the root element by the
+	 * config adapter (serializable string map). The view never converts
+	 * authored appearance into inline styles.
+	 */
+	rootAttrs?: Record<string, string>;
 }
 
 const variantMap = {
@@ -55,6 +61,7 @@ export function Button({
 	trackClick = false,
 	eventName,
 	eventProps,
+	rootAttrs,
 }: ButtonViewProps) {
 	const isInactive = disabled || editMode;
 	const resolvedHref = isInactive ? undefined : href;
@@ -73,6 +80,7 @@ export function Button({
 	if (href) {
 		return (
 			<a
+				{...rootAttrs}
 				href={resolvedHref}
 				target={resolvedHref && openInNewTab ? "_blank" : undefined}
 				rel="noreferrer noopener"
@@ -92,6 +100,7 @@ export function Button({
 
 	return (
 		<BaseButton
+			{...rootAttrs}
 			variant={resolvedVariant}
 			size="lg"
 			disabled={isInactive}

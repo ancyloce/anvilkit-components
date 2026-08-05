@@ -25,6 +25,13 @@ export interface HelpsProps {
 }
 
 export interface HelpsViewProps extends HelpsProps {
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025).
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id. */
+	targetAttrs?: Record<string, Record<string, string>>;
 	editMode?: boolean;
 }
 
@@ -50,6 +57,8 @@ export function Helps({
 	buttonOpenInNewTab = false,
 	avatars,
 	editMode = false,
+	rootAttrs,
+	targetAttrs,
 }: HelpsViewProps) {
 	const isInteractive = Boolean(buttonHref && !editMode);
 	const buttonContent = (
@@ -60,10 +69,13 @@ export function Helps({
 	);
 
 	return (
-		<section className="relative overflow-hidden bg-background">
+		<section {...rootAttrs} className="relative overflow-hidden bg-background">
 			<Ripple aria-hidden="true" />
 
-			<div className="relative z-10 px-4 py-6 text-center md:px-6 md:py-8 lg:px-8 lg:py-12">
+			<div
+				{...targetAttrs?.content}
+				className="relative z-10 px-4 py-6 text-center md:px-6 md:py-8 lg:px-8 lg:py-12"
+			>
 				<p className="mx-auto mb-6 max-w-prose text-balance text-sm font-medium whitespace-pre-line text-muted-foreground md:mb-8 md:text-base lg:mb-10 lg:text-lg">
 					{message}
 				</p>

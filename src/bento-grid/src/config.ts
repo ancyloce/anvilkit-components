@@ -5,10 +5,19 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import { BentoGrid } from "./BentoGrid";
 import { bentoGridExampleItems } from "./data";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { BentoGridProps } from "./types";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type BentoGridAuthorableProps = AuthorableProps<BentoGridProps>;
 
 export const metadata = {
 	componentName: "BentoGrid",
@@ -34,6 +43,40 @@ export const metadata = {
 			responsive: true,
 		},
 	},
+	// PLAN-0025 metadata v2 (§6.1/§6.5), alongside v1 until cutover.
+	// Deviations, confirmed against the real DOM: the root keeps its
+	// v1-era `!`-guarded theme background/border/shadow utilities, so
+	// those properties are NOT granted at root (granting controls the
+	// guards defeat would violate §6.5 "fewer controls is safer"); the
+	// `items` grid grants them where they genuinely apply. Child cards
+	// are their own DOM, not Puck nodes — parent styles must not leak
+	// (§6.5), so no card-level target exists.
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Grid",
+					responsive: true,
+					properties: [
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"borderRadius",
+						"opacity",
+					],
+				},
+				items: {
+					label: "Items",
+					responsive: true,
+					properties: ["display", "gap", "padding", "background"],
+				},
+			},
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -44,8 +87,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<BentoGridProps> {
+function buildFields(t: T): Fields<BentoGridAuthorableProps> {
 	return {
+		...authoringFields,
 		theme: {
 			type: "select",
 			label: t("bento-grid.fields.theme.label"),
@@ -223,16 +267,21 @@ type EditorRenderProps = {
 	editorDataAttributes?: Readonly<Record<string, string>>;
 };
 
-const renderBentoGrid: ComponentConfig<BentoGridProps>["render"] = (props) =>
+const renderBentoGrid: ComponentConfig<BentoGridAuthorableProps>["render"] = (
+	props,
+) =>
 	createElement(BentoGrid, {
 		items: props.items,
 		platform: props.platform,
 		theme: props.theme,
 		editMode: props.editMode,
 		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(props.id),
+		targetAttrs: { items: anvilTargetAttrs(props.id, "items") },
 	});
 
-function buildConfig(t: T): ComponentConfig<BentoGridProps> {
+function buildConfig(t: T): ComponentConfig<BentoGridAuthorableProps> {
 	return {
 		label: t("bento-grid.label"),
 		defaultProps,
@@ -246,18 +295,20 @@ function buildConfig(t: T): ComponentConfig<BentoGridProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<BentoGridProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<BentoGridAuthorableProps>;
 
 export const bentoGridConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<BentoGridProps>;
+) satisfies ComponentConfig<BentoGridAuthorableProps>;
 
 export const componentConfig = bentoGridConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<BentoGridProps> {
+): ComponentConfig<BentoGridAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

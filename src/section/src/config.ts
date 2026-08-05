@@ -5,9 +5,18 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { SectionProps } from "./Section";
 import { Section } from "./Section";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type SectionAuthorableProps = AuthorableProps<SectionProps>;
 
 export const metadata = {
 	componentName: "Section",
@@ -37,6 +46,48 @@ export const metadata = {
 			],
 		},
 	},
+	// PLAN-0025 metadata v2 (§6.1/§6.5), alongside v1 until cutover.
+	// Deviations from the §6.5 sketch, confirmed against the real DOM:
+	// Section carries no slot (fixed marketing copy, no renderDropZone),
+	// and `content` grants effective layout only — inherited typography
+	// on the container loses to the headline/description's fixed
+	// element-level text classes (same rationale as v1's note above).
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Section",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"gap",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				content: {
+					label: "Content",
+					responsive: true,
+					properties: ["width", "maxWidth", "padding", "gap"],
+				},
+			},
+			inlineText: [
+				{ id: "headline", propPath: "headline", format: "plain" },
+				{ id: "description", propPath: "description", format: "plain" },
+			],
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -49,8 +100,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<SectionProps> {
+function buildFields(t: T): Fields<SectionAuthorableProps> {
 	return {
+		...authoringFields,
 		badgeLabel: {
 			type: "text",
 			label: t("section.fields.badgeLabel.label"),
@@ -75,7 +127,9 @@ type EditorRenderProps = {
 	editorDataAttributes?: Readonly<Record<string, string>>;
 };
 
-const renderSection: ComponentConfig<SectionProps>["render"] = (props) =>
+const renderSection: ComponentConfig<SectionAuthorableProps>["render"] = (
+	props,
+) =>
 	createElement(Section, {
 		badgeLabel: props.badgeLabel,
 		headline: props.headline,
@@ -83,9 +137,12 @@ const renderSection: ComponentConfig<SectionProps>["render"] = (props) =>
 		description: props.description,
 		editMode: props.editMode,
 		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(props.id),
+		targetAttrs: { content: anvilTargetAttrs(props.id, "content") },
 	});
 
-function buildConfig(t: T): ComponentConfig<SectionProps> {
+function buildConfig(t: T): ComponentConfig<SectionAuthorableProps> {
 	return {
 		label: t("section.label"),
 		defaultProps,
@@ -99,18 +156,20 @@ function buildConfig(t: T): ComponentConfig<SectionProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<SectionProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<SectionAuthorableProps>;
 
 export const sectionConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<SectionProps>;
+) satisfies ComponentConfig<SectionAuthorableProps>;
 
 export const componentConfig = sectionConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<SectionProps> {
+): ComponentConfig<SectionAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

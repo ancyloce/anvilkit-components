@@ -66,6 +66,13 @@ export interface LogoCloudsProps {
 }
 
 export interface LogoCloudsViewProps extends LogoCloudsProps {
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025).
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id. */
+	targetAttrs?: Record<string, Record<string, string>>;
 	editMode?: boolean;
 }
 
@@ -73,9 +80,13 @@ export function LogoClouds({
 	title,
 	subtitle,
 	marqueeAriaLabel = "Brand logos",
+	rootAttrs,
+	targetAttrs,
 }: LogoCloudsViewProps) {
 	return (
-		<section className="anvilkit-logo-clouds__theme mx-auto flex w-full max-w-6xl flex-col items-center overflow-hidden px-4 py-16 text-center text-foreground sm:px-6 sm:py-20 lg:px-8 lg:py-24 [&>:first-child]:mx-auto [&>:first-child]:max-w-3xl [&>:first-child]:text-[clamp(3rem,9vw,4.75rem)] [&>:first-child]:leading-none [&>:first-child]:font-black [&>:first-child]:tracking-[-0.07em] [&>:nth-child(3)]:mt-8 sm:[&>:nth-child(3)]:mt-12 lg:[&>:nth-child(3)]:mt-16">
+		<section
+			{...rootAttrs}
+			className="anvilkit-logo-clouds__theme mx-auto flex w-full max-w-6xl flex-col items-center overflow-hidden px-4 py-16 text-center text-foreground sm:px-6 sm:py-20 lg:px-8 lg:py-24 [&>:first-child]:mx-auto [&>:first-child]:max-w-3xl [&>:first-child]:text-[clamp(3rem,9vw,4.75rem)] [&>:first-child]:leading-none [&>:first-child]:font-black [&>:first-child]:tracking-[-0.07em] [&>:nth-child(3)]:mt-8 sm:[&>:nth-child(3)]:mt-12 lg:[&>:nth-child(3)]:mt-16">
 			<ShimmeringText
 				aria-level={2}
 				role="heading"
@@ -87,7 +98,10 @@ export function LogoClouds({
 				{subtitle}
 			</p>
 
-			<div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+			<div
+				{...targetAttrs?.logos}
+				className="relative flex w-full flex-col items-center justify-center overflow-hidden"
+			>
 				<Marquee aria-label={marqueeAriaLabel} className="mt-8">
 					{logoCloudItems.map((item) => (
 						<div

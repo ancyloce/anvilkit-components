@@ -5,9 +5,18 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { LogoCloudsProps } from "./LogoClouds";
 import { LogoClouds } from "./LogoClouds";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type LogoCloudsAuthorableProps = AuthorableProps<LogoCloudsProps>;
 
 export const metadata = {
 	componentName: "LogoClouds",
@@ -17,6 +26,37 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
+	// PLAN-0025 metadata v2 (§6.1/§6.5): root container + the `logos`
+	// marquee region. Per-logo CSS is deliberately not exposed — logos
+	// are array rows, not Puck nodes (§6.5's note for this component).
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Logo clouds",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"gap",
+						"background",
+						"opacity",
+					],
+				},
+				logos: {
+					label: "Logos",
+					responsive: true,
+					properties: ["display", "gap", "padding", "background", "opacity"],
+				},
+			},
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -27,8 +67,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<LogoCloudsProps> {
+function buildFields(t: T): Fields<LogoCloudsAuthorableProps> {
 	return {
+		...authoringFields,
 		title: {
 			type: "text",
 			label: t("logo-clouds.fields.title.label"),
@@ -40,7 +81,8 @@ function buildFields(t: T): Fields<LogoCloudsProps> {
 	};
 }
 
-const renderLogoClouds: ComponentConfig<LogoCloudsProps>["render"] = ({
+const renderLogoClouds: ComponentConfig<LogoCloudsAuthorableProps>["render"] = ({
+	id,
 	title,
 	subtitle,
 	marqueeAriaLabel,
@@ -51,9 +93,12 @@ const renderLogoClouds: ComponentConfig<LogoCloudsProps>["render"] = ({
 		subtitle,
 		marqueeAriaLabel,
 		editMode,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(id),
+		targetAttrs: { logos: anvilTargetAttrs(id, "logos") },
 	});
 
-function buildConfig(t: T): ComponentConfig<LogoCloudsProps> {
+function buildConfig(t: T): ComponentConfig<LogoCloudsAuthorableProps> {
 	return {
 		label: t("logo-clouds.label"),
 		defaultProps: {
@@ -70,18 +115,20 @@ function buildConfig(t: T): ComponentConfig<LogoCloudsProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<LogoCloudsProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<LogoCloudsAuthorableProps>;
 
 export const logoCloudsConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<LogoCloudsProps>;
+) satisfies ComponentConfig<LogoCloudsAuthorableProps>;
 
 export const componentConfig = logoCloudsConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<LogoCloudsProps> {
+): ComponentConfig<LogoCloudsAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

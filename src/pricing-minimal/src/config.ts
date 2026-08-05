@@ -5,9 +5,18 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { PricingMinimalProps } from "./PricingMinimal";
 import { PricingMinimal } from "./PricingMinimal";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type PricingMinimalAuthorableProps = AuthorableProps<PricingMinimalProps>;
 
 export const metadata = {
 	componentName: "PricingMinimal",
@@ -17,6 +26,40 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
+	// PLAN-0025 metadata v2 (§6.1/§6.5): plan cards are object-field
+	// rows, not Puck nodes, so only the collection target (`plans`) is
+	// styleable — exactly the §6.5 note for this component.
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Pricing",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"background",
+						"opacity",
+					],
+				},
+				plans: {
+					label: "Plans",
+					responsive: true,
+					properties: ["display", "gap", "margin", "padding"],
+				},
+			},
+			inlineText: [
+				{ id: "headline", propPath: "headline", format: "plain" },
+				{ id: "description", propPath: "description", format: "plain" },
+			],
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -94,8 +137,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<PricingMinimalProps> {
+function buildFields(t: T): Fields<PricingMinimalAuthorableProps> {
 	return {
+		...authoringFields,
 		headline: {
 			type: "text",
 			label: t("pricing-minimal.fields.headline.label"),
@@ -232,7 +276,10 @@ function buildFields(t: T): Fields<PricingMinimalProps> {
 	};
 }
 
-const renderPricingMinimal: ComponentConfig<PricingMinimalProps>["render"] = ({
+const renderPricingMinimal: ComponentConfig<
+	PricingMinimalAuthorableProps
+>["render"] = ({
+	id,
 	headline,
 	description,
 	plans,
@@ -243,9 +290,12 @@ const renderPricingMinimal: ComponentConfig<PricingMinimalProps>["render"] = ({
 		description,
 		plans,
 		editMode,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(id),
+		targetAttrs: { plans: anvilTargetAttrs(id, "plans") },
 	});
 
-function buildConfig(t: T): ComponentConfig<PricingMinimalProps> {
+function buildConfig(t: T): ComponentConfig<PricingMinimalAuthorableProps> {
 	return {
 		label: t("pricing-minimal.label"),
 		defaultProps,
@@ -265,14 +315,14 @@ export const fields = buildFields(
 
 export const pricingMinimalConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<PricingMinimalProps>;
+) satisfies ComponentConfig<PricingMinimalAuthorableProps>;
 
 export const componentConfig = pricingMinimalConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<PricingMinimalProps> {
+): ComponentConfig<PricingMinimalAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

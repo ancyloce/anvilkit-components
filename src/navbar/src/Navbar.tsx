@@ -65,6 +65,13 @@ export interface NavbarProps {
 }
 
 export interface NavbarViewProps extends Omit<NavbarProps, "actions"> {
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025).
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id (`links`, `actions`). */
+	targetAttrs?: Record<string, Record<string, string>>;
 	actions?: NavbarActionViewProps[];
 	logoNode?: ReactNode;
 	className?: string;
@@ -286,6 +293,8 @@ export function Navbar({
 	brandFallbackText = "Brand",
 	className,
 	editMode = false,
+	rootAttrs,
+	targetAttrs,
 }: NavbarViewProps) {
 	const logoContent = getLogoContent(logo, brandFallbackText, logoNode);
 	const isLogoInteractive = Boolean(logo.href && !editMode);
@@ -306,6 +315,7 @@ export function Navbar({
 
 	return (
 		<nav
+			{...rootAttrs}
 			aria-label={navAriaLabel}
 			className={cn("w-full bg-background text-foreground", className)}
 		>
@@ -346,7 +356,10 @@ export function Navbar({
 
 					{items.length > 0 ? (
 						<div className="hidden min-w-0 justify-center md:flex">
-							<ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-10">
+							<ul
+								{...targetAttrs?.links}
+								className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-10"
+							>
 								{items.map((item) =>
 									renderDesktopMenuItem(
 										item,
@@ -369,15 +382,20 @@ export function Navbar({
 							</ul>
 						</div>
 					) : (
-						<div className="hidden md:block" />
+						// §6.4: the optional region keeps a stable stamped container.
+						<div {...targetAttrs?.links} className="hidden md:block" />
 					)}
 
 					{actions.length > 0 ? (
-						<div className="hidden flex-wrap items-center justify-start gap-4 md:flex md:justify-self-end md:justify-end">
+						<div
+							{...targetAttrs?.actions}
+							className="hidden flex-wrap items-center justify-start gap-4 md:flex md:justify-self-end md:justify-end"
+						>
 							{actions.map((action) => renderAction(action, editMode, false))}
 						</div>
 					) : (
-						<div className="hidden md:block" />
+						// §6.4: the optional region keeps a stable stamped container.
+						<div {...targetAttrs?.actions} className="hidden md:block" />
 					)}
 				</div>
 
@@ -390,7 +408,7 @@ export function Navbar({
 				{hasMobileMenu && isMobileMenuOpen ? (
 					<div id={mobileMenuId} className={mobileMenuPanelClassName}>
 						{items.length > 0 ? (
-							<ul className="space-y-2.5">
+							<ul {...targetAttrs?.links} className="space-y-2.5">
 								{items.map((item) =>
 									renderMobileMenuItem(
 										item,
@@ -403,7 +421,10 @@ export function Navbar({
 						) : null}
 
 						{actions.length > 0 ? (
-							<div className="flex flex-wrap justify-end gap-3 pt-2">
+							<div
+								{...targetAttrs?.actions}
+								className="flex flex-wrap justify-end gap-3 pt-2"
+							>
 								{actions.map((action) =>
 									renderAction(action, editMode, true, handleMobileMenuClose),
 								)}

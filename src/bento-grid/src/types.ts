@@ -36,9 +36,17 @@ export interface BentoGridViewProps extends BentoGridProps {
 	/**
 	 * Editor-stamped root attributes (AnvilKit visual editor,
 	 * `styleTarget: "root"`). Spread onto the root element; absent in
-	 * normal rendering.
+	 * normal rendering. Legacy v1 path — superseded by `rootAttrs`,
+	 * retained until the v1 runtime is deleted (PLAN-0025 Phase 6).
 	 */
 	editorDataAttributes?: Readonly<Record<string, string>>;
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025).
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id (`items`). */
+	targetAttrs?: Record<string, Record<string, string>>;
 }
 
 export interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {

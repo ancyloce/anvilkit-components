@@ -21,9 +21,17 @@ export interface HeroViewProps extends HeroProps {
 	/**
 	 * Editor-stamped root attributes (AnvilKit visual editor,
 	 * `styleTarget: "root"`). Spread onto the root element; absent in
-	 * normal rendering.
+	 * normal rendering. Legacy v1 path — superseded by `rootAttrs`,
+	 * retained until the v1 runtime is deleted (PLAN-0025 Phase 6).
 	 */
 	editorDataAttributes?: Readonly<Record<string, string>>;
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025).
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id (`content`, `actions`). */
+	targetAttrs?: Record<string, Record<string, string>>;
 }
 
 interface DownloadButtonProps {
@@ -96,6 +104,8 @@ export function Hero({
 	windowsOpenInNewTab = false,
 	editMode = false,
 	editorDataAttributes,
+	rootAttrs,
+	targetAttrs,
 }: HeroViewProps) {
 	const isAnnouncementInteractive = Boolean(announcementHref && !editMode);
 	const contentClassName = cn(
@@ -106,10 +116,10 @@ export function Hero({
 	);
 
 	return (
-		<section {...editorDataAttributes} className="anvilkit-hero">
+		<section {...editorDataAttributes} {...rootAttrs} className="anvilkit-hero">
 			<div aria-hidden="true" className="anvilkit-hero__backdrop" />
 
-			<div className={contentClassName}>
+			<div {...targetAttrs?.content} className={contentClassName}>
 				{isAnnouncementInteractive ? (
 					<RainbowButton
 						asChild
@@ -151,7 +161,10 @@ export function Hero({
 					{description}
 				</p>
 
-				<div className="mt-8 flex w-full max-w-[22rem] flex-col items-center justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:gap-5">
+				<div
+					{...targetAttrs?.actions}
+					className="mt-8 flex w-full max-w-[22rem] flex-col items-center justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:gap-5"
+				>
 					<DownloadButton
 						label={linuxLabel}
 						href={linuxHref}

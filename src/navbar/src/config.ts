@@ -5,9 +5,18 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { NavbarProps } from "./Navbar";
 import { Navbar } from "./Navbar";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type NavbarAuthorableProps = AuthorableProps<NavbarProps>;
 
 export const metadata = {
 	componentName: "Navbar",
@@ -17,6 +26,45 @@ export const metadata = {
 	scaffoldType: "layout",
 	schemaVersion: 1,
 	suggestedCategory: "navigation",
+	// PLAN-0025 metadata v2 (§6.1/§6.5): root nav bar; `links` and
+	// `actions` stamp the desktop, mobile, AND empty-fallback containers
+	// with the SAME target ids (§6.5: mobile variants retain target
+	// ids). Item labels live in array rows, not plain prop paths, so no
+	// inlineText declarations.
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Navbar",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				links: {
+					label: "Links",
+					responsive: true,
+					properties: ["display", "gap", "padding", "justifyContent", "alignItems"],
+				},
+				actions: {
+					label: "Actions",
+					responsive: true,
+					properties: ["display", "gap", "padding", "justifyContent", "alignItems"],
+				},
+			},
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -64,8 +112,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<NavbarProps> {
+function buildFields(t: T): Fields<NavbarAuthorableProps> {
 	return {
+		...authoringFields,
 		logo: {
 			type: "object",
 			label: t("navbar.fields.logo.label"),
@@ -237,7 +286,8 @@ function buildFields(t: T): Fields<NavbarProps> {
 	};
 }
 
-const renderNavbar: ComponentConfig<NavbarProps>["render"] = ({
+const renderNavbar: ComponentConfig<NavbarAuthorableProps>["render"] = ({
+	id,
 	logo,
 	items,
 	actions,
@@ -258,9 +308,15 @@ const renderNavbar: ComponentConfig<NavbarProps>["render"] = ({
 		navAriaLabel,
 		brandFallbackText,
 		editMode,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(id),
+		targetAttrs: {
+			links: anvilTargetAttrs(id, "links"),
+			actions: anvilTargetAttrs(id, "actions"),
+		},
 	});
 
-function buildConfig(t: T): ComponentConfig<NavbarProps> {
+function buildConfig(t: T): ComponentConfig<NavbarAuthorableProps> {
 	return {
 		label: t("navbar.label"),
 		defaultProps: {
@@ -278,18 +334,20 @@ function buildConfig(t: T): ComponentConfig<NavbarProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<NavbarProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<NavbarAuthorableProps>;
 
 export const navbarConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<NavbarProps>;
+) satisfies ComponentConfig<NavbarAuthorableProps>;
 
 export const componentConfig = navbarConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<NavbarProps> {
+): ComponentConfig<NavbarAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

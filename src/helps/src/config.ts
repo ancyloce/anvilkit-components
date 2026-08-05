@@ -5,9 +5,18 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	anvilTargetAttrs,
+	authoringFields,
+} from "./authoring";
 import type { HelpsProps } from "./Helps";
 import { Helps } from "./Helps";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type HelpsAuthorableProps = AuthorableProps<HelpsProps>;
 
 export const metadata = {
 	componentName: "Helps",
@@ -17,6 +26,37 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
+	// PLAN-0025 metadata v2 (§6.1/§6.5): root + the inner content
+	// column, targets confirmed against the actual DOM (§6.5's own
+	// instruction for this component).
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Helps",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"opacity",
+					],
+				},
+				content: {
+					label: "Content",
+					responsive: true,
+					properties: ["width", "maxWidth", "padding", "gap"],
+				},
+			},
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -61,8 +101,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<HelpsProps> {
+function buildFields(t: T): Fields<HelpsAuthorableProps> {
 	return {
+		...authoringFields,
 		message: {
 			type: "textarea",
 			label: t("helps.fields.message.label"),
@@ -121,7 +162,8 @@ function buildFields(t: T): Fields<HelpsProps> {
 	};
 }
 
-const renderHelps: ComponentConfig<HelpsProps>["render"] = ({
+const renderHelps: ComponentConfig<HelpsAuthorableProps>["render"] = ({
+	id,
 	message,
 	buttonLabel,
 	buttonHref,
@@ -136,9 +178,12 @@ const renderHelps: ComponentConfig<HelpsProps>["render"] = ({
 		buttonOpenInNewTab,
 		avatars,
 		editMode,
+		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+		rootAttrs: anvilRootAttrs(id),
+		targetAttrs: { content: anvilTargetAttrs(id, "content") },
 	});
 
-function buildConfig(t: T): ComponentConfig<HelpsProps> {
+function buildConfig(t: T): ComponentConfig<HelpsAuthorableProps> {
 	return {
 		label: t("helps.label"),
 		defaultProps,
@@ -152,18 +197,20 @@ function buildConfig(t: T): ComponentConfig<HelpsProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<HelpsProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<HelpsAuthorableProps>;
 
 export const helpsConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<HelpsProps>;
+) satisfies ComponentConfig<HelpsAuthorableProps>;
 
 export const componentConfig = helpsConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<HelpsProps> {
+): ComponentConfig<HelpsAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

@@ -35,6 +35,16 @@ export interface DesignBlockProps {
 }
 
 export interface DesignBlockViewProps extends DesignBlockProps {
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025). Carried by the permanent wrapper §6.4
+	 * requires — the content root is branch-dependent (empty state vs
+	 * figure) and edit mode adds a portal, so a stable wrapper is the
+	 * sanctioned fix.
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id (`canvas`). */
+	targetAttrs?: Record<string, Record<string, string>>;
 	editMode?: boolean;
 	/** Puck node id (injected by Puck's render). Lets the edit-mode open affordance tell the plugin which block to patch on commit. */
 	puckNodeId?: string;
@@ -58,6 +68,8 @@ export function DesignBlock({
 	editPortalLabel,
 	editMode = false,
 	puckNodeId,
+	rootAttrs,
+	targetAttrs,
 }: DesignBlockViewProps) {
 	const ratio = aspectRatioStyle[aspectRatio];
 
@@ -78,6 +90,7 @@ export function DesignBlock({
 
 	const content = !resolvedPreview ? (
 		<div
+			{...targetAttrs?.canvas}
 			data-testid="design-block-empty"
 			data-design-id={designId}
 			className="flex w-full items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 px-6 py-12 text-center text-sm text-muted-foreground"
@@ -87,6 +100,7 @@ export function DesignBlock({
 		</div>
 	) : (
 		<figure
+			{...targetAttrs?.canvas}
 			data-testid="design-block"
 			data-design-id={designId}
 			className="m-0 w-full"
@@ -107,18 +121,24 @@ export function DesignBlock({
 	// lands. Render mode (RSC) returns the bare preview — no client code.
 	if (editMode) {
 		return (
-			<Suspense fallback={content}>
-				<DesignBlockEditPortal
-					designId={designId}
-					puckNodeId={puckNodeId ?? null}
-					artboardId={artboardId ?? null}
-					label={editPortalLabel}
-				>
-					{content}
-				</DesignBlockEditPortal>
-			</Suspense>
+			<div {...rootAttrs} className="w-full">
+				<Suspense fallback={content}>
+					<DesignBlockEditPortal
+						designId={designId}
+						puckNodeId={puckNodeId ?? null}
+						artboardId={artboardId ?? null}
+						label={editPortalLabel}
+					>
+						{content}
+					</DesignBlockEditPortal>
+				</Suspense>
+			</div>
 		);
 	}
 
-	return content;
+	return (
+		<div {...rootAttrs} className="w-full">
+			{content}
+		</div>
+	);
 }

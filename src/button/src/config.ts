@@ -5,9 +5,17 @@ import type {
 } from "@puckeditor/core";
 import { createElement } from "react";
 import packageJson from "../package.json";
+import {
+	type AuthorableProps,
+	anvilRootAttrs,
+	authoringFields,
+} from "./authoring";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
+
+/** Business props + the §5.1 authoring carriers (PLAN-0025). */
+export type ButtonAuthorableProps = AuthorableProps<ButtonProps>;
 
 export const metadata = {
 	componentName: "Button",
@@ -17,6 +25,38 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "actions",
+	// PLAN-0025 metadata v2 (§6.1/§6.3): named targets with property
+	// allowlists — plain data, no runtime import. The compiler enforces
+	// the same allowlist the Inspector offers.
+	anvilkit: {
+		editor: {
+			version: "2",
+			styleTargets: {
+				root: {
+					label: "Button",
+					responsive: true,
+					properties: [
+						"width",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+					],
+				},
+			},
+			inlineText: [{ id: "label", propPath: "label", format: "plain" }],
+			interactions: true,
+			bindings: true,
+		},
+	},
 } satisfies ComponentMetadata;
 
 export const defaultProps = {
@@ -30,8 +70,9 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<ButtonProps> {
+function buildFields(t: T): Fields<ButtonAuthorableProps> {
 	return {
+		...authoringFields,
 		label: {
 			type: "text",
 			label: t("button.fields.label.label"),
@@ -117,7 +158,8 @@ function buildFields(t: T): Fields<ButtonProps> {
 	};
 }
 
-const renderButton: ComponentConfig<ButtonProps>["render"] = ({
+const renderButton: ComponentConfig<ButtonAuthorableProps>["render"] = ({
+	id,
 	label,
 	variant,
 	disabled,
@@ -138,9 +180,12 @@ const renderButton: ComponentConfig<ButtonProps>["render"] = ({
 		trackClick,
 		eventName,
 		eventProps,
+		// §6.2/§6.3: the official render emits stable targets; the shared
+		// compiler owns CSS materialization — never inline styles here.
+		rootAttrs: anvilRootAttrs(id),
 	});
 
-function buildConfig(t: T): ComponentConfig<ButtonProps> {
+function buildConfig(t: T): ComponentConfig<ButtonAuthorableProps> {
 	return {
 		label: t("button.label"),
 		defaultProps,
@@ -154,18 +199,20 @@ function buildConfig(t: T): ComponentConfig<ButtonProps> {
 
 const defaultT = createT();
 
-export const fields = buildFields(defaultT) satisfies Fields<ButtonProps>;
+export const fields = buildFields(
+	defaultT,
+) satisfies Fields<ButtonAuthorableProps>;
 
 export const buttonConfig = buildConfig(
 	defaultT,
-) satisfies ComponentConfig<ButtonProps>;
+) satisfies ComponentConfig<ButtonAuthorableProps>;
 
 export const componentConfig = buttonConfig;
 
 /** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
-): ComponentConfig<ButtonProps> {
+): ComponentConfig<ButtonAuthorableProps> {
 	return buildConfig(createT(options));
 }
 

@@ -15,9 +15,18 @@ export interface SectionViewProps extends SectionProps {
 	 * `styleTarget: "root"`). Core passes these when authoring is
 	 * enabled; spreading them onto the root element is what makes the
 	 * component selectable/stylable without a wrapper node. Absent in
-	 * normal rendering.
+	 * normal rendering. Legacy v1 path — superseded by `rootAttrs`,
+	 * retained until the v1 runtime is deleted (PLAN-0025 Phase 6).
 	 */
 	editorDataAttributes?: Readonly<Record<string, string>>;
+	/**
+	 * Stable §6.2 root-target attributes stamped by the config adapter
+	 * in EVERY mode (PLAN-0025). Identical values to the v1 decoration
+	 * when both are present, so the duplicate spread is a no-op.
+	 */
+	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id (`content`). */
+	targetAttrs?: Record<string, Record<string, string>>;
 }
 
 export function Section({
@@ -26,10 +35,19 @@ export function Section({
 	highlightedHeadline,
 	description,
 	editorDataAttributes,
+	rootAttrs,
+	targetAttrs,
 }: SectionViewProps) {
 	return (
-		<div {...editorDataAttributes} className="border-b w-full h-full p-12">
-			<div className="w-full max-w-md mx-auto flex flex-col items-center justify-center gap-2">
+		<div
+			{...editorDataAttributes}
+			{...rootAttrs}
+			className="border-b w-full h-full p-12"
+		>
+			<div
+				{...targetAttrs?.content}
+				className="w-full max-w-md mx-auto flex flex-col items-center justify-center gap-2"
+			>
 				<div className="flex flex-col items-center justify-center">
 					<div className="z-10 flex items-center justify-center">
 						<div className="group rounded-full border border-black/5 bg-neutral-100 transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800">
