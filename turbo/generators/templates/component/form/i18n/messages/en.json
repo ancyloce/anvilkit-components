@@ -17,5 +17,19 @@
   "{{name}}.fields.required.options.false": "No",
   "{{name}}.fields.disabled.label": "Disabled",
   "{{name}}.fields.disabled.options.true": "Yes",
-  "{{name}}.fields.disabled.options.false": "No"
+  "{{name}}.fields.disabled.options.false": "No",
+  "{{name}}.fields.classNames.label": "Custom classes",
+  "{{name}}.fields.animation.label": "Animation",
+  "{{name}}.fields.animation.preset": "Preset",
+  "{{name}}.fields.animation.preset.options.none": "None",
+  "{{name}}.fields.animation.preset.options.fade-in": "Fade in",
+  "{{name}}.fields.animation.preset.options.slide-up": "Slide up",
+  "{{name}}.fields.animation.preset.options.slide-down": "Slide down",
+  "{{name}}.fields.animation.preset.options.zoom-in": "Zoom in",
+  "{{name}}.fields.animation.duration": "Duration (ms)",
+  "{{name}}.fields.animation.delay": "Delay (ms)",
+  "{{name}}.fields.animation.easing": "Easing",
+  "{{name}}.targets.root": "{{componentLabel}}",
+  "{{name}}.targets.label": "Label",
+  "{{name}}.targets.control": "Control"
 }

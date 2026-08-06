@@ -17,5 +17,19 @@
   "{{name}}.fields.required.options.false": "否",
   "{{name}}.fields.disabled.label": "禁用",
   "{{name}}.fields.disabled.options.true": "是",
-  "{{name}}.fields.disabled.options.false": "否"
+  "{{name}}.fields.disabled.options.false": "否",
+  "{{name}}.fields.classNames.label": "自定义类名",
+  "{{name}}.fields.animation.label": "动画",
+  "{{name}}.fields.animation.preset": "预设",
+  "{{name}}.fields.animation.preset.options.none": "无",
+  "{{name}}.fields.animation.preset.options.fade-in": "淡入",
+  "{{name}}.fields.animation.preset.options.slide-up": "向上滑入",
+  "{{name}}.fields.animation.preset.options.slide-down": "向下滑入",
+  "{{name}}.fields.animation.preset.options.zoom-in": "缩放进入",
+  "{{name}}.fields.animation.duration": "持续时间（毫秒）",
+  "{{name}}.fields.animation.delay": "延迟（毫秒）",
+  "{{name}}.fields.animation.easing": "缓动",
+  "{{name}}.targets.root": "{{componentLabel}}",
+  "{{name}}.targets.label": "标签",
+  "{{name}}.targets.control": "输入控件"
 }

@@ -5,5 +5,18 @@
   "{{name}}.fields.emphasis.options.balanced": "균형",
   "{{name}}.fields.emphasis.options.accent": "액센트",
   "{{name}}.fields.leftColumn.label": "왼쪽 열",
-  "{{name}}.fields.rightColumn.label": "오른쪽 열"
+  "{{name}}.fields.rightColumn.label": "오른쪽 열",
+  "{{name}}.fields.classNames.label": "사용자 지정 클래스",
+  "{{name}}.fields.animation.label": "애니메이션",
+  "{{name}}.fields.animation.preset": "프리셋",
+  "{{name}}.fields.animation.preset.options.none": "없음",
+  "{{name}}.fields.animation.preset.options.fade-in": "페이드 인",
+  "{{name}}.fields.animation.preset.options.slide-up": "슬라이드 업",
+  "{{name}}.fields.animation.preset.options.slide-down": "슬라이드 다운",
+  "{{name}}.fields.animation.preset.options.zoom-in": "줌 인",
+  "{{name}}.fields.animation.duration": "지속 시간(밀리초)",
+  "{{name}}.fields.animation.delay": "지연(밀리초)",
+  "{{name}}.fields.animation.easing": "이징",
+  "{{name}}.targets.root": "{{componentLabel}}",
+  "{{name}}.targets.content": "콘텐츠"
 }

@@ -1,8 +1,14 @@
 import './styles.css';
 
+export type {
+  AnimationEasing,
+  AnimationPreset,
+  AnimationProps,
+} from './authoring';
 export { {{componentName}} } from './{{componentName}}';
 export type { {{componentName}}Props, {{componentName}}ViewProps } from './{{componentName}}';
 export {
+  type {{componentName}}AuthorableProps,
   componentConfig,
   createComponentConfig,
   create{{componentName}}Config,

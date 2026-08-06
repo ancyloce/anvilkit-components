@@ -17,5 +17,19 @@
   "{{name}}.fields.required.options.false": "いいえ",
   "{{name}}.fields.disabled.label": "無効",
   "{{name}}.fields.disabled.options.true": "はい",
-  "{{name}}.fields.disabled.options.false": "いいえ"
+  "{{name}}.fields.disabled.options.false": "いいえ",
+  "{{name}}.fields.classNames.label": "カスタムクラス",
+  "{{name}}.fields.animation.label": "アニメーション",
+  "{{name}}.fields.animation.preset": "プリセット",
+  "{{name}}.fields.animation.preset.options.none": "なし",
+  "{{name}}.fields.animation.preset.options.fade-in": "フェードイン",
+  "{{name}}.fields.animation.preset.options.slide-up": "スライドアップ",
+  "{{name}}.fields.animation.preset.options.slide-down": "スライドダウン",
+  "{{name}}.fields.animation.preset.options.zoom-in": "ズームイン",
+  "{{name}}.fields.animation.duration": "再生時間（ミリ秒）",
+  "{{name}}.fields.animation.delay": "遅延（ミリ秒）",
+  "{{name}}.fields.animation.easing": "イージング",
+  "{{name}}.targets.root": "{{componentLabel}}",
+  "{{name}}.targets.label": "ラベル",
+  "{{name}}.targets.control": "入力コントロール"
 }

@@ -5,5 +5,18 @@
   "{{name}}.fields.emphasis.options.balanced": "Balanced",
   "{{name}}.fields.emphasis.options.accent": "Accent",
   "{{name}}.fields.leftColumn.label": "Left column",
-  "{{name}}.fields.rightColumn.label": "Right column"
+  "{{name}}.fields.rightColumn.label": "Right column",
+  "{{name}}.fields.classNames.label": "Custom classes",
+  "{{name}}.fields.animation.label": "Animation",
+  "{{name}}.fields.animation.preset": "Preset",
+  "{{name}}.fields.animation.preset.options.none": "None",
+  "{{name}}.fields.animation.preset.options.fade-in": "Fade in",
+  "{{name}}.fields.animation.preset.options.slide-up": "Slide up",
+  "{{name}}.fields.animation.preset.options.slide-down": "Slide down",
+  "{{name}}.fields.animation.preset.options.zoom-in": "Zoom in",
+  "{{name}}.fields.animation.duration": "Duration (ms)",
+  "{{name}}.fields.animation.delay": "Delay (ms)",
+  "{{name}}.fields.animation.easing": "Easing",
+  "{{name}}.targets.root": "{{componentLabel}}",
+  "{{name}}.targets.content": "Content"
 }

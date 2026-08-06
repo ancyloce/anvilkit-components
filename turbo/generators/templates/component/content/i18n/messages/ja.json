@@ -5,5 +5,19 @@
   "{{name}}.fields.alignment.label": "配置",
   "{{name}}.fields.alignment.options.left": "左揃え",
   "{{name}}.fields.alignment.options.center": "中央揃え",
-  "{{name}}.fields.alignment.options.right": "右揃え"
+  "{{name}}.fields.alignment.options.right": "右揃え",
+  "{{name}}.fields.classNames.label": "カスタムクラス",
+  "{{name}}.fields.animation.label": "アニメーション",
+  "{{name}}.fields.animation.preset": "プリセット",
+  "{{name}}.fields.animation.preset.options.none": "なし",
+  "{{name}}.fields.animation.preset.options.fade-in": "フェードイン",
+  "{{name}}.fields.animation.preset.options.slide-up": "スライドアップ",
+  "{{name}}.fields.animation.preset.options.slide-down": "スライドダウン",
+  "{{name}}.fields.animation.preset.options.zoom-in": "ズームイン",
+  "{{name}}.fields.animation.duration": "再生時間（ミリ秒）",
+  "{{name}}.fields.animation.delay": "遅延（ミリ秒）",
+  "{{name}}.fields.animation.easing": "イージング",
+  "{{name}}.targets.root": "{{componentLabel}}",
+  "{{name}}.targets.title": "タイトル",
+  "{{name}}.targets.body": "本文"
 }

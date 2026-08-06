@@ -5,5 +5,18 @@
   "{{name}}.fields.emphasis.options.balanced": "バランス",
   "{{name}}.fields.emphasis.options.accent": "アクセント",
   "{{name}}.fields.leftColumn.label": "左カラム",
-  "{{name}}.fields.rightColumn.label": "右カラム"
+  "{{name}}.fields.rightColumn.label": "右カラム",
+  "{{name}}.fields.classNames.label": "カスタムクラス",
+  "{{name}}.fields.animation.label": "アニメーション",
+  "{{name}}.fields.animation.preset": "プリセット",
+  "{{name}}.fields.animation.preset.options.none": "なし",
+  "{{name}}.fields.animation.preset.options.fade-in": "フェードイン",
+  "{{name}}.fields.animation.preset.options.slide-up": "スライドアップ",
+  "{{name}}.fields.animation.preset.options.slide-down": "スライドダウン",
+  "{{name}}.fields.animation.preset.options.zoom-in": "ズームイン",
+  "{{name}}.fields.animation.duration": "再生時間（ミリ秒）",
+  "{{name}}.fields.animation.delay": "遅延（ミリ秒）",
+  "{{name}}.fields.animation.easing": "イージング",
+  "{{name}}.targets.root": "{{componentLabel}}",
+  "{{name}}.targets.content": "コンテンツ"
 }
