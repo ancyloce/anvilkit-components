@@ -7,19 +7,56 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	anvilTargetAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
-import type { BlogListProps } from "./BlogList";
+import type { BlogListPost, BlogListProps } from "./BlogList";
 import { BlogList } from "./BlogList";
-import { type CreateComponentConfigOptions, createT } from "./i18n";
+import {
+	type BlogListPostsAdapter,
+	type CreateComponentConfigOptions,
+	createT,
+} from "./i18n";
 
 const defaultPreviewImageSrc =
 	"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80";
 
-/** Business props + the §5.1 authoring carriers (PLAN-0025). */
-export type BlogListAuthorableProps = AuthorableProps<BlogListProps>;
+/**
+ * Business props + the §5.1 authoring carriers (PLAN-0025), plus the
+ * PLAN-0027 §2.3 data-source props. `dataSource`/`externalData` only
+ * gain fields when the host injects an adapter via
+ * `createComponentConfig({ dataSources })`; the static config never
+ * declares them.
+ */
+export type BlogListAuthorableProps = AuthorableProps<BlogListProps> & {
+	/** §2.3 data-source mode; meaningful only with a host adapter. */
+	dataSource?: "static" | "external";
+	/** §2.3 external-field selection, stored whole per the Puck contract. */
+	externalData?: unknown;
+};
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of BlogList.tsx:
+ * the posts grid IS the root `<section>` (both render branches — no
+ * separate `list` container exists to target); every card instance
+ * stamps `card` on its container (both the interactive `<a>` and the
+ * static `<div>` branch) plus `cardImage`/`cardMeta`/`cardTitle`/
+ * `cardDescription` on the shared card content. The empty state renders
+ * root only — it has no cards by definition.
+ */
+const STYLE_TARGET_IDS = [
+	"root",
+	"card",
+	"cardImage",
+	"cardMeta",
+	"cardTitle",
+	"cardDescription",
+] as const;
+
+type BlogListTargetId = (typeof STYLE_TARGET_IDS)[number];
 
 export const metadata = {
 	componentName: "BlogList",
@@ -29,10 +66,9 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
-	// PLAN-0025 metadata v2 (§6.1/§6.5). DEVIATION confirmed against
-	// the real DOM: the posts grid IS the root <section> (both render
-	// branches), so no separate `list` container exists to target —
-	// grid properties are granted at root instead.
+	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
+	// targets. Allowlists use only the grantable §6.1 vocabulary;
+	// typography properties are granted on text-bearing targets only.
 	anvilkit: {
 		editor: {
 			version: "2",
@@ -43,14 +79,99 @@ export const metadata = {
 					properties: [
 						"display",
 						"gap",
+						"alignItems",
+						"justifyContent",
 						"width",
+						"minWidth",
 						"maxWidth",
+						"height",
 						"margin",
 						"padding",
 						"background",
 						"border",
 						"borderRadius",
+						"boxShadow",
 						"opacity",
+					],
+				},
+				card: {
+					label: "Card",
+					responsive: true,
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"height",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				cardImage: {
+					label: "Card image",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"height",
+						"margin",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				cardMeta: {
+					label: "Card meta",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				cardTitle: {
+					label: "Card title",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				cardDescription: {
+					label: "Card description",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
 					],
 				},
 			},
@@ -103,7 +224,45 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<BlogListAuthorableProps> {
+/** §2.3 fields added only when the host injects a posts adapter. */
+function buildDataSourceFields(
+	adapter: BlogListPostsAdapter,
+	t: T,
+): Pick<Fields<BlogListAuthorableProps>, "dataSource" | "externalData"> {
+	return {
+		dataSource: {
+			type: "select",
+			label: t("blog-list.fields.dataSource.label"),
+			options: [
+				{
+					label: t("blog-list.fields.dataSource.options.static"),
+					value: "static",
+				},
+				{
+					label: t("blog-list.fields.dataSource.options.external"),
+					value: "external",
+				},
+			],
+		},
+		externalData: {
+			type: "external",
+			label: t("blog-list.fields.externalData.label"),
+			// The adapter deliberately takes no query params; the field
+			// stores the selection whole and resolveData maps it (§2.3).
+			fetchList: () => adapter.fetchList(),
+			showSearch: adapter.showSearch,
+			...(adapter.getItemSummary
+				? { getItemSummary: adapter.getItemSummary }
+				: {}),
+		},
+	};
+}
+
+function buildFields(
+	t: T,
+	dataSources?: CreateComponentConfigOptions["dataSources"],
+): Fields<BlogListAuthorableProps> {
+	const adapter = dataSources?.posts;
 	return {
 		...authoringFields,
 		posts: {
@@ -175,31 +334,108 @@ function buildFields(t: T): Fields<BlogListAuthorableProps> {
 				},
 			},
 		},
+		...(adapter ? buildDataSourceFields(adapter, t) : {}),
+		animation: animationField({
+			label: t("blog-list.fields.animation.label"),
+			preset: t("blog-list.fields.animation.preset"),
+			presetOptions: {
+				none: t("blog-list.fields.animation.preset.options.none"),
+				"fade-in": t("blog-list.fields.animation.preset.options.fade-in"),
+				"slide-up": t("blog-list.fields.animation.preset.options.slide-up"),
+				"slide-down": t("blog-list.fields.animation.preset.options.slide-down"),
+				"zoom-in": t("blog-list.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("blog-list.fields.animation.duration"),
+			delay: t("blog-list.fields.animation.delay"),
+			easing: t("blog-list.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`blog-list.targets.${targetId}`),
+			})),
+			t("blog-list.fields.classNames.label"),
+		),
+	};
+}
+
+/**
+ * PLAN-0027 §2.3 resolveData (Puck docs hybrid pattern): reacts only to
+ * `dataSource`/`externalData` changes (the docs' `changed` guard), maps
+ * the stored external selection into `posts` via the adapter's
+ * `mapItem`, and marks the static `posts` array read-only while
+ * external mode is active. Exists only when a host adapter is injected.
+ */
+function buildResolveData(
+	adapter: BlogListPostsAdapter,
+): NonNullable<ComponentConfig<BlogListAuthorableProps>["resolveData"]> {
+	return ({ props }, { changed }) => {
+		if (!changed.dataSource && !changed.externalData) {
+			return { props: {} };
+		}
+		if (props.dataSource !== "external") {
+			return { props: {}, readOnly: { posts: false } };
+		}
+		if (props.externalData == null) {
+			// External mode with nothing selected yet: keep the authored
+			// posts visible but locked until a selection lands.
+			return { props: {}, readOnly: { posts: true } };
+		}
+		const items = Array.isArray(props.externalData)
+			? props.externalData
+			: [props.externalData];
+		const mapItem =
+			adapter.mapItem ?? ((item: unknown) => item as BlogListPost);
+		return {
+			props: { posts: items.map(mapItem) },
+			readOnly: { posts: true },
+		};
 	};
 }
 
 const renderBlogList: ComponentConfig<BlogListAuthorableProps>["render"] = ({
 	id,
 	posts,
+	classNames,
+	animation,
 	editMode,
 }) =>
 	createElement(BlogList, {
 		posts,
+		classNames,
+		animation,
 		editMode,
 		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
 		rootAttrs: anvilRootAttrs(id),
+		targetAttrs: {
+			card: anvilTargetAttrs(id, "card"),
+			cardImage: anvilTargetAttrs(id, "cardImage"),
+			cardMeta: anvilTargetAttrs(id, "cardMeta"),
+			cardTitle: anvilTargetAttrs(id, "cardTitle"),
+			cardDescription: anvilTargetAttrs(id, "cardDescription"),
+		} satisfies Record<
+			Exclude<BlogListTargetId, "root">,
+			Record<string, string>
+		>,
 	});
 
-function buildConfig(t: T): ComponentConfig<BlogListAuthorableProps> {
-	return {
+function buildConfig(
+	t: T,
+	dataSources?: CreateComponentConfigOptions["dataSources"],
+): ComponentConfig<BlogListAuthorableProps> {
+	const config: ComponentConfig<BlogListAuthorableProps> = {
 		label: t("blog-list.label"),
 		defaultProps,
-		fields: buildFields(t),
+		fields: buildFields(t, dataSources),
 		metadata,
 		render: renderBlogList,
-		// resolveFields: async () => fields,
-		// resolveData: async (data) => data,
 	};
+	const adapter = dataSources?.posts;
+	if (adapter) {
+		config.resolveData = buildResolveData(adapter);
+	}
+	return config;
 }
 
 const defaultT = createT();
@@ -214,11 +450,16 @@ export const blogListConfig = buildConfig(
 
 export const componentConfig = blogListConfig;
 
-/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+/**
+ * Build a locale-aware config. Per-key fallback: messages → locale pack
+ * → en. With `options.dataSources.posts` present the config gains the
+ * §2.3 `dataSource`/`externalData` fields and `resolveData`; without it
+ * the output is byte-compatible with `componentConfig`.
+ */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
 ): ComponentConfig<BlogListAuthorableProps> {
-	return buildConfig(createT(options));
+	return buildConfig(createT(options), options?.dataSources);
 }
 
 export const createBlogListConfig = createComponentConfig;

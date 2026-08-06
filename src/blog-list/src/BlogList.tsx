@@ -1,3 +1,5 @@
+import { type AnimationProps, animationAttrs } from "./authoring";
+
 export interface BlogListPost {
 	title: string;
 	description: string;
@@ -12,6 +14,10 @@ export interface BlogListPost {
 
 export interface BlogListProps {
 	posts: BlogListPost[];
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface BlogListViewProps extends BlogListProps {
@@ -20,6 +26,8 @@ export interface BlogListViewProps extends BlogListProps {
 	 * in EVERY mode (PLAN-0025).
 	 */
 	rootAttrs?: Record<string, string>;
+	/** Named-target attributes keyed by target id (`card`, `cardImage`, …). */
+	targetAttrs?: Record<string, Record<string, string>>;
 	editMode?: boolean;
 }
 
@@ -34,6 +42,11 @@ const publishedDateFormatter = new Intl.DateTimeFormat("en-US", {
 	day: "numeric",
 	year: "numeric",
 });
+
+/** §2.2 merge: authored classes come AFTER base classes (no @anvilkit/ui dep → join). */
+function mergeClassNames(...classNames: (string | undefined)[]) {
+	return classNames.filter(Boolean).join(" ");
+}
 
 function formatPublishedLabel(post: BlogListPost) {
 	if (post.publishedLabel?.trim()) {
@@ -67,35 +80,63 @@ function getCardClassName(isInteractive: boolean) {
 function BlogListCard({
 	post,
 	editMode,
+	classNames,
+	targetAttrs,
 }: {
 	post: BlogListPost;
 	editMode: boolean;
+	classNames?: Record<string, string>;
+	targetAttrs?: Record<string, Record<string, string>>;
 }) {
 	const isInteractive = Boolean(post.href && !editMode);
-	const cardClassName = getCardClassName(isInteractive);
+	const cardClassName = mergeClassNames(
+		getCardClassName(isInteractive),
+		classNames?.card,
+	);
 	const cardContent = (
 		<>
 			<img
+				{...targetAttrs?.cardImage}
 				alt={post.imageAlt}
-				className="aspect-[1200/630] w-full border border-border object-cover object-center"
+				className={mergeClassNames(
+					"aspect-[1200/630] w-full border border-border object-cover object-center",
+					classNames?.cardImage,
+				)}
 				decoding="async"
 				height={630}
 				loading="lazy"
 				src={post.imageSrc}
 				width={1200}
 			/>
-			<p className="my-2">
-				<time
-					dateTime={post.publishedAt || undefined}
-					className="text-xs text-muted-foreground"
-				>
+			{/* Text classes sit on the stamped <p> (not the <time>) so the
+			    cardMeta target's typography grants actually take effect. */}
+			<p
+				{...targetAttrs?.cardMeta}
+				className={mergeClassNames(
+					"my-2 text-xs text-muted-foreground",
+					classNames?.cardMeta,
+				)}
+			>
+				<time dateTime={post.publishedAt || undefined}>
 					{getPublishedText(post)}
 				</time>
 			</p>
-			<h3 className="mb-2 text-xl font-medium text-foreground md:text-2xl">
+			<h3
+				{...targetAttrs?.cardTitle}
+				className={mergeClassNames(
+					"mb-2 text-xl font-medium text-foreground md:text-2xl",
+					classNames?.cardTitle,
+				)}
+			>
 				{post.title}
 			</h3>
-			<p className="text-base leading-7 text-muted-foreground md:text-lg">
+			<p
+				{...targetAttrs?.cardDescription}
+				className={mergeClassNames(
+					"text-base leading-7 text-muted-foreground md:text-lg",
+					classNames?.cardDescription,
+				)}
+			>
 				{post.description}
 			</p>
 		</>
@@ -104,6 +145,7 @@ function BlogListCard({
 	if (isInteractive) {
 		return (
 			<a
+				{...targetAttrs?.card}
 				href={post.href}
 				target={post.openInNewTab ? "_blank" : undefined}
 				rel={post.openInNewTab ? "noreferrer noopener" : undefined}
@@ -114,19 +156,33 @@ function BlogListCard({
 		);
 	}
 
-	return <div className={cardClassName}>{cardContent}</div>;
+	return (
+		<div {...targetAttrs?.card} className={cardClassName}>
+			{cardContent}
+		</div>
+	);
 }
 
 export function BlogList({
 	posts,
+	classNames,
+	animation,
 	editMode = false,
 	rootAttrs,
+	targetAttrs,
 }: BlogListViewProps) {
+	const anim = animationAttrs(animation);
+
 	if (posts.length === 0) {
 		return (
 			<section
 				{...rootAttrs}
-				className="border border-border bg-background p-6 text-center text-sm text-muted-foreground md:p-8"
+				className={mergeClassNames(
+					"border border-border bg-background p-6 text-center text-sm text-muted-foreground md:p-8",
+					anim.className,
+					classNames?.root,
+				)}
+				style={anim.style}
 			>
 				Add blog posts to populate this list.
 			</section>
@@ -136,13 +192,20 @@ export function BlogList({
 	return (
 		<section
 			{...rootAttrs}
-			className="grid grid-cols-1 border border-border border-b-0 bg-background lg:grid-cols-3"
+			className={mergeClassNames(
+				"grid grid-cols-1 border border-border border-b-0 bg-background lg:grid-cols-3",
+				anim.className,
+				classNames?.root,
+			)}
+			style={anim.style}
 		>
 			{posts.map((post) => (
 				<BlogListCard
 					key={`${post.title}-${post.publishedAt}-${post.href || "card"}`}
 					post={post}
 					editMode={editMode}
+					classNames={classNames}
+					targetAttrs={targetAttrs}
 				/>
 			))}
 		</section>
