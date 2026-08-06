@@ -241,6 +241,16 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 					data: templateData,
 				},
 				{
+					// PLAN-0027 §2.5: the canonical authoring surface ships
+					// verbatim per package (no @anvilkit/core dependency), and
+					// `tests/authoring-contract.test.ts` locks every copy to one
+					// structural shape.
+					type: "add",
+					path: "src/{{name}}/src/authoring.ts",
+					templateFile: path.join(templatesDir, "src", "authoring.ts"),
+					data: templateData,
+				},
+				{
 					type: "add",
 					path: "src/{{name}}/src/i18n.ts",
 					templateFile: path.join(templatesDir, "src", "i18n.ts"),
