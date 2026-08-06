@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { type AnimationProps, animationAttrs } from "./authoring";
 import {
 	getDesignPreview,
 	isDesignPreviewReference,
@@ -32,6 +33,10 @@ export interface DesignBlockProps {
 	unavailableText?: string;
 	/** Accessible label for the edit-mode open-in-canvas affordance. */
 	editPortalLabel?: string;
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface DesignBlockViewProps extends DesignBlockProps {
@@ -57,6 +62,11 @@ const aspectRatioStyle: Record<DesignBlockAspectRatio, string | undefined> = {
 	"1/1": "1 / 1",
 };
 
+/** §2.2 merge: authored classes come AFTER base classes (no @anvilkit/ui dep → join). */
+function mergeClassNames(...classNames: (string | undefined)[]) {
+	return classNames.filter(Boolean).join(" ");
+}
+
 export function DesignBlock({
 	designId,
 	previewUrl,
@@ -66,12 +76,23 @@ export function DesignBlock({
 	editPromptText = "Click to design this block in the canvas editor.",
 	unavailableText = "Design not available.",
 	editPortalLabel,
+	classNames,
+	animation,
 	editMode = false,
 	puckNodeId,
 	rootAttrs,
 	targetAttrs,
 }: DesignBlockViewProps) {
 	const ratio = aspectRatioStyle[aspectRatio];
+	const anim = animationAttrs(animation);
+	// The root wrapper is the ONE element present in every branch, so it
+	// carries the §2.4 entrance animation; `ratio` stays on the canvas
+	// target where the aspect box actually lives.
+	const rootClassName = mergeClassNames(
+		"w-full",
+		anim.className,
+		classNames?.root,
+	);
 
 	// Preview resolution. New canvas commits write only a tiny `design://`
 	// reference into the node props (the heavy image bytes live in the
@@ -93,7 +114,10 @@ export function DesignBlock({
 			{...targetAttrs?.canvas}
 			data-testid="design-block-empty"
 			data-design-id={designId}
-			className="flex w-full items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 px-6 py-12 text-center text-sm text-muted-foreground"
+			className={mergeClassNames(
+				"flex w-full items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 px-6 py-12 text-center text-sm text-muted-foreground",
+				classNames?.canvas,
+			)}
 			style={ratio ? { aspectRatio: ratio } : undefined}
 		>
 			{editMode ? editPromptText : unavailableText}
@@ -103,7 +127,7 @@ export function DesignBlock({
 			{...targetAttrs?.canvas}
 			data-testid="design-block"
 			data-design-id={designId}
-			className="m-0 w-full"
+			className={mergeClassNames("m-0 w-full", classNames?.canvas)}
 			style={ratio ? { aspectRatio: ratio } : undefined}
 		>
 			<img
@@ -121,7 +145,7 @@ export function DesignBlock({
 	// lands. Render mode (RSC) returns the bare preview — no client code.
 	if (editMode) {
 		return (
-			<div {...rootAttrs} className="w-full">
+			<div {...rootAttrs} className={rootClassName} style={anim.style}>
 				<Suspense fallback={content}>
 					<DesignBlockEditPortal
 						designId={designId}
@@ -137,7 +161,7 @@ export function DesignBlock({
 	}
 
 	return (
-		<div {...rootAttrs} className="w-full">
+		<div {...rootAttrs} className={rootClassName} style={anim.style}>
 			{content}
 		</div>
 	);

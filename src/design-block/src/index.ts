@@ -9,6 +9,11 @@ export {
 	listArtboards,
 	setArtboardCatalog,
 } from "./artboard-catalog";
+export type {
+	AnimationEasing,
+	AnimationPreset,
+	AnimationProps,
+} from "./authoring";
 export {
 	componentConfig,
 	componentConfig as designBlockComponentConfig,
