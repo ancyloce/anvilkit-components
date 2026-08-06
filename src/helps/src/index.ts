@@ -1,5 +1,10 @@
 import "./styles.css";
 
+export type {
+	AnimationEasing,
+	AnimationPreset,
+	AnimationProps,
+} from "./authoring";
 export {
 	componentConfig,
 	createComponentConfig,
@@ -8,6 +13,7 @@ export {
 	defaultProps as helpsDefaultProps,
 	fields,
 	fields as helpsFields,
+	type HelpsAuthorableProps,
 	helpsConfig,
 	metadata,
 	metadata as helpsMetadata,
@@ -16,6 +22,7 @@ export type { HelpsAvatar, HelpsProps, HelpsViewProps } from "./Helps";
 export { Helps } from "./Helps";
 export {
 	type CreateComponentConfigOptions,
+	type HelpsAvatarsAdapter,
 	type HelpsMessageKey,
 	helpsI18nEntry,
 } from "./i18n";

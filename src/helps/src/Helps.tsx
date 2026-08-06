@@ -9,6 +9,7 @@ import { cn } from "@anvilkit/ui/lib/utils";
 import { Ripple } from "@anvilkit/ui/ripple";
 import { GitPullRequest } from "lucide-react";
 import { Fragment } from "react";
+import { type AnimationProps, animationAttrs } from "./authoring";
 
 export interface HelpsAvatar {
 	name: string;
@@ -22,6 +23,10 @@ export interface HelpsProps {
 	buttonHref?: string;
 	buttonOpenInNewTab?: boolean;
 	avatars: HelpsAvatar[];
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface HelpsViewProps extends HelpsProps {
@@ -30,7 +35,7 @@ export interface HelpsViewProps extends HelpsProps {
 	 * in EVERY mode (PLAN-0025).
 	 */
 	rootAttrs?: Record<string, string>;
-	/** Named-target attributes keyed by target id. */
+	/** Named-target attributes keyed by target id (`content`, `message`, …). */
 	targetAttrs?: Record<string, Record<string, string>>;
 	editMode?: boolean;
 }
@@ -56,11 +61,19 @@ export function Helps({
 	buttonHref,
 	buttonOpenInNewTab = false,
 	avatars,
+	classNames,
+	animation,
 	editMode = false,
 	rootAttrs,
 	targetAttrs,
 }: HelpsViewProps) {
+	const anim = animationAttrs(animation);
 	const isInteractive = Boolean(buttonHref && !editMode);
+	// §2.2 merge: authored classes come AFTER base classes so they win.
+	const buttonClassName = cn(
+		"h-10 items-center gap-2 px-4 py-2",
+		classNames?.button,
+	);
 	const buttonContent = (
 		<>
 			<GitPullRequest aria-hidden="true" className="size-5" />
@@ -69,19 +82,42 @@ export function Helps({
 	);
 
 	return (
-		<section {...rootAttrs} className="relative overflow-hidden bg-background">
+		<section
+			{...rootAttrs}
+			className={cn(
+				"relative overflow-hidden bg-background",
+				anim.className,
+				classNames?.root,
+			)}
+			style={anim.style}
+		>
 			<Ripple aria-hidden="true" />
 
 			<div
 				{...targetAttrs?.content}
-				className="relative z-10 px-4 py-6 text-center md:px-6 md:py-8 lg:px-8 lg:py-12"
+				className={cn(
+					"relative z-10 px-4 py-6 text-center md:px-6 md:py-8 lg:px-8 lg:py-12",
+					classNames?.content,
+				)}
 			>
-				<p className="mx-auto mb-6 max-w-prose text-balance text-sm font-medium whitespace-pre-line text-muted-foreground md:mb-8 md:text-base lg:mb-10 lg:text-lg">
+				<p
+					{...targetAttrs?.message}
+					className={cn(
+						"mx-auto mb-6 max-w-prose text-balance text-sm font-medium whitespace-pre-line text-muted-foreground md:mb-8 md:text-base lg:mb-10 lg:text-lg",
+						classNames?.message,
+					)}
+				>
 					{message}
 				</p>
 
 				{avatars.length > 0 ? (
-					<AvatarGroup className="mb-8 justify-center -space-x-4 md:mb-10 md:-space-x-5 lg:mb-12 lg:-space-x-4">
+					<AvatarGroup
+						{...targetAttrs?.avatarGroup}
+						className={cn(
+							"mb-8 justify-center -space-x-4 md:mb-10 md:-space-x-5 lg:mb-12 lg:-space-x-4",
+							classNames?.avatarGroup,
+						)}
+					>
 						{avatars.map((avatar) => (
 							<Fragment
 								key={
@@ -89,7 +125,14 @@ export function Helps({
 									`${avatar.name}-${avatar.initials || "avatar"}`
 								}
 							>
-								<Avatar className="size-10 bg-muted ring-2 ring-background md:size-12 lg:size-14">
+								{/* §2.1: one shared target id stamped on EVERY item instance. */}
+								<Avatar
+									{...targetAttrs?.avatar}
+									className={cn(
+										"size-10 bg-muted ring-2 ring-background md:size-12 lg:size-14",
+										classNames?.avatar,
+									)}
+								>
 									{avatar.imageUrl ? (
 										<AvatarImage alt={avatar.name} src={avatar.imageUrl} />
 									) : null}
@@ -110,25 +153,30 @@ export function Helps({
 					</AvatarGroup>
 				) : null}
 
-				<div className="flex justify-center">
+				<div
+					{...targetAttrs?.actions}
+					className={cn("flex justify-center", classNames?.actions)}
+				>
 					{isInteractive ? (
 						<a
+							{...targetAttrs?.button}
 							href={buttonHref}
 							target={buttonOpenInNewTab ? "_blank" : undefined}
 							rel={buttonOpenInNewTab ? "noreferrer noopener" : undefined}
 							className={cn(
 								buttonVariants({ variant: "secondary" }),
-								"h-10 items-center gap-2 px-4 py-2",
+								buttonClassName,
 							)}
 						>
 							{buttonContent}
 						</a>
 					) : (
 						<BaseButton
+							{...targetAttrs?.button}
 							type="button"
 							variant="secondary"
 							disabled={editMode || !buttonHref}
-							className="h-10 items-center gap-2 px-4 py-2"
+							className={buttonClassName}
 						>
 							{buttonContent}
 						</BaseButton>
