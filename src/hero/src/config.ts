@@ -7,9 +7,11 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	anvilTargetAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
 import type { HeroProps } from "./Hero";
 import { Hero } from "./Hero";
@@ -17,6 +19,30 @@ import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 /** Business props + the §5.1 authoring carriers (PLAN-0025). */
 export type HeroAuthorableProps = AuthorableProps<HeroProps>;
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of Hero.tsx:
+ * the root `<section>`, the centered `content` column, the announcement
+ * `badge` (both the interactive `<a>` and the static button branch),
+ * the `headline` h1, the `description` p, the `actions` row, and the
+ * two download CTAs sharing one `cta` id stamped on every instance
+ * (both the interactive `<a>`-rendered and the disabled-button branch).
+ * DEVIATION vs the §6.5 sketch, confirmed against the real DOM: Hero
+ * renders NO media element (no img/video anywhere), so no `media`
+ * target exists — fabricating an empty container would be the §8.5
+ * fabrication this phase removes.
+ */
+const STYLE_TARGET_IDS = [
+	"root",
+	"content",
+	"badge",
+	"headline",
+	"description",
+	"actions",
+	"cta",
+] as const;
+
+type HeroTargetId = (typeof STYLE_TARGET_IDS)[number];
 
 export const metadata = {
 	componentName: "Hero",
@@ -26,32 +52,10 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
-	// AnvilKit visual-editor capability declaration (contract:
-	// `EditorCapabilityMetadata` in `@anvilkit/contracts/editor` —
-	// mirrored literally to avoid a new dependency). `styleTarget:
-	// "root"`: Hero spreads `editorDataAttributes` onto its root
-	// section; the h1/p carry `data-ak-text-target` stamps for the
-	// inline targets. Typography stays undeclared — the headline and
-	// description set their own text classes.
-	editor: {
-		version: "1",
-		styleTarget: "root",
-		capabilities: {
-			layoutItem: true,
-			visualStyle: true,
-			responsive: true,
-			inlineText: [
-				{ id: "headline", propPath: "headline", format: "plain" },
-				{ id: "description", propPath: "description", format: "plain" },
-			],
-		},
-	},
-	// PLAN-0025 metadata v2 (§6.1/§6.5), alongside v1 until cutover.
-	// DEVIATION vs the §6.5 sketch, confirmed against the real DOM:
-	// Hero has NO media element (no img/video anywhere in the render),
-	// so no `media` target exists — fabricating an empty container
-	// would be the §8.5 fabrication this phase removes. Typography
-	// stays ungranted for the same fixed-text-class reason as v1.
+	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
+	// targets (legacy v1 block deleted per PLAN-0027 §2.5). Allowlists
+	// use only the grantable §6.1 vocabulary; typography properties are
+	// granted on text-bearing targets only.
 	anvilkit: {
 		editor: {
 			version: "2",
@@ -62,6 +66,28 @@ export const metadata = {
 					properties: [
 						"display",
 						"width",
+						"minWidth",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				content: {
+					label: "Content",
+					responsive: true,
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"minWidth",
 						"maxWidth",
 						"height",
 						"margin",
@@ -70,10 +96,60 @@ export const metadata = {
 						"opacity",
 					],
 				},
-				content: {
-					label: "Content",
+				badge: {
+					label: "Announcement badge",
 					responsive: true,
-					properties: ["width", "maxWidth", "padding", "gap", "opacity"],
+					properties: [
+						"display",
+						"gap",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+					],
+				},
+				headline: {
+					label: "Headline",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				description: {
+					label: "Description",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"maxWidth",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
 				},
 				actions: {
 					label: "Actions",
@@ -81,12 +157,36 @@ export const metadata = {
 					properties: [
 						"display",
 						"gap",
-						"margin",
-						"padding",
-						"width",
-						"maxWidth",
 						"alignItems",
 						"justifyContent",
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"opacity",
+					],
+				},
+				cta: {
+					label: "CTA buttons",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"minWidth",
+						"maxWidth",
+						"height",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
 					],
 				},
 			},
@@ -194,6 +294,28 @@ function buildFields(t: T): Fields<HeroAuthorableProps> {
 				},
 			],
 		},
+		animation: animationField({
+			label: t("hero.fields.animation.label"),
+			preset: t("hero.fields.animation.preset"),
+			presetOptions: {
+				none: t("hero.fields.animation.preset.options.none"),
+				"fade-in": t("hero.fields.animation.preset.options.fade-in"),
+				"slide-up": t("hero.fields.animation.preset.options.slide-up"),
+				"slide-down": t("hero.fields.animation.preset.options.slide-down"),
+				"zoom-in": t("hero.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("hero.fields.animation.duration"),
+			delay: t("hero.fields.animation.delay"),
+			easing: t("hero.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`hero.targets.${targetId}`),
+			})),
+			t("hero.fields.classNames.label"),
+		),
 	};
 }
 
@@ -215,14 +337,20 @@ const renderHero: ComponentConfig<HeroAuthorableProps>["render"] = (props) =>
 		windowsLabel: props.windowsLabel,
 		windowsHref: props.windowsHref,
 		windowsOpenInNewTab: props.windowsOpenInNewTab,
+		classNames: props.classNames,
+		animation: props.animation,
 		editMode: props.editMode,
 		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
 		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
 		rootAttrs: anvilRootAttrs(props.id),
 		targetAttrs: {
 			content: anvilTargetAttrs(props.id, "content"),
+			badge: anvilTargetAttrs(props.id, "badge"),
+			headline: anvilTargetAttrs(props.id, "headline"),
+			description: anvilTargetAttrs(props.id, "description"),
 			actions: anvilTargetAttrs(props.id, "actions"),
-		},
+			cta: anvilTargetAttrs(props.id, "cta"),
+		} satisfies Record<Exclude<HeroTargetId, "root">, Record<string, string>>,
 	});
 
 function buildConfig(t: T): ComponentConfig<HeroAuthorableProps> {
