@@ -2,6 +2,7 @@ import { Button as BaseButton } from "@anvilkit/ui/button";
 import { cn } from "@anvilkit/ui/lib/utils";
 import { Separator } from "@anvilkit/ui/separator";
 import { CheckIcon, PlusIcon } from "lucide-react";
+import { type AnimationProps, animationAttrs } from "./authoring";
 
 export interface PricingFeature {
 	label: string;
@@ -25,6 +26,10 @@ export interface PricingMinimalProps {
 	headline: string;
 	description: string;
 	plans: PricingPlan[];
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface PricingMinimalViewProps extends PricingMinimalProps {
@@ -33,7 +38,7 @@ export interface PricingMinimalViewProps extends PricingMinimalProps {
 	 * in EVERY mode (PLAN-0025).
 	 */
 	rootAttrs?: Record<string, string>;
-	/** Named-target attributes keyed by target id (`plans`). */
+	/** Named-target attributes keyed by target id (`plans`, `card`, …). */
 	targetAttrs?: Record<string, Record<string, string>>;
 	editMode?: boolean;
 }
@@ -47,22 +52,29 @@ function getPlanKey(plan: PricingPlan, index: number) {
 function PricingPlanButton({
 	plan,
 	editMode,
+	classNames,
+	targetAttrs,
 }: {
 	plan: PricingPlan;
 	editMode: boolean;
+	classNames?: Record<string, string>;
+	targetAttrs?: Record<string, Record<string, string>>;
 }) {
 	const isFeatured = Boolean(plan.featured);
 	const isInteractive = Boolean(plan.ctaHref && !editMode);
+	// §2.2 merge: authored classes come AFTER base classes so they win.
 	const className = cn(
 		"mt-7 h-11 w-full rounded-md px-4 text-sm font-semibold shadow-none",
 		isFeatured
 			? "bg-foreground text-background hover:bg-foreground/90 hover:text-background"
 			: "border-border bg-background text-foreground hover:bg-muted hover:text-foreground",
+		classNames?.cta,
 	);
 
 	if (isInteractive) {
 		return (
 			<BaseButton
+				{...targetAttrs?.cta}
 				render={
 					<a
 						href={plan.ctaHref}
@@ -83,6 +95,7 @@ function PricingPlanButton({
 
 	return (
 		<BaseButton
+			{...targetAttrs?.cta}
 			type="button"
 			disabled={editMode || !plan.ctaHref}
 			variant={isFeatured ? "default" : "outline"}
@@ -97,16 +110,23 @@ function PricingPlanButton({
 function FeatureList({
 	features,
 	accent = false,
+	classNames,
+	targetAttrs,
 }: {
 	features: PricingFeature[];
 	accent?: boolean;
+	classNames?: Record<string, string>;
+	targetAttrs?: Record<string, Record<string, string>>;
 }) {
 	if (features.length === 0) {
 		return null;
 	}
 
 	return (
-		<ul className="space-y-4">
+		<ul
+			{...targetAttrs?.features}
+			className={cn("space-y-4", classNames?.features)}
+		>
 			{features.map((feature, index) => (
 				<li
 					key={[feature.label, index].filter(Boolean).join("-")}
@@ -147,9 +167,13 @@ function FeatureDivider() {
 function PricingCard({
 	plan,
 	editMode,
+	classNames,
+	targetAttrs,
 }: {
 	plan: PricingPlan;
 	editMode: boolean;
+	classNames?: Record<string, string>;
+	targetAttrs?: Record<string, Record<string, string>>;
 }) {
 	const isFeatured = Boolean(plan.featured);
 	const badgeLabel = plan.badgeLabel?.trim();
@@ -157,11 +181,13 @@ function PricingCard({
 
 	return (
 		<article
+			{...targetAttrs?.card}
 			className={cn(
 				"relative flex h-full flex-col rounded-[1.5rem] px-5 py-6 sm:px-6 sm:py-7",
 				isFeatured
 					? "border border-border bg-card shadow-sm shadow-black/5 dark:shadow-black/20"
 					: "border border-transparent bg-transparent",
+				classNames?.card,
 			)}
 		>
 			<div className="flex items-start justify-between gap-4">
@@ -183,7 +209,13 @@ function PricingCard({
 
 			<div className="mt-8">
 				<div className="flex items-end">
-					<span className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+					<span
+						{...targetAttrs?.price}
+						className={cn(
+							"text-4xl font-semibold tracking-tight text-foreground sm:text-5xl",
+							classNames?.price,
+						)}
+					>
 						{plan.price}
 					</span>
 				</div>
@@ -192,14 +224,28 @@ function PricingCard({
 				</p>
 			</div>
 
-			<PricingPlanButton plan={plan} editMode={editMode} />
+			<PricingPlanButton
+				plan={plan}
+				editMode={editMode}
+				classNames={classNames}
+				targetAttrs={targetAttrs}
+			/>
 
 			<div className="mt-6 flex flex-1 flex-col">
-				<FeatureList features={plan.features} />
+				<FeatureList
+					features={plan.features}
+					classNames={classNames}
+					targetAttrs={targetAttrs}
+				/>
 				{extraFeatures.length > 0 ? (
 					<>
 						<FeatureDivider />
-						<FeatureList features={extraFeatures} accent />
+						<FeatureList
+							features={extraFeatures}
+							accent
+							classNames={classNames}
+							targetAttrs={targetAttrs}
+						/>
 					</>
 				) : null}
 			</div>
@@ -211,18 +257,42 @@ export function PricingMinimal({
 	headline,
 	description,
 	plans,
+	classNames,
+	animation,
 	editMode = false,
 	rootAttrs,
 	targetAttrs,
 }: PricingMinimalViewProps) {
+	const anim = animationAttrs(animation);
+
 	return (
-		<section {...rootAttrs} className="bg-background py-12 sm:py-16 lg:py-20">
+		<section
+			{...rootAttrs}
+			className={cn(
+				"bg-background py-12 sm:py-16 lg:py-20",
+				anim.className,
+				classNames?.root,
+			)}
+			style={anim.style}
+		>
 			<div className="mx-auto flex w-full max-w-7xl flex-col px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto max-w-2xl text-center">
-					<h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+					<h2
+						{...targetAttrs?.headline}
+						className={cn(
+							"text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl",
+							classNames?.headline,
+						)}
+					>
 						{headline}
 					</h2>
-					<p className="mx-auto mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
+					<p
+						{...targetAttrs?.description}
+						className={cn(
+							"mx-auto mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg",
+							classNames?.description,
+						)}
+					>
 						{description}
 					</p>
 				</div>
@@ -231,13 +301,18 @@ export function PricingMinimal({
 				    with zero plans. */}
 				<div
 					{...targetAttrs?.plans}
-					className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6"
+					className={cn(
+						"mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6",
+						classNames?.plans,
+					)}
 				>
 					{plans.map((plan, index) => (
 						<PricingCard
 							key={getPlanKey(plan, index)}
 							plan={plan}
 							editMode={editMode}
+							classNames={classNames}
+							targetAttrs={targetAttrs}
 						/>
 					))}
 				</div>

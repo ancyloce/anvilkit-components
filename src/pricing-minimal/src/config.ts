@@ -7,16 +7,58 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	anvilTargetAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
-import { type CreateComponentConfigOptions, createT } from "./i18n";
-import type { PricingMinimalProps } from "./PricingMinimal";
+import {
+	type CreateComponentConfigOptions,
+	createT,
+	type PricingMinimalPlansAdapter,
+} from "./i18n";
+import type { PricingMinimalProps, PricingPlan } from "./PricingMinimal";
 import { PricingMinimal } from "./PricingMinimal";
 
-/** Business props + the §5.1 authoring carriers (PLAN-0025). */
-export type PricingMinimalAuthorableProps = AuthorableProps<PricingMinimalProps>;
+/**
+ * Business props + the §5.1 authoring carriers (PLAN-0025), plus the
+ * PLAN-0027 §2.3 data-source props. `dataSource`/`externalData` only
+ * gain fields when the host injects an adapter via
+ * `createComponentConfig({ dataSources })`; the static config never
+ * declares them.
+ */
+export type PricingMinimalAuthorableProps =
+	AuthorableProps<PricingMinimalProps> & {
+		/** §2.3 data-source mode; meaningful only with a host adapter. */
+		dataSource?: "static" | "external";
+		/** §2.3 external-field selection, stored whole per the Puck contract. */
+		externalData?: unknown;
+	};
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of
+ * PricingMinimal.tsx: the root `<section>` wraps the intro `headline`
+ * (`<h2>`) and `description` (`<p>`) plus the `plans` grid (a stable
+ * container even with zero plans, §6.4). Every plan instance stamps
+ * `card` on its `<article>`, `price` on the price `<span>`, `features`
+ * on each feature `<ul>` (base and extra lists share the one id — the
+ * compiler's exact-pair selector styles them uniformly), and `cta` on
+ * the plan button in BOTH branches (interactive `<a>` render and the
+ * disabled `<button>`).
+ */
+const STYLE_TARGET_IDS = [
+	"root",
+	"headline",
+	"description",
+	"plans",
+	"card",
+	"price",
+	"features",
+	"cta",
+] as const;
+
+type PricingMinimalTargetId = (typeof STYLE_TARGET_IDS)[number];
 
 export const metadata = {
 	componentName: "PricingMinimal",
@@ -26,9 +68,9 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
-	// PLAN-0025 metadata v2 (§6.1/§6.5): plan cards are object-field
-	// rows, not Puck nodes, so only the collection target (`plans`) is
-	// styleable — exactly the §6.5 note for this component.
+	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
+	// targets. Allowlists use only the grantable §6.1 vocabulary;
+	// typography properties are granted on text-bearing targets only.
 	anvilkit: {
 		editor: {
 			version: "2",
@@ -39,17 +81,129 @@ export const metadata = {
 					properties: [
 						"display",
 						"width",
+						"minWidth",
 						"maxWidth",
+						"height",
 						"margin",
 						"padding",
 						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
 						"opacity",
+					],
+				},
+				headline: {
+					label: "Headline",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				description: {
+					label: "Description",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
 					],
 				},
 				plans: {
 					label: "Plans",
 					responsive: true,
-					properties: ["display", "gap", "margin", "padding"],
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				card: {
+					label: "Plan card",
+					responsive: true,
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"height",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				price: {
+					label: "Price",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				features: {
+					label: "Feature list",
+					responsive: true,
+					properties: ["display", "gap", "margin", "padding", "opacity"],
+				},
+				cta: {
+					label: "CTA button",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
 				},
 			},
 			inlineText: [
@@ -137,7 +291,45 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<PricingMinimalAuthorableProps> {
+/** §2.3 fields added only when the host injects a plans adapter. */
+function buildDataSourceFields(
+	adapter: PricingMinimalPlansAdapter,
+	t: T,
+): Pick<Fields<PricingMinimalAuthorableProps>, "dataSource" | "externalData"> {
+	return {
+		dataSource: {
+			type: "select",
+			label: t("pricing-minimal.fields.dataSource.label"),
+			options: [
+				{
+					label: t("pricing-minimal.fields.dataSource.options.static"),
+					value: "static",
+				},
+				{
+					label: t("pricing-minimal.fields.dataSource.options.external"),
+					value: "external",
+				},
+			],
+		},
+		externalData: {
+			type: "external",
+			label: t("pricing-minimal.fields.externalData.label"),
+			// The adapter deliberately takes no query params; the field
+			// stores the selection whole and resolveData maps it (§2.3).
+			fetchList: () => adapter.fetchList(),
+			showSearch: adapter.showSearch,
+			...(adapter.getItemSummary
+				? { getItemSummary: adapter.getItemSummary }
+				: {}),
+		},
+	};
+}
+
+function buildFields(
+	t: T,
+	dataSources?: CreateComponentConfigOptions["dataSources"],
+): Fields<PricingMinimalAuthorableProps> {
+	const adapter = dataSources?.plans;
 	return {
 		...authoringFields,
 		headline: {
@@ -273,45 +465,117 @@ function buildFields(t: T): Fields<PricingMinimalAuthorableProps> {
 				},
 			},
 		},
+		...(adapter ? buildDataSourceFields(adapter, t) : {}),
+		animation: animationField({
+			label: t("pricing-minimal.fields.animation.label"),
+			preset: t("pricing-minimal.fields.animation.preset"),
+			presetOptions: {
+				none: t("pricing-minimal.fields.animation.preset.options.none"),
+				"fade-in": t("pricing-minimal.fields.animation.preset.options.fade-in"),
+				"slide-up": t(
+					"pricing-minimal.fields.animation.preset.options.slide-up",
+				),
+				"slide-down": t(
+					"pricing-minimal.fields.animation.preset.options.slide-down",
+				),
+				"zoom-in": t("pricing-minimal.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("pricing-minimal.fields.animation.duration"),
+			delay: t("pricing-minimal.fields.animation.delay"),
+			easing: t("pricing-minimal.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`pricing-minimal.targets.${targetId}`),
+			})),
+			t("pricing-minimal.fields.classNames.label"),
+		),
 	};
 }
 
-const renderPricingMinimal: ComponentConfig<
-	PricingMinimalAuthorableProps
->["render"] = ({
-	id,
-	headline,
-	description,
-	plans,
-	editMode,
-}) =>
-	createElement(PricingMinimal, {
-		headline,
-		description,
-		plans,
-		editMode,
-		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
-		rootAttrs: anvilRootAttrs(id),
-		targetAttrs: { plans: anvilTargetAttrs(id, "plans") },
-	});
+/**
+ * PLAN-0027 §2.3 resolveData (Puck docs hybrid pattern): reacts only to
+ * `dataSource`/`externalData` changes (the docs' `changed` guard), maps
+ * the stored external selection into `plans` via the adapter's
+ * `mapItem`, and marks the static `plans` array read-only while
+ * external mode is active. Exists only when a host adapter is injected.
+ */
+function buildResolveData(
+	adapter: PricingMinimalPlansAdapter,
+): NonNullable<ComponentConfig<PricingMinimalAuthorableProps>["resolveData"]> {
+	return ({ props }, { changed }) => {
+		if (!changed.dataSource && !changed.externalData) {
+			return { props: {} };
+		}
+		if (props.dataSource !== "external") {
+			return { props: {}, readOnly: { plans: false } };
+		}
+		if (props.externalData == null) {
+			// External mode with nothing selected yet: keep the authored
+			// plans visible but locked until a selection lands.
+			return { props: {}, readOnly: { plans: true } };
+		}
+		const items = Array.isArray(props.externalData)
+			? props.externalData
+			: [props.externalData];
+		const mapItem = adapter.mapItem ?? ((item: unknown) => item as PricingPlan);
+		return {
+			props: { plans: items.map(mapItem) },
+			readOnly: { plans: true },
+		};
+	};
+}
 
-function buildConfig(t: T): ComponentConfig<PricingMinimalAuthorableProps> {
-	return {
+const renderPricingMinimal: ComponentConfig<PricingMinimalAuthorableProps>["render"] =
+	({ id, headline, description, plans, classNames, animation, editMode }) =>
+		createElement(PricingMinimal, {
+			headline,
+			description,
+			plans,
+			classNames,
+			animation,
+			editMode,
+			// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+			rootAttrs: anvilRootAttrs(id),
+			targetAttrs: {
+				headline: anvilTargetAttrs(id, "headline"),
+				description: anvilTargetAttrs(id, "description"),
+				plans: anvilTargetAttrs(id, "plans"),
+				card: anvilTargetAttrs(id, "card"),
+				price: anvilTargetAttrs(id, "price"),
+				features: anvilTargetAttrs(id, "features"),
+				cta: anvilTargetAttrs(id, "cta"),
+			} satisfies Record<
+				Exclude<PricingMinimalTargetId, "root">,
+				Record<string, string>
+			>,
+		});
+
+function buildConfig(
+	t: T,
+	dataSources?: CreateComponentConfigOptions["dataSources"],
+): ComponentConfig<PricingMinimalAuthorableProps> {
+	const config: ComponentConfig<PricingMinimalAuthorableProps> = {
 		label: t("pricing-minimal.label"),
 		defaultProps,
-		fields: buildFields(t),
+		fields: buildFields(t, dataSources),
 		metadata,
 		render: renderPricingMinimal,
-		// resolveFields: async () => fields,
-		// resolveData: async (data) => data,
 	};
+	const adapter = dataSources?.plans;
+	if (adapter) {
+		config.resolveData = buildResolveData(adapter);
+	}
+	return config;
 }
 
 const defaultT = createT();
 
 export const fields = buildFields(
 	defaultT,
-) satisfies Fields<PricingMinimalProps>;
+) satisfies Fields<PricingMinimalAuthorableProps>;
 
 export const pricingMinimalConfig = buildConfig(
 	defaultT,
@@ -319,11 +583,16 @@ export const pricingMinimalConfig = buildConfig(
 
 export const componentConfig = pricingMinimalConfig;
 
-/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+/**
+ * Build a locale-aware config. Per-key fallback: messages → locale pack
+ * → en. With `options.dataSources.plans` present the config gains the
+ * §2.3 `dataSource`/`externalData` fields and `resolveData`; without it
+ * the output is byte-compatible with `componentConfig`.
+ */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
 ): ComponentConfig<PricingMinimalAuthorableProps> {
-	return buildConfig(createT(options));
+	return buildConfig(createT(options), options?.dataSources);
 }
 
 export const createPricingMinimalConfig = createComponentConfig;
