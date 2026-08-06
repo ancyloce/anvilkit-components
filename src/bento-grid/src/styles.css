@@ -206,3 +206,50 @@
 	opacity: 1;
 	transform: scale(1.02);
 }
+
+/* PLAN-0027 §2.4 entrance animations. The three custom properties are
+   set inline at runtime by animationAttrs(); reduced-motion users get
+   no motion at all. */
+@media (prefers-reduced-motion: no-preference) {
+	.ak-anim {
+		animation-delay: var(--ak-anim-delay, 0ms);
+		animation-duration: var(--ak-anim-duration, 500ms);
+		animation-fill-mode: both;
+		animation-timing-function: var(--ak-anim-easing, ease);
+	}
+	.ak-anim-fade-in {
+		animation-name: ak-anim-fade-in;
+	}
+	.ak-anim-slide-up {
+		animation-name: ak-anim-slide-up;
+	}
+	.ak-anim-slide-down {
+		animation-name: ak-anim-slide-down;
+	}
+	.ak-anim-zoom-in {
+		animation-name: ak-anim-zoom-in;
+	}
+	@keyframes ak-anim-fade-in {
+		from {
+			opacity: 0;
+		}
+	}
+	@keyframes ak-anim-slide-up {
+		from {
+			opacity: 0;
+			transform: translateY(16px);
+		}
+	}
+	@keyframes ak-anim-slide-down {
+		from {
+			opacity: 0;
+			transform: translateY(-16px);
+		}
+	}
+	@keyframes ak-anim-zoom-in {
+		from {
+			opacity: 0;
+			transform: scale(0.95);
+		}
+	}
+}

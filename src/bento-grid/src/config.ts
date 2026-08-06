@@ -7,17 +7,55 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	anvilTargetAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
 import { BentoGrid } from "./BentoGrid";
 import { bentoGridExampleItems } from "./data";
-import { type CreateComponentConfigOptions, createT } from "./i18n";
-import type { BentoGridProps } from "./types";
+import {
+	type BentoGridItemsAdapter,
+	type CreateComponentConfigOptions,
+	createT,
+} from "./i18n";
+import type { BentoGridItem, BentoGridProps } from "./types";
 
-/** Business props + the §5.1 authoring carriers (PLAN-0025). */
-export type BentoGridAuthorableProps = AuthorableProps<BentoGridProps>;
+/**
+ * Business props + the §5.1 authoring carriers (PLAN-0025), plus the
+ * PLAN-0027 §2.3 data-source props. `dataSource`/`externalData` only
+ * gain fields when the host injects an adapter via
+ * `createComponentConfig({ dataSources })`; the static config never
+ * declares them.
+ */
+export type BentoGridAuthorableProps = AuthorableProps<BentoGridProps> & {
+	/** §2.3 data-source mode; meaningful only with a host adapter. */
+	dataSource?: "static" | "external";
+	/** §2.3 external-field selection, stored whole per the Puck contract. */
+	externalData?: unknown;
+};
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of BentoGrid.tsx
+ * and its card subtree: the root `<section>` shell, the `items` card
+ * grid, and — stamped on EVERY card instance — `card` (BentoCard's
+ * container), `cardIcon` (IconBadge), `cardTitle`/`cardDescription`
+ * (BentoCardContent's text block), and `cardCta` (ItemCallToAction's
+ * `<a>` AND its disabled `<span>` branch). An empty `items` array
+ * renders root + grid only — it has no cards by definition.
+ */
+const STYLE_TARGET_IDS = [
+	"root",
+	"items",
+	"card",
+	"cardIcon",
+	"cardTitle",
+	"cardDescription",
+	"cardCta",
+] as const;
+
+type BentoGridTargetId = (typeof STYLE_TARGET_IDS)[number];
 
 export const metadata = {
 	componentName: "BentoGrid",
@@ -27,40 +65,28 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
-	// AnvilKit visual-editor capability declaration (contract:
-	// `EditorCapabilityMetadata` in `@anvilkit/contracts/editor` —
-	// mirrored literally to avoid a new dependency). `styleTarget:
-	// "root"`: BentoGrid spreads `editorDataAttributes` onto its root
-	// section. `layoutContainer` covers the display/padding the root
-	// honours; the inner card grid keeps its own gap classes, and
-	// items are serialized props (no slot fields), so no `slotMap`.
-	editor: {
-		version: "1",
-		styleTarget: "root",
-		capabilities: {
-			layoutContainer: true,
-			visualStyle: true,
-			responsive: true,
-		},
-	},
-	// PLAN-0025 metadata v2 (§6.1/§6.5), alongside v1 until cutover.
-	// Deviations, confirmed against the real DOM: the root keeps its
-	// v1-era `!`-guarded theme background/border/shadow utilities, so
-	// those properties are NOT granted at root (granting controls the
-	// guards defeat would violate §6.5 "fewer controls is safer"); the
-	// `items` grid grants them where they genuinely apply. Child cards
-	// are their own DOM, not Puck nodes — parent styles must not leak
-	// (§6.5), so no card-level target exists.
+	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
+	// targets. Allowlists use only the grantable §6.1 vocabulary;
+	// typography properties are granted on text-bearing targets only
+	// (`cardIcon` gets `color` alone — the lucide icon renders with
+	// currentColor, so it genuinely applies). Deviation, confirmed
+	// against the real DOM: the root keeps its `!`-guarded theme
+	// background/border/shadow utilities, so those properties are NOT
+	// granted at root (granting controls the guards defeat would violate
+	// §6.5 "fewer controls is safer").
 	anvilkit: {
 		editor: {
 			version: "2",
 			styleTargets: {
 				root: {
-					label: "Grid",
+					label: "Bento grid",
 					responsive: true,
 					properties: [
+						"display",
 						"width",
+						"minWidth",
 						"maxWidth",
+						"height",
 						"margin",
 						"padding",
 						"borderRadius",
@@ -68,9 +94,102 @@ export const metadata = {
 					],
 				},
 				items: {
-					label: "Items",
+					label: "Card grid",
 					responsive: true,
-					properties: ["display", "gap", "padding", "background"],
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"margin",
+						"padding",
+						"background",
+						"borderRadius",
+						"opacity",
+					],
+				},
+				card: {
+					label: "Card",
+					responsive: true,
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"height",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				cardIcon: {
+					label: "Card icon",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"height",
+						"margin",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+						"color",
+					],
+				},
+				cardTitle: {
+					label: "Card title",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				cardDescription: {
+					label: "Card description",
+					responsive: true,
+					properties: [
+						"display",
+						"maxWidth",
+						"margin",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				cardCta: {
+					label: "Card CTA",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"padding",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
 				},
 			},
 			interactions: true,
@@ -87,7 +206,45 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<BentoGridAuthorableProps> {
+/** §2.3 fields added only when the host injects an items adapter. */
+function buildDataSourceFields(
+	adapter: BentoGridItemsAdapter,
+	t: T,
+): Pick<Fields<BentoGridAuthorableProps>, "dataSource" | "externalData"> {
+	return {
+		dataSource: {
+			type: "select",
+			label: t("bento-grid.fields.dataSource.label"),
+			options: [
+				{
+					label: t("bento-grid.fields.dataSource.options.static"),
+					value: "static",
+				},
+				{
+					label: t("bento-grid.fields.dataSource.options.external"),
+					value: "external",
+				},
+			],
+		},
+		externalData: {
+			type: "external",
+			label: t("bento-grid.fields.externalData.label"),
+			// The adapter deliberately takes no query params; the field
+			// stores the selection whole and resolveData maps it (§2.3).
+			fetchList: () => adapter.fetchList(),
+			showSearch: adapter.showSearch,
+			...(adapter.getItemSummary
+				? { getItemSummary: adapter.getItemSummary }
+				: {}),
+		},
+	};
+}
+
+function buildFields(
+	t: T,
+	dataSources?: CreateComponentConfigOptions["dataSources"],
+): Fields<BentoGridAuthorableProps> {
+	const adapter = dataSources?.items;
 	return {
 		...authoringFields,
 		theme: {
@@ -259,6 +416,65 @@ function buildFields(t: T): Fields<BentoGridAuthorableProps> {
 				},
 			},
 		},
+		...(adapter ? buildDataSourceFields(adapter, t) : {}),
+		animation: animationField({
+			label: t("bento-grid.fields.animation.label"),
+			preset: t("bento-grid.fields.animation.preset"),
+			presetOptions: {
+				none: t("bento-grid.fields.animation.preset.options.none"),
+				"fade-in": t("bento-grid.fields.animation.preset.options.fade-in"),
+				"slide-up": t("bento-grid.fields.animation.preset.options.slide-up"),
+				"slide-down": t(
+					"bento-grid.fields.animation.preset.options.slide-down",
+				),
+				"zoom-in": t("bento-grid.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("bento-grid.fields.animation.duration"),
+			delay: t("bento-grid.fields.animation.delay"),
+			easing: t("bento-grid.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`bento-grid.targets.${targetId}`),
+			})),
+			t("bento-grid.fields.classNames.label"),
+		),
+	};
+}
+
+/**
+ * PLAN-0027 §2.3 resolveData (Puck docs hybrid pattern): reacts only to
+ * `dataSource`/`externalData` changes (the docs' `changed` guard), maps
+ * the stored external selection into `items` via the adapter's
+ * `mapItem`, and marks the static `items` array read-only while
+ * external mode is active. Exists only when a host adapter is injected.
+ */
+function buildResolveData(
+	adapter: BentoGridItemsAdapter,
+): NonNullable<ComponentConfig<BentoGridAuthorableProps>["resolveData"]> {
+	return ({ props }, { changed }) => {
+		if (!changed.dataSource && !changed.externalData) {
+			return { props: {} };
+		}
+		if (props.dataSource !== "external") {
+			return { props: {}, readOnly: { items: false } };
+		}
+		if (props.externalData == null) {
+			// External mode with nothing selected yet: keep the authored
+			// items visible but locked until a selection lands.
+			return { props: {}, readOnly: { items: true } };
+		}
+		const selection = Array.isArray(props.externalData)
+			? props.externalData
+			: [props.externalData];
+		const mapItem =
+			adapter.mapItem ?? ((item: unknown) => item as BentoGridItem);
+		return {
+			props: { items: selection.map(mapItem) },
+			readOnly: { items: true },
+		};
 	};
 }
 
@@ -274,23 +490,41 @@ const renderBentoGrid: ComponentConfig<BentoGridAuthorableProps>["render"] = (
 		items: props.items,
 		platform: props.platform,
 		theme: props.theme,
+		classNames: props.classNames,
+		animation: props.animation,
 		editMode: props.editMode,
 		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
 		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
 		rootAttrs: anvilRootAttrs(props.id),
-		targetAttrs: { items: anvilTargetAttrs(props.id, "items") },
+		targetAttrs: {
+			items: anvilTargetAttrs(props.id, "items"),
+			card: anvilTargetAttrs(props.id, "card"),
+			cardIcon: anvilTargetAttrs(props.id, "cardIcon"),
+			cardTitle: anvilTargetAttrs(props.id, "cardTitle"),
+			cardDescription: anvilTargetAttrs(props.id, "cardDescription"),
+			cardCta: anvilTargetAttrs(props.id, "cardCta"),
+		} satisfies Record<
+			Exclude<BentoGridTargetId, "root">,
+			Record<string, string>
+		>,
 	});
 
-function buildConfig(t: T): ComponentConfig<BentoGridAuthorableProps> {
-	return {
+function buildConfig(
+	t: T,
+	dataSources?: CreateComponentConfigOptions["dataSources"],
+): ComponentConfig<BentoGridAuthorableProps> {
+	const config: ComponentConfig<BentoGridAuthorableProps> = {
 		label: t("bento-grid.label"),
 		defaultProps,
-		fields: buildFields(t),
+		fields: buildFields(t, dataSources),
 		metadata,
 		render: renderBentoGrid,
-		// resolveFields: async () => fields,
-		// resolveData: async (data) => data,
 	};
+	const adapter = dataSources?.items;
+	if (adapter) {
+		config.resolveData = buildResolveData(adapter);
+	}
+	return config;
 }
 
 const defaultT = createT();
@@ -305,11 +539,16 @@ export const bentoGridConfig = buildConfig(
 
 export const componentConfig = bentoGridConfig;
 
-/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+/**
+ * Build a locale-aware config. Per-key fallback: messages → locale pack
+ * → en. With `options.dataSources.items` present the config gains the
+ * §2.3 `dataSource`/`externalData` fields and `resolveData`; without it
+ * the output is byte-compatible with `componentConfig`.
+ */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
 ): ComponentConfig<BentoGridAuthorableProps> {
-	return buildConfig(createT(options));
+	return buildConfig(createT(options), options?.dataSources);
 }
 
 export const createBentoGridConfig = createComponentConfig;

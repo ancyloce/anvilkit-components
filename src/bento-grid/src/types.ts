@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { AnimationProps } from "./authoring";
 import type {
 	cardSizeClassNames,
 	iconMap,
@@ -29,6 +30,10 @@ export interface BentoGridProps {
 	className?: string;
 	platform?: BentoGridPlatform;
 	theme?: BentoGridTheme;
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface BentoGridViewProps extends BentoGridProps {
@@ -45,7 +50,7 @@ export interface BentoGridViewProps extends BentoGridProps {
 	 * in EVERY mode (PLAN-0025).
 	 */
 	rootAttrs?: Record<string, string>;
-	/** Named-target attributes keyed by target id (`items`). */
+	/** Named-target attributes keyed by target id (`items`, `card`, `cardIcon`, …). */
 	targetAttrs?: Record<string, Record<string, string>>;
 }
 

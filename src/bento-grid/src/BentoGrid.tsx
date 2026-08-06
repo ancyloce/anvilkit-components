@@ -1,3 +1,4 @@
+import { animationAttrs } from "./authoring";
 import { BentoCard } from "./BentoCard";
 import { BentoCardContent } from "./BentoCardContent";
 import {
@@ -16,11 +17,15 @@ export function BentoGrid({
 	className,
 	platform = "adaptive",
 	theme = "dark",
+	classNames,
+	animation,
 	editMode = false,
 	editorDataAttributes,
 	rootAttrs,
 	targetAttrs,
 }: BentoGridViewProps) {
+	const anim = animationAttrs(animation);
+
 	return (
 		<section
 			{...editorDataAttributes}
@@ -30,7 +35,11 @@ export function BentoGrid({
 				platformContainerClassNames[platform],
 				themeClassNames[theme],
 				className,
+				anim.className,
+				// §2.2 merge: authored classes come AFTER base classes.
+				classNames?.root,
 			)}
+			style={anim.style}
 			data-platform={platform}
 			data-theme={theme}
 		>
@@ -40,20 +49,25 @@ export function BentoGrid({
 					className={cn(
 						"grid auto-rows-fr gap-px bg-border",
 						platformGridClassNames[platform],
+						classNames?.items,
 					)}
 				>
 					{children ??
 						items.map((item) => (
 							<BentoCard
 								key={getItemKey(item)}
+								{...targetAttrs?.card}
 								size={item.size}
 								rounded={item.rounded}
 								background={item.background}
+								className={classNames?.card}
 							>
 								<BentoCardContent
 									item={item}
 									editMode={editMode}
 									platform={platform}
+									classNames={classNames}
+									targetAttrs={targetAttrs}
 								/>
 							</BentoCard>
 						))}
