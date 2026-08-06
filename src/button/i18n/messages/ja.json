@@ -17,5 +17,17 @@
 	"button.fields.eventName.label": "イベント名",
 	"button.fields.eventProps.label": "イベントプロパティ",
 	"button.fields.eventProps.fields.category.label": "カテゴリ",
-	"button.fields.eventProps.fields.placement.label": "配置"
+	"button.fields.eventProps.fields.placement.label": "配置",
+	"button.fields.classNames.label": "カスタムクラス",
+	"button.fields.animation.label": "アニメーション",
+	"button.fields.animation.preset": "プリセット",
+	"button.fields.animation.preset.options.none": "なし",
+	"button.fields.animation.preset.options.fade-in": "フェードイン",
+	"button.fields.animation.preset.options.slide-up": "スライドアップ",
+	"button.fields.animation.preset.options.slide-down": "スライドダウン",
+	"button.fields.animation.preset.options.zoom-in": "ズームイン",
+	"button.fields.animation.duration": "再生時間（ミリ秒）",
+	"button.fields.animation.delay": "遅延（ミリ秒）",
+	"button.fields.animation.easing": "イージング",
+	"button.targets.root": "ボタン"
 }

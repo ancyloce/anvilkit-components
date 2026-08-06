@@ -17,5 +17,17 @@
 	"button.fields.eventName.label": "이벤트 이름",
 	"button.fields.eventProps.label": "이벤트 속성",
 	"button.fields.eventProps.fields.category.label": "카테고리",
-	"button.fields.eventProps.fields.placement.label": "배치"
+	"button.fields.eventProps.fields.placement.label": "배치",
+	"button.fields.classNames.label": "사용자 지정 클래스",
+	"button.fields.animation.label": "애니메이션",
+	"button.fields.animation.preset": "프리셋",
+	"button.fields.animation.preset.options.none": "없음",
+	"button.fields.animation.preset.options.fade-in": "페이드 인",
+	"button.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"button.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"button.fields.animation.preset.options.zoom-in": "줌 인",
+	"button.fields.animation.duration": "지속 시간(밀리초)",
+	"button.fields.animation.delay": "지연(밀리초)",
+	"button.fields.animation.easing": "이징",
+	"button.targets.root": "버튼"
 }

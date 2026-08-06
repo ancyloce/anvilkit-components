@@ -17,5 +17,17 @@
 	"button.fields.eventName.label": "Event name",
 	"button.fields.eventProps.label": "Event properties",
 	"button.fields.eventProps.fields.category.label": "Category",
-	"button.fields.eventProps.fields.placement.label": "Placement"
+	"button.fields.eventProps.fields.placement.label": "Placement",
+	"button.fields.classNames.label": "Custom classes",
+	"button.fields.animation.label": "Animation",
+	"button.fields.animation.preset": "Preset",
+	"button.fields.animation.preset.options.none": "None",
+	"button.fields.animation.preset.options.fade-in": "Fade in",
+	"button.fields.animation.preset.options.slide-up": "Slide up",
+	"button.fields.animation.preset.options.slide-down": "Slide down",
+	"button.fields.animation.preset.options.zoom-in": "Zoom in",
+	"button.fields.animation.duration": "Duration (ms)",
+	"button.fields.animation.delay": "Delay (ms)",
+	"button.fields.animation.easing": "Easing",
+	"button.targets.root": "Button"
 }

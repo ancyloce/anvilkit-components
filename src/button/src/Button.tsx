@@ -3,6 +3,7 @@
 import { useComponentTrack } from "@anvilkit/analytics-react";
 import { Button as BaseButton, buttonVariants } from "@anvilkit/ui/button";
 import { cn } from "@anvilkit/ui/lib/utils";
+import { type AnimationProps, animationAttrs } from "./authoring";
 
 /**
  * Optional analytics properties sent with the click event (F13). Declared as a
@@ -26,6 +27,10 @@ export interface ButtonProps {
 	eventName?: string;
 	/** Extra properties merged into the click event. */
 	eventProps?: ButtonEventProps;
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface ButtonViewProps extends ButtonProps {
@@ -61,11 +66,14 @@ export function Button({
 	trackClick = false,
 	eventName,
 	eventProps,
+	classNames,
+	animation,
 	rootAttrs,
 }: ButtonViewProps) {
 	const isInactive = disabled || editMode;
 	const resolvedHref = isInactive ? undefined : href;
 	const resolvedVariant = getVariant(variant);
+	const anim = animationAttrs(animation);
 
 	// F13: context-only tracking — no-op without trackClick or a provider, and
 	// never wired while inactive. Attached only when enabled so the default
@@ -87,11 +95,15 @@ export function Button({
 				aria-disabled={isInactive || undefined}
 				tabIndex={isInactive ? -1 : undefined}
 				onClick={onClick}
+				// §2.2: authored classes merge AFTER base classes so they win.
 				className={cn(
 					buttonVariants({ size: "lg", variant: resolvedVariant }),
 					baseClassName,
 					isInactive && inactiveClassName,
+					anim.className,
+					classNames?.root,
 				)}
+				style={anim.style}
 			>
 				{label}
 			</a>
@@ -106,7 +118,13 @@ export function Button({
 			disabled={isInactive}
 			aria-disabled={isInactive || undefined}
 			onClick={onClick}
-			className={cn(baseClassName, isInactive && inactiveClassName)}
+			className={cn(
+				baseClassName,
+				isInactive && inactiveClassName,
+				anim.className,
+				classNames?.root,
+			)}
+			style={anim.style}
 		>
 			{label}
 		</BaseButton>

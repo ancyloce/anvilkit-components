@@ -7,8 +7,10 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
@@ -16,6 +18,18 @@ import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 /** Business props + the §5.1 authoring carriers (PLAN-0025). */
 export type ButtonAuthorableProps = AuthorableProps<ButtonProps>;
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of Button.tsx:
+ * the component renders exactly ONE element in both branches — the
+ * interactive `<a>` and the `@anvilkit/ui` `<button>` — with `label` as
+ * a bare text child. There is no inner label/icon element to stamp, so
+ * `root` is the whole map; wrapping the label in a span purely to gain
+ * a second target would fabricate DOM the component does not have
+ * (§8.5). `root` therefore carries the full grantable §6.1 vocabulary,
+ * typography included — it is the text-bearing element itself.
+ */
+const STYLE_TARGET_IDS = ["root"] as const;
 
 export const metadata = {
 	componentName: "Button",
@@ -25,9 +39,13 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "actions",
-	// PLAN-0025 metadata v2 (§6.1/§6.3): named targets with property
-	// allowlists — plain data, no runtime import. The compiler enforces
-	// the same allowlist the Inspector offers.
+	// PLAN-0025 metadata v2 (§6.1/§6.3) + PLAN-0027 §2.1 per-element
+	// targets: named targets with property allowlists — plain data, no
+	// runtime import. The compiler enforces the same allowlist the
+	// Inspector offers. The single `root` element is an inline-flex,
+	// text-bearing control, so every grantable §6.1 property is
+	// CSS-sane on it (gap/alignItems/justifyContent act on the flex box
+	// `buttonVariants` establishes; typography acts on the label text).
 	anvilkit: {
 		editor: {
 			version: "2",
@@ -36,9 +54,17 @@ export const metadata = {
 					label: "Button",
 					responsive: true,
 					properties: [
+						"display",
+						"position",
 						"width",
+						"minWidth",
+						"maxWidth",
+						"height",
 						"margin",
 						"padding",
+						"gap",
+						"alignItems",
+						"justifyContent",
 						"background",
 						"border",
 						"borderRadius",
@@ -49,6 +75,8 @@ export const metadata = {
 						"fontSize",
 						"fontWeight",
 						"lineHeight",
+						"letterSpacing",
+						"textAlign",
 					],
 				},
 			},
@@ -155,6 +183,28 @@ function buildFields(t: T): Fields<ButtonAuthorableProps> {
 				},
 			},
 		},
+		animation: animationField({
+			label: t("button.fields.animation.label"),
+			preset: t("button.fields.animation.preset"),
+			presetOptions: {
+				none: t("button.fields.animation.preset.options.none"),
+				"fade-in": t("button.fields.animation.preset.options.fade-in"),
+				"slide-up": t("button.fields.animation.preset.options.slide-up"),
+				"slide-down": t("button.fields.animation.preset.options.slide-down"),
+				"zoom-in": t("button.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("button.fields.animation.duration"),
+			delay: t("button.fields.animation.delay"),
+			easing: t("button.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`button.targets.${targetId}`),
+			})),
+			t("button.fields.classNames.label"),
+		),
 	};
 }
 
@@ -169,6 +219,8 @@ const renderButton: ComponentConfig<ButtonAuthorableProps>["render"] = ({
 	trackClick,
 	eventName,
 	eventProps,
+	classNames,
+	animation,
 }) =>
 	createElement(Button, {
 		label,
@@ -180,6 +232,8 @@ const renderButton: ComponentConfig<ButtonAuthorableProps>["render"] = ({
 		trackClick,
 		eventName,
 		eventProps,
+		classNames,
+		animation,
 		// §6.2/§6.3: the official render emits stable targets; the shared
 		// compiler owns CSS materialization — never inline styles here.
 		rootAttrs: anvilRootAttrs(id),
