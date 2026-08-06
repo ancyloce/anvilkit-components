@@ -7,16 +7,53 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	anvilTargetAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
-import { type CreateComponentConfigOptions, createT } from "./i18n";
-import type { NavbarProps } from "./Navbar";
+import {
+	type CreateComponentConfigOptions,
+	createT,
+	type NavbarItemsAdapter,
+} from "./i18n";
+import type { NavbarMenuItem, NavbarProps } from "./Navbar";
 import { Navbar } from "./Navbar";
 
-/** Business props + the §5.1 authoring carriers (PLAN-0025). */
-export type NavbarAuthorableProps = AuthorableProps<NavbarProps>;
+/**
+ * Business props + the §5.1 authoring carriers (PLAN-0025), plus the
+ * PLAN-0027 §2.3 data-source props. `dataSource`/`externalData` only
+ * gain fields when the host injects an adapter via
+ * `createComponentConfig({ dataSources })`; the static config never
+ * declares them.
+ */
+export type NavbarAuthorableProps = AuthorableProps<NavbarProps> & {
+	/** §2.3 data-source mode; meaningful only with a host adapter. */
+	dataSource?: "static" | "external";
+	/** §2.3 external-field selection, stored whole per the Puck contract. */
+	externalData?: unknown;
+};
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of Navbar.tsx:
+ * `logo` stamps both logo branches (interactive `<a>` and static
+ * `<div>`); `links`/`actions` stamp the desktop containers, the mobile
+ * panel's lists, AND the empty §6.4 fallback containers with the SAME
+ * target ids (§6.5); `menuToggle` stamps the mobile toggle wrapper. The
+ * open mobile panel itself is toggle-state-gated (absent from the
+ * default DOM), so it is deliberately NOT a target — its lists reuse
+ * `links`/`actions` instead.
+ */
+const STYLE_TARGET_IDS = [
+	"root",
+	"logo",
+	"links",
+	"actions",
+	"menuToggle",
+] as const;
+
+type NavbarTargetId = (typeof STYLE_TARGET_IDS)[number];
 
 export const metadata = {
 	componentName: "Navbar",
@@ -26,11 +63,15 @@ export const metadata = {
 	scaffoldType: "layout",
 	schemaVersion: 1,
 	suggestedCategory: "navigation",
-	// PLAN-0025 metadata v2 (§6.1/§6.5): root nav bar; `links` and
-	// `actions` stamp the desktop, mobile, AND empty-fallback containers
-	// with the SAME target ids (§6.5: mobile variants retain target
-	// ids). Item labels live in array rows, not plain prop paths, so no
-	// inlineText declarations.
+	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
+	// targets: `links` and `actions` stamp the desktop, mobile, AND
+	// empty-fallback containers with the SAME target ids (§6.5: mobile
+	// variants retain target ids). Allowlists use only the grantable
+	// §6.1 vocabulary; no typography grants — every text element below
+	// these containers carries its own utility classes (and the desktop
+	// link colors are inline highlight state), so container-level
+	// typography would be silently ineffective. Item labels live in
+	// array rows, not plain prop paths, so no inlineText declarations.
 	anvilkit: {
 		editor: {
 			version: "2",
@@ -40,12 +81,35 @@ export const metadata = {
 					responsive: true,
 					properties: [
 						"display",
+						"position",
 						"width",
+						"minWidth",
 						"maxWidth",
+						"height",
 						"margin",
 						"padding",
 						"background",
 						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				logo: {
+					label: "Logo",
+					responsive: true,
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
 						"boxShadow",
 						"opacity",
 					],
@@ -53,12 +117,56 @@ export const metadata = {
 				links: {
 					label: "Links",
 					responsive: true,
-					properties: ["display", "gap", "padding", "justifyContent", "alignItems"],
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
 				},
 				actions: {
 					label: "Actions",
 					responsive: true,
-					properties: ["display", "gap", "padding", "justifyContent", "alignItems"],
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				menuToggle: {
+					label: "Menu toggle",
+					responsive: true,
+					properties: [
+						"display",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
 				},
 			},
 			interactions: true,
@@ -112,7 +220,45 @@ export const defaultProps = {
 
 type T = ReturnType<typeof createT>;
 
-function buildFields(t: T): Fields<NavbarAuthorableProps> {
+/** §2.3 fields added only when the host injects an items adapter. */
+function buildDataSourceFields(
+	adapter: NavbarItemsAdapter,
+	t: T,
+): Pick<Fields<NavbarAuthorableProps>, "dataSource" | "externalData"> {
+	return {
+		dataSource: {
+			type: "select",
+			label: t("navbar.fields.dataSource.label"),
+			options: [
+				{
+					label: t("navbar.fields.dataSource.options.static"),
+					value: "static",
+				},
+				{
+					label: t("navbar.fields.dataSource.options.external"),
+					value: "external",
+				},
+			],
+		},
+		externalData: {
+			type: "external",
+			label: t("navbar.fields.externalData.label"),
+			// The adapter deliberately takes no query params; the field
+			// stores the selection whole and resolveData maps it (§2.3).
+			fetchList: () => adapter.fetchList(),
+			showSearch: adapter.showSearch,
+			...(adapter.getItemSummary
+				? { getItemSummary: adapter.getItemSummary }
+				: {}),
+		},
+	};
+}
+
+function buildFields(
+	t: T,
+	dataSources?: CreateComponentConfigOptions["dataSources"],
+): Fields<NavbarAuthorableProps> {
+	const adapter = dataSources?.items;
 	return {
 		...authoringFields,
 		logo: {
@@ -175,6 +321,8 @@ function buildFields(t: T): Fields<NavbarAuthorableProps> {
 				},
 			},
 		},
+		// §2.3: the data-source fields sit right after the collection they govern.
+		...(adapter ? buildDataSourceFields(adapter, t) : {}),
 		actions: {
 			type: "array",
 			label: t("navbar.fields.actions.label"),
@@ -283,6 +431,62 @@ function buildFields(t: T): Fields<NavbarAuthorableProps> {
 			type: "text",
 			label: t("navbar.fields.active.label"),
 		},
+		animation: animationField({
+			label: t("navbar.fields.animation.label"),
+			preset: t("navbar.fields.animation.preset"),
+			presetOptions: {
+				none: t("navbar.fields.animation.preset.options.none"),
+				"fade-in": t("navbar.fields.animation.preset.options.fade-in"),
+				"slide-up": t("navbar.fields.animation.preset.options.slide-up"),
+				"slide-down": t("navbar.fields.animation.preset.options.slide-down"),
+				"zoom-in": t("navbar.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("navbar.fields.animation.duration"),
+			delay: t("navbar.fields.animation.delay"),
+			easing: t("navbar.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`navbar.targets.${targetId}`),
+			})),
+			t("navbar.fields.classNames.label"),
+		),
+	};
+}
+
+/**
+ * PLAN-0027 §2.3 resolveData (Puck docs hybrid pattern): reacts only to
+ * `dataSource`/`externalData` changes (the docs' `changed` guard), maps
+ * the stored external selection into `items` via the adapter's
+ * `mapItem`, and marks the static `items` array read-only while
+ * external mode is active. Exists only when a host adapter is injected.
+ */
+function buildResolveData(
+	adapter: NavbarItemsAdapter,
+): NonNullable<ComponentConfig<NavbarAuthorableProps>["resolveData"]> {
+	return ({ props }, { changed }) => {
+		if (!changed.dataSource && !changed.externalData) {
+			return { props: {} };
+		}
+		if (props.dataSource !== "external") {
+			return { props: {}, readOnly: { items: false } };
+		}
+		if (props.externalData == null) {
+			// External mode with nothing selected yet: keep the authored
+			// links visible but locked until a selection lands.
+			return { props: {}, readOnly: { items: true } };
+		}
+		const selected = Array.isArray(props.externalData)
+			? props.externalData
+			: [props.externalData];
+		const mapItem =
+			adapter.mapItem ?? ((item: unknown) => item as NavbarMenuItem);
+		return {
+			props: { items: selected.map(mapItem) },
+			readOnly: { items: true },
+		};
 	};
 }
 
@@ -296,6 +500,8 @@ const renderNavbar: ComponentConfig<NavbarAuthorableProps>["render"] = ({
 	menuCloseLabel,
 	navAriaLabel,
 	brandFallbackText,
+	classNames,
+	animation,
 	editMode,
 }) =>
 	createElement(Navbar, {
@@ -307,17 +513,24 @@ const renderNavbar: ComponentConfig<NavbarAuthorableProps>["render"] = ({
 		menuCloseLabel,
 		navAriaLabel,
 		brandFallbackText,
+		classNames,
+		animation,
 		editMode,
 		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
 		rootAttrs: anvilRootAttrs(id),
 		targetAttrs: {
+			logo: anvilTargetAttrs(id, "logo"),
 			links: anvilTargetAttrs(id, "links"),
 			actions: anvilTargetAttrs(id, "actions"),
-		},
+			menuToggle: anvilTargetAttrs(id, "menuToggle"),
+		} satisfies Record<Exclude<NavbarTargetId, "root">, Record<string, string>>,
 	});
 
-function buildConfig(t: T): ComponentConfig<NavbarAuthorableProps> {
-	return {
+function buildConfig(
+	t: T,
+	dataSources?: CreateComponentConfigOptions["dataSources"],
+): ComponentConfig<NavbarAuthorableProps> {
+	const config: ComponentConfig<NavbarAuthorableProps> = {
 		label: t("navbar.label"),
 		defaultProps: {
 			...defaultProps,
@@ -326,10 +539,15 @@ function buildConfig(t: T): ComponentConfig<NavbarAuthorableProps> {
 			navAriaLabel: t("navbar.a11y.primaryNav"),
 			brandFallbackText: t("navbar.fallback.brand"),
 		},
-		fields: buildFields(t),
+		fields: buildFields(t, dataSources),
 		metadata,
 		render: renderNavbar,
 	};
+	const adapter = dataSources?.items;
+	if (adapter) {
+		config.resolveData = buildResolveData(adapter);
+	}
+	return config;
 }
 
 const defaultT = createT();
@@ -344,11 +562,16 @@ export const navbarConfig = buildConfig(
 
 export const componentConfig = navbarConfig;
 
-/** Build a locale-aware config. Per-key fallback: messages → locale pack → en. */
+/**
+ * Build a locale-aware config. Per-key fallback: messages → locale pack
+ * → en. With `options.dataSources.items` present the config gains the
+ * §2.3 `dataSource`/`externalData` fields and `resolveData`; without it
+ * the output is byte-compatible with `componentConfig`.
+ */
 export function createComponentConfig(
 	options?: CreateComponentConfigOptions,
 ): ComponentConfig<NavbarAuthorableProps> {
-	return buildConfig(createT(options));
+	return buildConfig(createT(options), options?.dataSources);
 }
 
 export const createNavbarConfig = createComponentConfig;

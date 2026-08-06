@@ -12,6 +12,7 @@ import {
 	useId,
 	useState,
 } from "react";
+import { type AnimationProps, animationAttrs } from "./authoring";
 
 export interface NavbarLogoProps {
 	type?: "text" | "image";
@@ -62,6 +63,10 @@ export interface NavbarProps {
 	navAriaLabel?: string;
 	/** Fallback logo text when no logo text or image is configured. */
 	brandFallbackText?: string;
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface NavbarViewProps extends Omit<NavbarProps, "actions"> {
@@ -70,7 +75,7 @@ export interface NavbarViewProps extends Omit<NavbarProps, "actions"> {
 	 * in EVERY mode (PLAN-0025).
 	 */
 	rootAttrs?: Record<string, string>;
-	/** Named-target attributes keyed by target id (`links`, `actions`). */
+	/** Named-target attributes keyed by target id (`logo`, `links`, `actions`, `menuToggle`). */
 	targetAttrs?: Record<string, Record<string, string>>;
 	actions?: NavbarActionViewProps[];
 	logoNode?: ReactNode;
@@ -291,11 +296,14 @@ export function Navbar({
 	menuCloseLabel = "Close navigation menu",
 	navAriaLabel = "Primary",
 	brandFallbackText = "Brand",
+	classNames,
+	animation,
 	className,
 	editMode = false,
 	rootAttrs,
 	targetAttrs,
 }: NavbarViewProps) {
+	const anim = animationAttrs(animation);
 	const logoContent = getLogoContent(logo, brandFallbackText, logoNode);
 	const isLogoInteractive = Boolean(logo.href && !editMode);
 	const hasMobileMenu = items.length > 0 || actions.length > 0;
@@ -317,27 +325,50 @@ export function Navbar({
 		<nav
 			{...rootAttrs}
 			aria-label={navAriaLabel}
-			className={cn("w-full bg-background text-foreground", className)}
+			// §2.2 merge: authored classes come AFTER base classes (cn wins ties).
+			className={cn(
+				"w-full bg-background text-foreground",
+				anim.className,
+				className,
+				classNames?.root,
+			)}
+			style={anim.style}
 		>
 			<div className="px-3 py-3 md:px-7 md:py-4 lg:px-8">
 				<div className="flex items-center justify-between gap-4 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-8">
 					<div className="flex min-w-0 items-center md:justify-self-start">
 						{isLogoInteractive ? (
 							<a
+								{...targetAttrs?.logo}
 								href={logo.href}
-								className="inline-flex min-w-0 items-center gap-3 py-0.5 no-underline"
+								className={cn(
+									"inline-flex min-w-0 items-center gap-3 py-0.5 no-underline",
+									classNames?.logo,
+								)}
 							>
 								{logoContent}
 							</a>
 						) : (
-							<div className="inline-flex min-w-0 items-center gap-3 py-0.5">
+							<div
+								{...targetAttrs?.logo}
+								className={cn(
+									"inline-flex min-w-0 items-center gap-3 py-0.5",
+									classNames?.logo,
+								)}
+							>
 								{logoContent}
 							</div>
 						)}
 					</div>
 
 					{hasMobileMenu ? (
-						<div className="flex h-11 w-11 items-center justify-center rounded-xl border border-input bg-background md:hidden">
+						<div
+							{...targetAttrs?.menuToggle}
+							className={cn(
+								"flex h-11 w-11 items-center justify-center rounded-xl border border-input bg-background md:hidden",
+								classNames?.menuToggle,
+							)}
+						>
 							<BaseButton
 								type="button"
 								variant="ghost"
@@ -358,7 +389,10 @@ export function Navbar({
 						<div className="hidden min-w-0 justify-center md:flex">
 							<ul
 								{...targetAttrs?.links}
-								className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-10"
+								className={cn(
+									"flex flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:gap-x-10",
+									classNames?.links,
+								)}
 							>
 								{items.map((item) =>
 									renderDesktopMenuItem(
@@ -383,19 +417,28 @@ export function Navbar({
 						</div>
 					) : (
 						// §6.4: the optional region keeps a stable stamped container.
-						<div {...targetAttrs?.links} className="hidden md:block" />
+						<div
+							{...targetAttrs?.links}
+							className={cn("hidden md:block", classNames?.links)}
+						/>
 					)}
 
 					{actions.length > 0 ? (
 						<div
 							{...targetAttrs?.actions}
-							className="hidden flex-wrap items-center justify-start gap-4 md:flex md:justify-self-end md:justify-end"
+							className={cn(
+								"hidden flex-wrap items-center justify-start gap-4 md:flex md:justify-self-end md:justify-end",
+								classNames?.actions,
+							)}
 						>
 							{actions.map((action) => renderAction(action, editMode, false))}
 						</div>
 					) : (
 						// §6.4: the optional region keeps a stable stamped container.
-						<div {...targetAttrs?.actions} className="hidden md:block" />
+						<div
+							{...targetAttrs?.actions}
+							className={cn("hidden md:block", classNames?.actions)}
+						/>
 					)}
 				</div>
 
@@ -408,7 +451,11 @@ export function Navbar({
 				{hasMobileMenu && isMobileMenuOpen ? (
 					<div id={mobileMenuId} className={mobileMenuPanelClassName}>
 						{items.length > 0 ? (
-							<ul {...targetAttrs?.links} className="space-y-2.5">
+							// §6.5: the mobile branch stamps the SAME target ids.
+							<ul
+								{...targetAttrs?.links}
+								className={cn("space-y-2.5", classNames?.links)}
+							>
 								{items.map((item) =>
 									renderMobileMenuItem(
 										item,
@@ -423,7 +470,10 @@ export function Navbar({
 						{actions.length > 0 ? (
 							<div
 								{...targetAttrs?.actions}
-								className="flex flex-wrap justify-end gap-3 pt-2"
+								className={cn(
+									"flex flex-wrap justify-end gap-3 pt-2",
+									classNames?.actions,
+								)}
 							>
 								{actions.map((action) =>
 									renderAction(action, editMode, true, handleMobileMenuClose),
