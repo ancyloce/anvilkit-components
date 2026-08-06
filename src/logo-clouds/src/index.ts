@@ -1,5 +1,10 @@
 import "./styles.css";
 
+export type {
+	AnimationEasing,
+	AnimationPreset,
+	AnimationProps,
+} from "./authoring";
 export {
 	componentConfig,
 	createComponentConfig,
@@ -8,6 +13,7 @@ export {
 	defaultProps as logoCloudsDefaultProps,
 	fields,
 	fields as logoCloudsFields,
+	type LogoCloudsAuthorableProps,
 	logoCloudsConfig,
 	metadata,
 	metadata as logoCloudsMetadata,

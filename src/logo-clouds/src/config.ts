@@ -7,9 +7,11 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	anvilTargetAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { LogoCloudsProps } from "./LogoClouds";
@@ -17,6 +19,30 @@ import { LogoClouds } from "./LogoClouds";
 
 /** Business props + the §5.1 authoring carriers (PLAN-0025). */
 export type LogoCloudsAuthorableProps = AuthorableProps<LogoCloudsProps>;
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of
+ * LogoClouds.tsx: the root `<section>`, the shimmering heading, the
+ * subtitle `<p>`, the marquee region, and — per §2.1's repeated-item
+ * rule — ONE shared `logoItem`/`logoImage` pair stamped on every logo
+ * instance the marquee emits. The component has a single render branch,
+ * so every declared target exists in every mode.
+ *
+ * `title` deliberately omits `color`/`display`/`position`: ShimmeringText
+ * sets all three as INLINE styles (and animates the per-character
+ * colour), so a CSS grant could never win — declaring them would be a
+ * silent no-op.
+ */
+const STYLE_TARGET_IDS = [
+	"root",
+	"title",
+	"subtitle",
+	"logos",
+	"logoItem",
+	"logoImage",
+] as const;
+
+type LogoCloudsTargetId = (typeof STYLE_TARGET_IDS)[number];
 
 export const metadata = {
 	componentName: "LogoClouds",
@@ -26,9 +52,9 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
-	// PLAN-0025 metadata v2 (§6.1/§6.5): root container + the `logos`
-	// marquee region. Per-logo CSS is deliberately not exposed — logos
-	// are array rows, not Puck nodes (§6.5's note for this component).
+	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
+	// targets. Allowlists use only the grantable §6.1 vocabulary;
+	// typography properties are granted on text-bearing targets only.
 	anvilkit: {
 		editor: {
 			version: "2",
@@ -38,19 +64,113 @@ export const metadata = {
 					responsive: true,
 					properties: [
 						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"minWidth",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				title: {
+					label: "Title",
+					responsive: true,
+					properties: [
 						"width",
 						"maxWidth",
 						"margin",
 						"padding",
-						"gap",
-						"background",
 						"opacity",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				subtitle: {
+					label: "Subtitle",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
 					],
 				},
 				logos: {
 					label: "Logos",
 					responsive: true,
-					properties: ["display", "gap", "padding", "background", "opacity"],
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				logoItem: {
+					label: "Logo item",
+					responsive: true,
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"minWidth",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				logoImage: {
+					label: "Logo image",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"height",
+						"margin",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
 				},
 			},
 			interactions: true,
@@ -78,25 +198,63 @@ function buildFields(t: T): Fields<LogoCloudsAuthorableProps> {
 			type: "textarea",
 			label: t("logo-clouds.fields.subtitle.label"),
 		},
+		animation: animationField({
+			label: t("logo-clouds.fields.animation.label"),
+			preset: t("logo-clouds.fields.animation.preset"),
+			presetOptions: {
+				none: t("logo-clouds.fields.animation.preset.options.none"),
+				"fade-in": t("logo-clouds.fields.animation.preset.options.fade-in"),
+				"slide-up": t("logo-clouds.fields.animation.preset.options.slide-up"),
+				"slide-down": t(
+					"logo-clouds.fields.animation.preset.options.slide-down",
+				),
+				"zoom-in": t("logo-clouds.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("logo-clouds.fields.animation.duration"),
+			delay: t("logo-clouds.fields.animation.delay"),
+			easing: t("logo-clouds.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`logo-clouds.targets.${targetId}`),
+			})),
+			t("logo-clouds.fields.classNames.label"),
+		),
 	};
 }
 
-const renderLogoClouds: ComponentConfig<LogoCloudsAuthorableProps>["render"] = ({
-	id,
-	title,
-	subtitle,
-	marqueeAriaLabel,
-	editMode,
-}) =>
-	createElement(LogoClouds, {
+const renderLogoClouds: ComponentConfig<LogoCloudsAuthorableProps>["render"] =
+	({
+		id,
 		title,
 		subtitle,
 		marqueeAriaLabel,
+		classNames,
+		animation,
 		editMode,
-		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
-		rootAttrs: anvilRootAttrs(id),
-		targetAttrs: { logos: anvilTargetAttrs(id, "logos") },
-	});
+	}) =>
+		createElement(LogoClouds, {
+			title,
+			subtitle,
+			marqueeAriaLabel,
+			classNames,
+			animation,
+			editMode,
+			// §6.2: stable targets in EVERY mode; the compiler owns CSS.
+			rootAttrs: anvilRootAttrs(id),
+			targetAttrs: {
+				title: anvilTargetAttrs(id, "title"),
+				subtitle: anvilTargetAttrs(id, "subtitle"),
+				logos: anvilTargetAttrs(id, "logos"),
+				logoItem: anvilTargetAttrs(id, "logoItem"),
+				logoImage: anvilTargetAttrs(id, "logoImage"),
+			} satisfies Record<
+				Exclude<LogoCloudsTargetId, "root">,
+				Record<string, string>
+			>,
+		});
 
 function buildConfig(t: T): ComponentConfig<LogoCloudsAuthorableProps> {
 	return {
@@ -108,8 +266,6 @@ function buildConfig(t: T): ComponentConfig<LogoCloudsAuthorableProps> {
 		fields: buildFields(t),
 		metadata,
 		render: renderLogoClouds,
-		// resolveFields: async () => fields,
-		// resolveData: async (data) => data,
 	};
 }
 

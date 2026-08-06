@@ -1,5 +1,7 @@
 import { ShimmeringText } from "@anvilkit/ui/components/animate-ui/primitives/texts/shimmering";
+import { cn } from "@anvilkit/ui/lib/utils";
 import { Marquee } from "@anvilkit/ui/marquee";
+import { type AnimationProps, animationAttrs } from "./authoring";
 
 const DEVICON_BASE_URL =
 	"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
@@ -58,11 +60,32 @@ function getDeviconSource(name: string, variant: string) {
 	return `${DEVICON_BASE_URL}/${name}/${name}-${variant}.svg`;
 }
 
+const rootBaseClassName =
+	"anvilkit-logo-clouds__theme mx-auto flex w-full max-w-6xl flex-col items-center overflow-hidden px-4 py-16 text-center text-foreground sm:px-6 sm:py-20 lg:px-8 lg:py-24 [&>:first-child]:mx-auto [&>:first-child]:max-w-3xl [&>:first-child]:text-[clamp(3rem,9vw,4.75rem)] [&>:first-child]:leading-none [&>:first-child]:font-black [&>:first-child]:tracking-[-0.07em] [&>:nth-child(3)]:mt-8 sm:[&>:nth-child(3)]:mt-12 lg:[&>:nth-child(3)]:mt-16";
+
+const titleBaseClassName = "text-4xl font-semibold";
+
+const subtitleBaseClassName =
+	"mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:mt-5 sm:text-base sm:leading-7 lg:text-lg";
+
+const logosBaseClassName =
+	"relative flex w-full flex-col items-center justify-center overflow-hidden";
+
+const logoItemBaseClassName =
+	"flex items-center justify-center px-4 py-4 sm:px-6 lg:px-8";
+
+const logoImageBaseClassName =
+	"h-10 w-auto max-w-[11.5rem] object-contain sm:h-11 sm:max-w-[13rem] lg:h-14 lg:max-w-[14.5rem]";
+
 export interface LogoCloudsProps {
 	title: string;
 	subtitle: string;
 	/** Accessible label for the scrolling logo marquee. */
 	marqueeAriaLabel?: string;
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface LogoCloudsViewProps extends LogoCloudsProps {
@@ -71,7 +94,7 @@ export interface LogoCloudsViewProps extends LogoCloudsProps {
 	 * in EVERY mode (PLAN-0025).
 	 */
 	rootAttrs?: Record<string, string>;
-	/** Named-target attributes keyed by target id. */
+	/** Named-target attributes keyed by target id (`logos`, `logoItem`, …). */
 	targetAttrs?: Record<string, Record<string, string>>;
 	editMode?: boolean;
 }
@@ -80,38 +103,53 @@ export function LogoClouds({
 	title,
 	subtitle,
 	marqueeAriaLabel = "Brand logos",
+	classNames,
+	animation,
 	rootAttrs,
 	targetAttrs,
 }: LogoCloudsViewProps) {
+	const anim = animationAttrs(animation);
+
 	return (
 		<section
 			{...rootAttrs}
-			className="anvilkit-logo-clouds__theme mx-auto flex w-full max-w-6xl flex-col items-center overflow-hidden px-4 py-16 text-center text-foreground sm:px-6 sm:py-20 lg:px-8 lg:py-24 [&>:first-child]:mx-auto [&>:first-child]:max-w-3xl [&>:first-child]:text-[clamp(3rem,9vw,4.75rem)] [&>:first-child]:leading-none [&>:first-child]:font-black [&>:first-child]:tracking-[-0.07em] [&>:nth-child(3)]:mt-8 sm:[&>:nth-child(3)]:mt-12 lg:[&>:nth-child(3)]:mt-16">
+			className={cn(rootBaseClassName, anim.className, classNames?.root)}
+			style={anim.style}
+		>
 			<ShimmeringText
+				{...targetAttrs?.title}
 				aria-level={2}
 				role="heading"
-				className="text-4xl font-semibold"
+				className={cn(titleBaseClassName, classNames?.title)}
 				text={title}
 			/>
 
-			<p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:mt-5 sm:text-base sm:leading-7 lg:text-lg">
+			<p
+				{...targetAttrs?.subtitle}
+				className={cn(subtitleBaseClassName, classNames?.subtitle)}
+			>
 				{subtitle}
 			</p>
 
 			<div
 				{...targetAttrs?.logos}
-				className="relative flex w-full flex-col items-center justify-center overflow-hidden"
+				className={cn(logosBaseClassName, classNames?.logos)}
 			>
 				<Marquee aria-label={marqueeAriaLabel} className="mt-8">
 					{logoCloudItems.map((item) => (
+						// §2.1: one shared target id stamped on EVERY repeated
+						// instance — the compiler's exact-pair selector styles
+						// them uniformly.
 						<div
 							key={item.name}
-							className="flex items-center justify-center px-4 py-4 sm:px-6 lg:px-8"
+							{...targetAttrs?.logoItem}
+							className={cn(logoItemBaseClassName, classNames?.logoItem)}
 						>
 							<div className="flex h-20 w-full items-center justify-center px-6">
 								<img
+									{...targetAttrs?.logoImage}
 									alt={`${item.label} logo`}
-									className="h-10 w-auto max-w-[11.5rem] object-contain sm:h-11 sm:max-w-[13rem] lg:h-14 lg:max-w-[14.5rem]"
+									className={cn(logoImageBaseClassName, classNames?.logoImage)}
 									decoding="async"
 									loading="lazy"
 									src={getDeviconSource(item.name, item.variant)}
