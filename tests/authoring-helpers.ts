@@ -43,8 +43,17 @@ export const REQUIRED_TARGETS: Readonly<Record<string, readonly string[]>> = {
 	statistics: ["root"],
 	helps: ["root", "content"],
 	// §6.5 deviation: the posts grid IS the root section in both
-	// render branches — no separate list container exists.
-	"blog-list": ["root"],
+	// render branches — no separate list container exists. PLAN-0027 P1
+	// added the card-level and text-level targets (stamped on every
+	// card instance in both the <a> and <div> card branches).
+	"blog-list": [
+		"root",
+		"card",
+		"cardImage",
+		"cardMeta",
+		"cardTitle",
+		"cardDescription",
+	],
 	"logo-clouds": ["root", "logos"],
 	"design-block": ["root", "canvas"],
 };
@@ -76,12 +85,38 @@ export const AUTHORABLE_PROPERTIES: readonly string[] = [
 	"textAlign",
 ];
 
+/** Labels accepted by the PLAN-0027 §2.4 `animationField` helper. */
+export interface AnimationFieldLabelsShape {
+	label: string;
+	preset: string;
+	presetOptions: Record<string, string>;
+	duration: string;
+	delay: string;
+	easing: string;
+}
+
 export interface AuthoringModule {
 	appearanceField: Record<string, unknown>;
 	interactionsField: Record<string, unknown>;
 	bindingsField: Record<string, unknown>;
 	anvilRootAttrs: (id: string, target?: string) => Record<string, string>;
 	anvilTargetAttrs: (id: string, target: string) => Record<string, string>;
+	// PLAN-0027 §2.5 surface — optional until the P2 fan-out lands the
+	// verbatim copy in every package; the contract suite enforces
+	// all-or-nothing presence plus one structural shape.
+	classNamesField?: (
+		targets: readonly { id: string; label: string }[],
+		label?: string,
+	) => Record<string, unknown>;
+	animationField?: (
+		labels: AnimationFieldLabelsShape,
+	) => Record<string, unknown>;
+	animationAttrs?: (animation?: {
+		preset: string;
+		durationMs?: number;
+		delayMs?: number;
+		easing?: string;
+	}) => { className?: string; style?: Record<string, string> };
 }
 
 export interface AdoptedConfigModule {
@@ -105,7 +140,13 @@ export interface AdoptedConfigModule {
 			};
 		};
 		render: (props: Record<string, unknown>) => unknown;
+		/** PLAN-0027 §2.3: never present on the static config. */
+		resolveData?: unknown;
 	};
+	/** Locale/adapter factory — part of every package's export contract. */
+	createComponentConfig: (
+		options?: Record<string, unknown>,
+	) => AdoptedConfigModule["componentConfig"];
 }
 
 const configModules = import.meta.glob<AdoptedConfigModule>(

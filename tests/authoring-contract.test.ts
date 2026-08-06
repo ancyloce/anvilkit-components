@@ -27,6 +27,34 @@ const AUTHORING_FIELD_KEYS = [
 	"bindings",
 ] as const;
 
+/**
+ * PLAN-0027 §2.5 canonical helper surface. The pilot (blog-list) must
+ * ship it; every other package ships it all-or-nothing until the P2
+ * fan-out completes the fleet — after which every package carries the
+ * verbatim copy and the all-or-nothing branch never tolerates absence
+ * again.
+ */
+const PLAN_0027_HELPER_KEYS = [
+	"classNamesField",
+	"animationField",
+	"animationAttrs",
+] as const;
+
+const ANIMATION_FIELD_LABELS = {
+	label: "Animation",
+	preset: "Preset",
+	presetOptions: {
+		none: "None",
+		"fade-in": "Fade in",
+		"slide-up": "Slide up",
+		"slide-down": "Slide down",
+		"zoom-in": "Zoom in",
+	},
+	duration: "Duration",
+	delay: "Delay",
+	easing: "Easing",
+};
+
 describe("authoring adoption ledger", () => {
 	it("every discovered authoring.ts belongs to a package in ADOPTED (no drive-by adoption)", () => {
 		expect(discoveredAuthoringSlugs()).toEqual([...ADOPTED].sort());
@@ -78,6 +106,18 @@ for (const slug of ADOPTED) {
 					expect(typeof target.responsive).toBe("boolean");
 				}
 			}
+		});
+	});
+
+	describe(`${slug}: static config stays adapter-free (PLAN-0027 §2.3)`, () => {
+		it("declares no external field and no resolveData", () => {
+			// NOTE: `fields.dataSource` is deliberately NOT asserted absent
+			// fleet-wide — `statistics` ships a pre-existing business prop
+			// of that name ("static" | "remote_csv"); its P2 fan-out must
+			// reconcile it with the §2.3 adapter-injected select.
+			const { componentConfig } = configOf(slug);
+			expect(componentConfig.resolveData).toBeUndefined();
+			expect(componentConfig.fields.externalData).toBeUndefined();
 		});
 	});
 
@@ -141,6 +181,106 @@ for (const slug of ADOPTED) {
 			}
 		});
 	});
+
+	describe(`${slug}: PLAN-0027 §2.5 authoring helpers`, () => {
+		const authoring = authoringOf(slug);
+		const present = PLAN_0027_HELPER_KEYS.filter(
+			(key) => authoring[key] !== undefined,
+		);
+
+		// P2 fan-out is COMPLETE: every ADOPTED package ships the full
+		// §2.5 surface, so the transitional "0 helpers is also legal"
+		// allowance is gone — a missing or partial copy now fails.
+		it("ships the complete §2.5 helper surface", () => {
+			expect(
+				present,
+				`${slug} ships an incomplete PLAN-0027 surface: ${present.join(", ")}`,
+			).toEqual([...PLAN_0027_HELPER_KEYS]);
+		});
+
+		{
+			it("classNamesField builds one text sub-field per target, in order", () => {
+				const field = authoring.classNamesField?.(
+					[
+						{ id: "root", label: "Root" },
+						{ id: "item", label: "Item" },
+					],
+					"Custom classes",
+				) as {
+					type: string;
+					label?: string;
+					objectFields: Record<string, unknown>;
+				};
+				expect(field).toEqual({
+					type: "object",
+					label: "Custom classes",
+					objectFields: {
+						root: { type: "text", label: "Root" },
+						item: { type: "text", label: "Item" },
+					},
+				});
+				expect(Object.keys(field.objectFields)).toEqual(["root", "item"]);
+			});
+
+			it("animationField matches the §2.4 object-field shape", () => {
+				const field = authoring.animationField?.(ANIMATION_FIELD_LABELS) as {
+					type: string;
+					label?: string;
+					objectFields: Record<
+						string,
+						{ type: string; options?: { label: string; value: string }[] }
+					>;
+				};
+				expect(field.type).toBe("object");
+				expect(field.label).toBe("Animation");
+				expect(Object.keys(field.objectFields)).toEqual([
+					"preset",
+					"durationMs",
+					"delayMs",
+					"easing",
+				]);
+				expect(field.objectFields.preset.type).toBe("select");
+				expect(
+					field.objectFields.preset.options?.map((option) => option.value),
+				).toEqual(["none", "fade-in", "slide-up", "slide-down", "zoom-in"]);
+				expect(field.objectFields.durationMs.type).toBe("number");
+				expect(field.objectFields.delayMs.type).toBe("number");
+				expect(field.objectFields.easing.type).toBe("select");
+				expect(
+					field.objectFields.easing.options?.map((option) => option.value),
+				).toEqual(["ease", "ease-in", "ease-out", "ease-in-out", "linear"]);
+			});
+
+			it("animationAttrs emits the root class pair + custom properties", () => {
+				expect(authoring.animationAttrs?.(undefined)).toEqual({});
+				expect(authoring.animationAttrs?.({ preset: "none" })).toEqual({});
+				expect(
+					authoring.animationAttrs?.({
+						preset: "fade-in",
+						durationMs: 750,
+						delayMs: 100,
+						easing: "linear",
+					}),
+				).toEqual({
+					className: "ak-anim ak-anim-fade-in",
+					style: {
+						"--ak-anim-duration": "750ms",
+						"--ak-anim-delay": "100ms",
+						"--ak-anim-easing": "linear",
+					},
+				});
+				// §2.4 defaults: 500ms / 0ms / ease.
+				expect(authoring.animationAttrs?.({ preset: "zoom-in" })).toEqual({
+					className: "ak-anim ak-anim-zoom-in",
+					style: {
+						"--ak-anim-duration": "500ms",
+						"--ak-anim-delay": "0ms",
+						"--ak-anim-easing": "ease",
+					},
+				});
+			});
+		}
+	});
 }
 
 describe("cross-package identity", () => {
@@ -158,5 +298,142 @@ describe("cross-package identity", () => {
 			});
 		});
 		expect(new Set(shapes).size).toBeLessThanOrEqual(1);
+	});
+
+	it("every package's PLAN-0027 §2.5 surface shares one structural shape", () => {
+		const shapes = ADOPTED.map((slug) => {
+			const authoring = authoringOf(slug);
+			return JSON.stringify({
+				classNames: authoring.classNamesField?.([{ id: "a", label: "A" }], "L"),
+				animation: authoring.animationField?.(ANIMATION_FIELD_LABELS),
+				attrs: authoring.animationAttrs?.({ preset: "fade-in" }),
+			});
+		});
+		expect(shapes.length).toBeGreaterThan(0);
+		expect(new Set(shapes).size).toBeLessThanOrEqual(1);
+	});
+});
+
+describe("PLAN-0027 pilot: blog-list is the golden reference", () => {
+	it("ships the full §2.5 authoring surface", () => {
+		const authoring = authoringOf("blog-list");
+		for (const key of PLAN_0027_HELPER_KEYS) {
+			expect(typeof authoring[key], `blog-list must export ${key}`).toBe(
+				"function",
+			);
+		}
+	});
+
+	describe("§2.3 data-source factory", () => {
+		const module = configOf("blog-list");
+		const fetchList = async (): Promise<unknown[]> => [];
+
+		it("adapter presence adds dataSource/externalData fields + resolveData", () => {
+			const config = module.createComponentConfig({
+				dataSources: { posts: { fetchList, showSearch: true } },
+			});
+			expect(config.fields.dataSource).toMatchObject({ type: "select" });
+			expect(config.fields.externalData).toMatchObject({
+				type: "external",
+				showSearch: true,
+			});
+			expect(typeof config.resolveData).toBe("function");
+			// The data-source fields sit between the collection and the
+			// §2.4/§2.2 presentation fields.
+			expect(Object.keys(config.fields)).toEqual([
+				"appearance",
+				"interactions",
+				"bindings",
+				"posts",
+				"dataSource",
+				"externalData",
+				"animation",
+				"classNames",
+			]);
+		});
+
+		it("no-adapter factory output is field-identical to the static config", () => {
+			const config = module.createComponentConfig();
+			expect(config.resolveData).toBeUndefined();
+			expect(Object.keys(config.fields)).toEqual(
+				Object.keys(module.componentConfig.fields),
+			);
+		});
+
+		it("resolveData maps the external selection into posts and locks the array", () => {
+			const config = module.createComponentConfig({
+				dataSources: {
+					posts: {
+						fetchList,
+						mapItem: (item: unknown) => ({
+							...(item as Record<string, unknown>),
+							title: `mapped:${(item as { title: string }).title}`,
+						}),
+					},
+				},
+			});
+			const resolveData = config.resolveData as (
+				data: { props: Record<string, unknown> },
+				params: { changed: Record<string, boolean> },
+			) => {
+				props: Record<string, unknown>;
+				readOnly?: Record<string, boolean>;
+			};
+
+			// changed-guard (Puck dynamic-props docs): unrelated edits are a no-op.
+			expect(
+				resolveData(
+					{
+						props: {
+							dataSource: "external",
+							externalData: [{ title: "a" }],
+						},
+					},
+					{ changed: {} },
+				),
+			).toEqual({ props: {} });
+
+			// An external array selection maps item-by-item into posts.
+			const resolved = resolveData(
+				{
+					props: {
+						dataSource: "external",
+						externalData: [{ title: "a" }, { title: "b" }],
+					},
+				},
+				{ changed: { externalData: true } },
+			);
+			expect(resolved.readOnly).toEqual({ posts: true });
+			expect(
+				(resolved.props.posts as { title: string }[]).map((post) => post.title),
+			).toEqual(["mapped:a", "mapped:b"]);
+
+			// A single-object selection is wrapped into a one-item list.
+			const single = resolveData(
+				{
+					props: { dataSource: "external", externalData: { title: "solo" } },
+				},
+				{ changed: { externalData: true } },
+			);
+			expect(
+				(single.props.posts as { title: string }[]).map((post) => post.title),
+			).toEqual(["mapped:solo"]);
+
+			// External mode with no selection: posts stay untouched but locked.
+			expect(
+				resolveData(
+					{ props: { dataSource: "external" } },
+					{ changed: { dataSource: true } },
+				),
+			).toEqual({ props: {}, readOnly: { posts: true } });
+
+			// Static mode releases the lock.
+			expect(
+				resolveData(
+					{ props: { dataSource: "static" } },
+					{ changed: { dataSource: true } },
+				),
+			).toEqual({ props: {}, readOnly: { posts: false } });
+		});
 	});
 });

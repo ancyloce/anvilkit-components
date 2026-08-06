@@ -44,6 +44,18 @@ function targetStamps(markup: string): TargetStamp[] {
 	);
 }
 
+/** class attribute of every element stamped with the given style target. */
+function classesOfTarget(markup: string, targetId: string): string[] {
+	const classes: string[] = [];
+	for (const tag of markup.match(/<[a-zA-Z][^>]*>/g) ?? []) {
+		if (tag.match(/data-ak-style-target="([^"]*)"/)?.[1] !== targetId) {
+			continue;
+		}
+		classes.push(tag.match(/class="([^"]*)"/)?.[1] ?? "");
+	}
+	return classes;
+}
+
 /** Props for a direct edit-mode render: defaults + id + stub slots. */
 function editModeProps(slug: string): Record<string, unknown> {
 	const { componentConfig } = configOf(slug);
@@ -116,6 +128,72 @@ for (const slug of ADOPTED) {
 		it("edit-mode target structure is identical to production", () => {
 			expect(targetStamps(editMarkup)).toEqual(targetStamps(productionMarkup));
 		});
+
+		// PLAN-0027 §2.2/§2.4 — the P2 fan-out is COMPLETE, so these are
+		// unconditional: every package must declare both fields and every
+		// declared target must genuinely accept an authored class.
+		it("declares the §2.2/§2.4 fields", () => {
+			expect(componentConfig.fields.classNames).toBeDefined();
+			expect(componentConfig.fields.animation).toBeDefined();
+		});
+
+		{
+			it("PLAN-0027 §2.2: authored classes land on every declared target, after base classes", () => {
+				const declared = Object.keys(
+					componentConfig.metadata.anvilkit?.editor?.styleTargets ?? {},
+				);
+				expect(declared.length).toBeGreaterThan(0);
+				const classNames = Object.fromEntries(
+					declared.map((targetId) => [targetId, `ak-authored-${targetId}`]),
+				);
+				const markup = renderToStaticMarkup(
+					componentConfig.render({
+						...editModeProps(slug),
+						classNames,
+					}) as ReactElement,
+				);
+				for (const targetId of declared) {
+					const stamped = classesOfTarget(markup, targetId);
+					expect(
+						stamped.length,
+						`${slug}/${targetId}: declared target has no stamped element in the default DOM`,
+					).toBeGreaterThan(0);
+					for (const classAttr of stamped) {
+						expect(
+							classAttr.endsWith(`ak-authored-${targetId}`),
+							`${slug}/${targetId}: authored class must merge last, got "${classAttr}"`,
+						).toBe(true);
+					}
+				}
+			});
+		}
+
+		{
+			it("PLAN-0027 §2.4: the animation preset stamps the root class pair + custom properties", () => {
+				const markup = renderToStaticMarkup(
+					componentConfig.render({
+						...editModeProps(slug),
+						animation: {
+							preset: "fade-in",
+							durationMs: 640,
+							delayMs: 40,
+							easing: "linear",
+						},
+					}) as ReactElement,
+				);
+				const rootTag = (markup.match(/<[a-zA-Z][^>]*>/g) ?? []).find((tag) =>
+					tag.includes(`data-ak-node="${PARITY_NODE_ID}"`),
+				);
+				expect(rootTag, `${slug}: no stamped root element`).toBeDefined();
+				const rootClass =
+					rootTag?.match(/class="([^"]*)"/)?.[1]?.split(" ") ?? [];
+				expect(rootClass).toContain("ak-anim");
+				expect(rootClass).toContain("ak-anim-fade-in");
+				expect(rootTag).toContain("--ak-anim-duration:640ms");
+				expect(rootTag).toContain("--ak-anim-delay:40ms");
+				expect(rootTag).toContain("--ak-anim-easing:linear");
+			});
+		}
 	});
 }
 
