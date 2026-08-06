@@ -17,5 +17,20 @@
 	"input.fields.required.options.false": "否",
 	"input.fields.disabled.label": "禁用",
 	"input.fields.disabled.options.true": "是",
-	"input.fields.disabled.options.false": "否"
+	"input.fields.disabled.options.false": "否",
+	"input.fields.classNames.label": "自定义类名",
+	"input.fields.animation.label": "动画",
+	"input.fields.animation.preset": "预设",
+	"input.fields.animation.preset.options.none": "无",
+	"input.fields.animation.preset.options.fade-in": "淡入",
+	"input.fields.animation.preset.options.slide-up": "向上滑入",
+	"input.fields.animation.preset.options.slide-down": "向下滑入",
+	"input.fields.animation.preset.options.zoom-in": "缩放进入",
+	"input.fields.animation.duration": "持续时间（毫秒）",
+	"input.fields.animation.delay": "延迟（毫秒）",
+	"input.fields.animation.easing": "缓动",
+	"input.targets.root": "字段",
+	"input.targets.label": "标签",
+	"input.targets.control": "控件",
+	"input.targets.helperText": "帮助文本"
 }

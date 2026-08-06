@@ -7,9 +7,11 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	anvilTargetAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
 import type { InputProps } from "./Input";
 import { Input } from "./Input";
@@ -17,6 +19,20 @@ import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 /** Business props + the §5.1 authoring carriers (PLAN-0025). */
 export type InputAuthorableProps = AuthorableProps<InputProps>;
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of Input.tsx:
+ * the `<label>` wrapper IS the root (no separate field container
+ * exists), the caption `<span>` is `label`, the `@anvilkit/ui` input is
+ * `control`, and the helper `<span>` is `helperText` — it renders
+ * whenever `helperText` is non-empty (it is in `defaultProps`) and is
+ * simply absent when the author clears the prop, exactly like an empty
+ * collection. Input has no prefix/suffix/error DOM, so no such target
+ * is fabricated.
+ */
+const STYLE_TARGET_IDS = ["root", "label", "control", "helperText"] as const;
+
+type InputTargetId = (typeof STYLE_TARGET_IDS)[number];
 
 export const metadata = {
 	componentName: "Input",
@@ -26,8 +42,10 @@ export const metadata = {
 	scaffoldType: "form",
 	schemaVersion: 1,
 	suggestedCategory: "forms",
-	// PLAN-0025 metadata v2 (§6.1/§6.5): root layout, control
-	// visual/typography, label typography. State rules (`:focus`) stay
+	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
+	// targets. Allowlists use only the grantable §6.1 vocabulary;
+	// typography is granted on the three text-bearing targets only (the
+	// root is a pure layout wrapper). State rules (`:focus`) stay
 	// component-owned; author values never carry `!important`.
 	anvilkit: {
 		editor: {
@@ -38,34 +56,76 @@ export const metadata = {
 					responsive: true,
 					properties: [
 						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
 						"width",
+						"minWidth",
 						"maxWidth",
+						"height",
 						"margin",
 						"padding",
-						"gap",
-					],
-				},
-				control: {
-					label: "Control",
-					responsive: true,
-					properties: [
 						"background",
 						"border",
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+					],
+				},
+				label: {
+					label: "Label",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"margin",
 						"padding",
+						"opacity",
 						"color",
 						"fontFamily",
 						"fontSize",
 						"fontWeight",
 						"lineHeight",
 						"letterSpacing",
+						"textAlign",
 					],
 				},
-				label: {
-					label: "Label",
+				control: {
+					label: "Control",
+					responsive: true,
 					properties: [
+						"display",
+						"width",
+						"minWidth",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				helperText: {
+					label: "Helper text",
+					responsive: true,
+					properties: [
+						"display",
+						"width",
+						"maxWidth",
+						"margin",
+						"padding",
+						"opacity",
 						"color",
 						"fontFamily",
 						"fontSize",
@@ -180,6 +240,28 @@ function buildFields(t: T): Fields<InputAuthorableProps> {
 				},
 			],
 		},
+		animation: animationField({
+			label: t("input.fields.animation.label"),
+			preset: t("input.fields.animation.preset"),
+			presetOptions: {
+				none: t("input.fields.animation.preset.options.none"),
+				"fade-in": t("input.fields.animation.preset.options.fade-in"),
+				"slide-up": t("input.fields.animation.preset.options.slide-up"),
+				"slide-down": t("input.fields.animation.preset.options.slide-down"),
+				"zoom-in": t("input.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("input.fields.animation.duration"),
+			delay: t("input.fields.animation.delay"),
+			easing: t("input.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`input.targets.${targetId}`),
+			})),
+			t("input.fields.classNames.label"),
+		),
 	};
 }
 
@@ -193,6 +275,8 @@ const renderInput: ComponentConfig<InputAuthorableProps>["render"] = ({
 	defaultValue,
 	required,
 	disabled,
+	classNames,
+	animation,
 	editMode,
 }) =>
 	createElement(Input, {
@@ -204,14 +288,17 @@ const renderInput: ComponentConfig<InputAuthorableProps>["render"] = ({
 		defaultValue,
 		required,
 		disabled,
+		classNames,
+		animation,
 		editMode,
 		// §6.2: stable targets from the official render; the compiler
 		// owns CSS materialization.
 		rootAttrs: anvilRootAttrs(id),
 		targetAttrs: {
-			control: anvilTargetAttrs(id, "control"),
 			label: anvilTargetAttrs(id, "label"),
-		},
+			control: anvilTargetAttrs(id, "control"),
+			helperText: anvilTargetAttrs(id, "helperText"),
+		} satisfies Record<Exclude<InputTargetId, "root">, Record<string, string>>,
 	});
 
 function buildConfig(t: T): ComponentConfig<InputAuthorableProps> {
@@ -221,8 +308,6 @@ function buildConfig(t: T): ComponentConfig<InputAuthorableProps> {
 		fields: buildFields(t),
 		metadata,
 		render: renderInput,
-		// resolveFields: async () => fields,
-		// resolveData: async (data) => data,
 	};
 }
 

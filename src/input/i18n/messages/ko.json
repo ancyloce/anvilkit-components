@@ -17,5 +17,20 @@
 	"input.fields.required.options.false": "아니요",
 	"input.fields.disabled.label": "비활성화",
 	"input.fields.disabled.options.true": "예",
-	"input.fields.disabled.options.false": "아니요"
+	"input.fields.disabled.options.false": "아니요",
+	"input.fields.classNames.label": "사용자 지정 클래스",
+	"input.fields.animation.label": "애니메이션",
+	"input.fields.animation.preset": "프리셋",
+	"input.fields.animation.preset.options.none": "없음",
+	"input.fields.animation.preset.options.fade-in": "페이드 인",
+	"input.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"input.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"input.fields.animation.preset.options.zoom-in": "줌 인",
+	"input.fields.animation.duration": "지속 시간(밀리초)",
+	"input.fields.animation.delay": "지연(밀리초)",
+	"input.fields.animation.easing": "이징",
+	"input.targets.root": "필드",
+	"input.targets.label": "라벨",
+	"input.targets.control": "컨트롤",
+	"input.targets.helperText": "도움말 텍스트"
 }

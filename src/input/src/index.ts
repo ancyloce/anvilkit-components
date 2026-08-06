@@ -1,5 +1,10 @@
 import "./styles.css";
 
+export type {
+	AnimationEasing,
+	AnimationPreset,
+	AnimationProps,
+} from "./authoring";
 export {
 	componentConfig,
 	createComponentConfig,

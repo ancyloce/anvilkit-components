@@ -1,5 +1,6 @@
 import { Input as BaseInput } from "@anvilkit/ui/input";
 import { cn } from "@anvilkit/ui/lib/utils";
+import { type AnimationProps, animationAttrs } from "./authoring";
 
 export interface InputProps {
 	label: string;
@@ -10,6 +11,10 @@ export interface InputProps {
 	defaultValue?: string;
 	required?: boolean;
 	disabled?: boolean;
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface InputViewProps extends InputProps {
@@ -20,7 +25,7 @@ export interface InputViewProps extends InputProps {
 	 * inline styles.
 	 */
 	rootAttrs?: Record<string, string>;
-	/** Named-target attributes keyed by target id (`control`, `label`). */
+	/** Named-target attributes keyed by target id (`control`, `label`, `helperText`). */
 	targetAttrs?: Record<string, Record<string, string>>;
 }
 
@@ -33,15 +38,29 @@ export function Input({
 	defaultValue,
 	required = false,
 	disabled = false,
+	classNames,
+	animation,
 	editMode = false,
 	rootAttrs,
 	targetAttrs,
 }: InputViewProps) {
 	const isDisabled = disabled || editMode;
+	const anim = animationAttrs(animation);
 
 	return (
-		<label {...rootAttrs} className="grid max-w-md gap-2 text-foreground">
-			<span {...targetAttrs?.label} className="text-sm font-semibold">
+		<label
+			{...rootAttrs}
+			className={cn(
+				"grid max-w-md gap-2 text-foreground",
+				anim.className,
+				classNames?.root,
+			)}
+			style={anim.style}
+		>
+			<span
+				{...targetAttrs?.label}
+				className={cn("text-sm font-semibold", classNames?.label)}
+			>
 				{label}
 				{required ? " *" : ""}
 			</span>
@@ -58,10 +77,17 @@ export function Input({
 				className={cn(
 					"h-11 min-w-[16rem] rounded-2xl px-4 text-sm shadow-sm",
 					isDisabled && "bg-input/50 text-muted-foreground",
+					classNames?.control,
 				)}
 			/>
 			{helperText ? (
-				<span className="text-sm leading-6 text-muted-foreground">
+				<span
+					{...targetAttrs?.helperText}
+					className={cn(
+						"text-sm leading-6 text-muted-foreground",
+						classNames?.helperText,
+					)}
+				>
 					{helperText}
 				</span>
 			) : null}

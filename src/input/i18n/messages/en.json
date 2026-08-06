@@ -17,5 +17,20 @@
 	"input.fields.required.options.false": "No",
 	"input.fields.disabled.label": "Disabled",
 	"input.fields.disabled.options.true": "Yes",
-	"input.fields.disabled.options.false": "No"
+	"input.fields.disabled.options.false": "No",
+	"input.fields.classNames.label": "Custom classes",
+	"input.fields.animation.label": "Animation",
+	"input.fields.animation.preset": "Preset",
+	"input.fields.animation.preset.options.none": "None",
+	"input.fields.animation.preset.options.fade-in": "Fade in",
+	"input.fields.animation.preset.options.slide-up": "Slide up",
+	"input.fields.animation.preset.options.slide-down": "Slide down",
+	"input.fields.animation.preset.options.zoom-in": "Zoom in",
+	"input.fields.animation.duration": "Duration (ms)",
+	"input.fields.animation.delay": "Delay (ms)",
+	"input.fields.animation.easing": "Easing",
+	"input.targets.root": "Field",
+	"input.targets.label": "Label",
+	"input.targets.control": "Control",
+	"input.targets.helperText": "Helper text"
 }
