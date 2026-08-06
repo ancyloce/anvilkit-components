@@ -3,5 +3,21 @@
 	"section.fields.badgeLabel.label": "Badge label",
 	"section.fields.headline.label": "Headline",
 	"section.fields.highlightedHeadline.label": "Highlighted headline",
-	"section.fields.description.label": "Description"
+	"section.fields.description.label": "Description",
+	"section.fields.classNames.label": "Custom classes",
+	"section.fields.animation.label": "Animation",
+	"section.fields.animation.preset": "Preset",
+	"section.fields.animation.preset.options.none": "None",
+	"section.fields.animation.preset.options.fade-in": "Fade in",
+	"section.fields.animation.preset.options.slide-up": "Slide up",
+	"section.fields.animation.preset.options.slide-down": "Slide down",
+	"section.fields.animation.preset.options.zoom-in": "Zoom in",
+	"section.fields.animation.duration": "Duration (ms)",
+	"section.fields.animation.delay": "Delay (ms)",
+	"section.fields.animation.easing": "Easing",
+	"section.targets.root": "Section",
+	"section.targets.content": "Content",
+	"section.targets.badge": "Badge",
+	"section.targets.headline": "Headline",
+	"section.targets.description": "Description"
 }

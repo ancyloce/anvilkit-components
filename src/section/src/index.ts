@@ -1,5 +1,10 @@
 import "./styles.css";
 
+export type {
+	AnimationEasing,
+	AnimationPreset,
+	AnimationProps,
+} from "./authoring";
 export {
 	componentConfig,
 	createComponentConfig,
@@ -10,6 +15,7 @@ export {
 	fields as sectionFields,
 	metadata,
 	metadata as sectionMetadata,
+	type SectionAuthorableProps,
 	sectionConfig,
 } from "./config";
 export {

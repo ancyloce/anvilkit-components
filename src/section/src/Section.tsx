@@ -1,11 +1,17 @@
 import { AnimatedShinyText } from "@anvilkit/ui/animated-shiny-text";
 import { AuroraText } from "@anvilkit/ui/aurora-text";
+import { cn } from "@anvilkit/ui/lib/utils";
+import { type AnimationProps, animationAttrs } from "./authoring";
 
 export interface SectionProps {
 	badgeLabel: string;
 	headline: string;
 	highlightedHeadline: string;
 	description: string;
+	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
+	classNames?: Record<string, string>;
+	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */
+	animation?: AnimationProps;
 }
 
 export interface SectionViewProps extends SectionProps {
@@ -25,7 +31,7 @@ export interface SectionViewProps extends SectionProps {
 	 * when both are present, so the duplicate spread is a no-op.
 	 */
 	rootAttrs?: Record<string, string>;
-	/** Named-target attributes keyed by target id (`content`). */
+	/** Named-target attributes keyed by target id (`content`, `badge`, …). */
 	targetAttrs?: Record<string, Record<string, string>>;
 }
 
@@ -34,23 +40,41 @@ export function Section({
 	headline,
 	highlightedHeadline,
 	description,
+	classNames,
+	animation,
 	editorDataAttributes,
 	rootAttrs,
 	targetAttrs,
 }: SectionViewProps) {
+	const anim = animationAttrs(animation);
+
 	return (
 		<div
 			{...editorDataAttributes}
 			{...rootAttrs}
-			className="border-b w-full h-full p-12"
+			className={cn(
+				"border-b w-full h-full p-12",
+				anim.className,
+				classNames?.root,
+			)}
+			style={anim.style}
 		>
 			<div
 				{...targetAttrs?.content}
-				className="w-full max-w-md mx-auto flex flex-col items-center justify-center gap-2"
+				className={cn(
+					"w-full max-w-md mx-auto flex flex-col items-center justify-center gap-2",
+					classNames?.content,
+				)}
 			>
 				<div className="flex flex-col items-center justify-center">
 					<div className="z-10 flex items-center justify-center">
-						<div className="group rounded-full border border-black/5 bg-neutral-100 transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800">
+						<div
+							{...targetAttrs?.badge}
+							className={cn(
+								"group rounded-full border border-black/5 bg-neutral-100 transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800",
+								classNames?.badge,
+							)}
+						>
 							<div className="inline-flex items-center justify-center gap-2 px-4 py-1">
 								<span
 									aria-hidden="true"
@@ -69,7 +93,13 @@ export function Section({
 					</div>
 
 					<div className="flex flex-col items-center justify-center gap-4 mt-4">
-						<h2 className="text-2xl md:text-3xl lg:text-6xl leading-[0.92] font-medium tracking-[-0.06em] text-center text-balance">
+						<h2
+							{...targetAttrs?.headline}
+							className={cn(
+								"text-2xl md:text-3xl lg:text-6xl leading-[0.92] font-medium tracking-[-0.06em] text-center text-balance",
+								classNames?.headline,
+							)}
+						>
 							<span data-ak-text-target="headline">{headline}</span>{" "}
 							<AuroraText
 								className="max-w-[9.75ch] whitespace-normal align-baseline text-balance"
@@ -79,8 +109,12 @@ export function Section({
 							</AuroraText>
 						</h2>
 						<p
+							{...targetAttrs?.description}
 							data-ak-text-target="description"
-							className="max-w-[30rem] mx-auto text-center text-balance text-muted-foreground leading-[1.45] md:max-w-[34rem] md:text-lg"
+							className={cn(
+								"max-w-[30rem] mx-auto text-center text-balance text-muted-foreground leading-[1.45] md:max-w-[34rem] md:text-lg",
+								classNames?.description,
+							)}
 						>
 							{description}
 						</p>

@@ -7,9 +7,11 @@ import { createElement } from "react";
 import packageJson from "../package.json";
 import {
 	type AuthorableProps,
+	animationField,
 	anvilRootAttrs,
 	anvilTargetAttrs,
 	authoringFields,
+	classNamesField,
 } from "./authoring";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { SectionProps } from "./Section";
@@ -17,6 +19,25 @@ import { Section } from "./Section";
 
 /** Business props + the §5.1 authoring carriers (PLAN-0025). */
 export type SectionAuthorableProps = AuthorableProps<SectionProps>;
+
+/**
+ * PLAN-0027 §2.1 target map, derived from the REAL DOM of Section.tsx
+ * (a single render branch): the root `<div>`, the centered `content`
+ * container, the rounded `badge` pill, the `<h2>` headline, and the
+ * description `<p>`. The badge/content containers grant no typography —
+ * their text children carry fixed element-level text classes an
+ * inherited override would not beat (the rationale recorded by the
+ * deleted v1 block); headline/description are the text-bearing targets.
+ */
+const STYLE_TARGET_IDS = [
+	"root",
+	"content",
+	"badge",
+	"headline",
+	"description",
+] as const;
+
+type SectionTargetId = (typeof STYLE_TARGET_IDS)[number];
 
 export const metadata = {
 	componentName: "Section",
@@ -26,32 +47,9 @@ export const metadata = {
 	scaffoldType: "content",
 	schemaVersion: 1,
 	suggestedCategory: "marketing",
-	// AnvilKit visual-editor capability declaration (contract:
-	// `EditorCapabilityMetadata` in `@anvilkit/contracts/editor` —
-	// mirrored literally to avoid a new dependency). `styleTarget:
-	// "root"`: Section spreads `editorDataAttributes` onto its root
-	// div. Only honoured capabilities are declared: typography is
-	// deliberately absent because the headline/description carry
-	// fixed text classes a root-level override would not beat.
-	editor: {
-		version: "1",
-		styleTarget: "root",
-		capabilities: {
-			layoutItem: true,
-			visualStyle: true,
-			responsive: true,
-			inlineText: [
-				{ id: "headline", propPath: "headline", format: "plain" },
-				{ id: "description", propPath: "description", format: "plain" },
-			],
-		},
-	},
-	// PLAN-0025 metadata v2 (§6.1/§6.5), alongside v1 until cutover.
-	// Deviations from the §6.5 sketch, confirmed against the real DOM:
-	// Section carries no slot (fixed marketing copy, no renderDropZone),
-	// and `content` grants effective layout only — inherited typography
-	// on the container loses to the headline/description's fixed
-	// element-level text classes (same rationale as v1's note above).
+	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
+	// targets. Allowlists use only the grantable §6.1 vocabulary;
+	// typography properties are granted on text-bearing targets only.
 	anvilkit: {
 		editor: {
 			version: "2",
@@ -61,12 +59,15 @@ export const metadata = {
 					responsive: true,
 					properties: [
 						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
 						"width",
+						"minWidth",
 						"maxWidth",
 						"height",
 						"margin",
 						"padding",
-						"gap",
 						"background",
 						"border",
 						"borderRadius",
@@ -77,7 +78,71 @@ export const metadata = {
 				content: {
 					label: "Content",
 					responsive: true,
-					properties: ["width", "maxWidth", "padding", "gap"],
+					properties: [
+						"display",
+						"gap",
+						"alignItems",
+						"justifyContent",
+						"width",
+						"minWidth",
+						"maxWidth",
+						"height",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				badge: {
+					label: "Badge",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"padding",
+						"background",
+						"border",
+						"borderRadius",
+						"boxShadow",
+						"opacity",
+					],
+				},
+				headline: {
+					label: "Headline",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"maxWidth",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
+				},
+				description: {
+					label: "Description",
+					responsive: true,
+					properties: [
+						"display",
+						"margin",
+						"maxWidth",
+						"opacity",
+						"color",
+						"fontFamily",
+						"fontSize",
+						"fontWeight",
+						"lineHeight",
+						"letterSpacing",
+						"textAlign",
+					],
 				},
 			},
 			inlineText: [
@@ -119,6 +184,28 @@ function buildFields(t: T): Fields<SectionAuthorableProps> {
 			type: "textarea",
 			label: t("section.fields.description.label"),
 		},
+		animation: animationField({
+			label: t("section.fields.animation.label"),
+			preset: t("section.fields.animation.preset"),
+			presetOptions: {
+				none: t("section.fields.animation.preset.options.none"),
+				"fade-in": t("section.fields.animation.preset.options.fade-in"),
+				"slide-up": t("section.fields.animation.preset.options.slide-up"),
+				"slide-down": t("section.fields.animation.preset.options.slide-down"),
+				"zoom-in": t("section.fields.animation.preset.options.zoom-in"),
+			},
+			duration: t("section.fields.animation.duration"),
+			delay: t("section.fields.animation.delay"),
+			easing: t("section.fields.animation.easing"),
+		}),
+		// §2.2: grouped last in the field list.
+		classNames: classNamesField(
+			STYLE_TARGET_IDS.map((targetId) => ({
+				id: targetId,
+				label: t(`section.targets.${targetId}`),
+			})),
+			t("section.fields.classNames.label"),
+		),
 	};
 }
 
@@ -135,11 +222,21 @@ const renderSection: ComponentConfig<SectionAuthorableProps>["render"] = (
 		headline: props.headline,
 		highlightedHeadline: props.highlightedHeadline,
 		description: props.description,
+		classNames: props.classNames,
+		animation: props.animation,
 		editMode: props.editMode,
 		editorDataAttributes: (props as EditorRenderProps).editorDataAttributes,
 		// §6.2: stable targets in EVERY mode; the compiler owns CSS.
 		rootAttrs: anvilRootAttrs(props.id),
-		targetAttrs: { content: anvilTargetAttrs(props.id, "content") },
+		targetAttrs: {
+			content: anvilTargetAttrs(props.id, "content"),
+			badge: anvilTargetAttrs(props.id, "badge"),
+			headline: anvilTargetAttrs(props.id, "headline"),
+			description: anvilTargetAttrs(props.id, "description"),
+		} satisfies Record<
+			Exclude<SectionTargetId, "root">,
+			Record<string, string>
+		>,
 	});
 
 function buildConfig(t: T): ComponentConfig<SectionAuthorableProps> {
@@ -149,8 +246,6 @@ function buildConfig(t: T): ComponentConfig<SectionAuthorableProps> {
 		fields: buildFields(t),
 		metadata,
 		render: renderSection,
-		// resolveFields: async () => fields,
-		// resolveData: async (data) => data,
 	};
 }
 

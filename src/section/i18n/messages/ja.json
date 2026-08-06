@@ -3,5 +3,21 @@
 	"section.fields.badgeLabel.label": "バッジラベル",
 	"section.fields.headline.label": "見出し",
 	"section.fields.highlightedHeadline.label": "強調見出し",
-	"section.fields.description.label": "説明"
+	"section.fields.description.label": "説明",
+	"section.fields.classNames.label": "カスタムクラス",
+	"section.fields.animation.label": "アニメーション",
+	"section.fields.animation.preset": "プリセット",
+	"section.fields.animation.preset.options.none": "なし",
+	"section.fields.animation.preset.options.fade-in": "フェードイン",
+	"section.fields.animation.preset.options.slide-up": "スライドアップ",
+	"section.fields.animation.preset.options.slide-down": "スライドダウン",
+	"section.fields.animation.preset.options.zoom-in": "ズームイン",
+	"section.fields.animation.duration": "再生時間（ミリ秒）",
+	"section.fields.animation.delay": "遅延（ミリ秒）",
+	"section.fields.animation.easing": "イージング",
+	"section.targets.root": "セクション",
+	"section.targets.content": "コンテンツ",
+	"section.targets.badge": "バッジ",
+	"section.targets.headline": "見出し",
+	"section.targets.description": "説明"
 }

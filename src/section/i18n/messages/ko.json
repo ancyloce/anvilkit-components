@@ -3,5 +3,21 @@
 	"section.fields.badgeLabel.label": "배지 라벨",
 	"section.fields.headline.label": "헤드라인",
 	"section.fields.highlightedHeadline.label": "강조 헤드라인",
-	"section.fields.description.label": "설명"
+	"section.fields.description.label": "설명",
+	"section.fields.classNames.label": "사용자 지정 클래스",
+	"section.fields.animation.label": "애니메이션",
+	"section.fields.animation.preset": "프리셋",
+	"section.fields.animation.preset.options.none": "없음",
+	"section.fields.animation.preset.options.fade-in": "페이드 인",
+	"section.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"section.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"section.fields.animation.preset.options.zoom-in": "줌 인",
+	"section.fields.animation.duration": "지속 시간(밀리초)",
+	"section.fields.animation.delay": "지연(밀리초)",
+	"section.fields.animation.easing": "이징",
+	"section.targets.root": "섹션",
+	"section.targets.content": "콘텐츠",
+	"section.targets.badge": "배지",
+	"section.targets.headline": "헤드라인",
+	"section.targets.description": "설명"
 }

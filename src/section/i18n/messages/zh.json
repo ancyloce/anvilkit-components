@@ -3,5 +3,21 @@
 	"section.fields.badgeLabel.label": "徽章文案",
 	"section.fields.headline.label": "主标题",
 	"section.fields.highlightedHeadline.label": "高亮标题",
-	"section.fields.description.label": "描述"
+	"section.fields.description.label": "描述",
+	"section.fields.classNames.label": "自定义类名",
+	"section.fields.animation.label": "动画",
+	"section.fields.animation.preset": "预设",
+	"section.fields.animation.preset.options.none": "无",
+	"section.fields.animation.preset.options.fade-in": "淡入",
+	"section.fields.animation.preset.options.slide-up": "向上滑入",
+	"section.fields.animation.preset.options.slide-down": "向下滑入",
+	"section.fields.animation.preset.options.zoom-in": "缩放进入",
+	"section.fields.animation.duration": "持续时间（毫秒）",
+	"section.fields.animation.delay": "延迟（毫秒）",
+	"section.fields.animation.easing": "缓动",
+	"section.targets.root": "区块",
+	"section.targets.content": "内容",
+	"section.targets.badge": "徽章",
+	"section.targets.headline": "主标题",
+	"section.targets.description": "描述"
 }
