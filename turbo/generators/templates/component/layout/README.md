@@ -42,7 +42,8 @@ const data = {
 
 ## Authoring surface (PLAN-0025 §6 / PLAN-0027)
 
-`src/config.ts` declares `metadata.anvilkit.editor` at `version: '2'` with a
+`src/config.ts` declares `metadata.anvilkit.editor` (no `version` field — the
+contract is structural) with a
 `styleTargets` map. Every declared target id is stamped on a real element via
 `anvilTargetAttrs(id, '<target>')` (the root uses `anvilRootAttrs(id)`), in
 every render branch and in every mode — edit mode may change affordances, never

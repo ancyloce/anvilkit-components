@@ -48,7 +48,6 @@ export const metadata = {
   // both scaffold targets are layout containers, so neither grants it.
   anvilkit: {
     editor: {
-      version: '2',
       styleTargets: {
         root: {
           label: '{{componentLabel}}',
