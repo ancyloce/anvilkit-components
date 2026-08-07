@@ -58,7 +58,6 @@ export const metadata = {
 	// granted on text-bearing targets only.
 	anvilkit: {
 		editor: {
-			version: "2",
 			styleTargets: {
 				root: {
 					label: "Hero",

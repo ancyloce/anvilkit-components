@@ -49,7 +49,6 @@ export const metadata = {
 	// component-owned; author values never carry `!important`.
 	anvilkit: {
 		editor: {
-			version: "2",
 			styleTargets: {
 				root: {
 					label: "Field",

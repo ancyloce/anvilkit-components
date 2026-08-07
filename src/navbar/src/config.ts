@@ -74,7 +74,6 @@ export const metadata = {
 	// array rows, not plain prop paths, so no inlineText declarations.
 	anvilkit: {
 		editor: {
-			version: "2",
 			styleTargets: {
 				root: {
 					label: "Navbar",

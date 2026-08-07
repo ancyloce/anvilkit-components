@@ -76,7 +76,6 @@ export const metadata = {
 	// §6.5 "fewer controls is safer").
 	anvilkit: {
 		editor: {
-			version: "2",
 			styleTargets: {
 				root: {
 					label: "Bento grid",

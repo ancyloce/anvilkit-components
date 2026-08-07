@@ -53,7 +53,6 @@ export const metadata = {
 	// preview exists.
 	anvilkit: {
 		editor: {
-			version: "2",
 			styleTargets: {
 				root: {
 					label: "Design block",

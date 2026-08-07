@@ -48,7 +48,6 @@ export const metadata = {
 	// `buttonVariants` establishes; typography acts on the label text).
 	anvilkit: {
 		editor: {
-			version: "2",
 			styleTargets: {
 				root: {
 					label: "Button",

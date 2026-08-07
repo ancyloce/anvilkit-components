@@ -73,7 +73,6 @@ export const metadata = {
 	// typography properties are granted on text-bearing targets only.
 	anvilkit: {
 		editor: {
-			version: "2",
 			styleTargets: {
 				root: {
 					label: "Pricing",
