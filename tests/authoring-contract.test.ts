@@ -3,7 +3,7 @@
  * harness). For every ADOPTED package: metadata v2 declares at least
  * the §6.5 required targets with vocabulary-only property allowlists;
  * the three hidden authoring fields are declared per §5.3 (with the
- * locked 0.22.4 erratum: render returns an element, never null);
+ * locked 0.23.0 erratum: render returns an element, never null);
  * `defaultProps` never stamps empty authoring shells; and every
  * package's self-contained `authoring.ts` is structurally IDENTICAL —
  * including the exact data-attribute literals the superproject
@@ -166,7 +166,7 @@ for (const slug of ADOPTED) {
 			});
 		});
 
-		it("hidden fields match the §5.3 shape and render an element (0.22.4 erratum)", () => {
+		it("hidden fields match the §5.3 shape and render an element (0.23.0 erratum)", () => {
 			const authoring = authoringOf(slug);
 			for (const field of [
 				authoring.appearanceField,

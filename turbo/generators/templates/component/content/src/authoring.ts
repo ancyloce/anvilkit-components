@@ -28,7 +28,7 @@ export interface AuthoringFeatureProps {
 /** Business props + the §5.1 authoring carriers. */
 export type AuthorableProps<T extends object> = T & AuthoringFeatureProps;
 
-// Puck 0.22.4 erratum (locked upstream): `CustomFieldRender` must
+// Puck 0.23.0 erratum (locked upstream): `CustomFieldRender` must
 // return a ReactElement, so hidden fields render an empty element.
 const renderHidden = (): ReactElement =>
   createElement('span', { hidden: true });

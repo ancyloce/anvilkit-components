@@ -34,7 +34,7 @@ verifyDepsBeforeRun: false
 # warning even if allowBuilds ever misses an entry.
 strictDepBuilds: false
 minimumReleaseAgeExclude:
-  - '@base-ui/react@1.6.0'
+  - '@base-ui/react@1.7.0'
   - '@base-ui/utils@0.3.1'
   - '@biomejs/biome@2.5.1 || 2.5.3'
   - '@biomejs/cli-darwin-arm64@2.5.1 || 2.5.3'
@@ -89,7 +89,7 @@ minimumReleaseAgeExclude:
   - '@tiptap/html@3.27.1'
   - '@tiptap/pm@3.27.1'
   - '@tiptap/react@3.27.1'
-  - '@types/node@26.0.0 || 26.0.1 || 26.1.1'
+  - '@types/node@26.0.0 || 26.0.1 || 26.2.0'
   - '@types/node@26.0.1'
   - '@typescript-eslint/project-service@8.61.1'
   - '@typescript-eslint/tsconfig-utils@8.61.1'
@@ -140,7 +140,7 @@ minimumReleaseAgeExclude:
   - prosemirror-model@1.25.9
   - rsbuild-plugin-dts@0.23.0
   - semver@7.8.5
-  - shadcn@4.15.0
+  - shadcn@4.16.2
   - tabbable@6.5.0
   - tldts@7.4.3
   - tldts-core@7.4.3
@@ -223,10 +223,10 @@ minimumReleaseAgeExclude:
   - oxc-parser@0.141.0
   - react-dom@19.2.8
   - react@19.2.8
-  - playwright-core@1.62.0
-  - playwright@1.62.0
+  - playwright-core@1.62.1
+  - playwright@1.62.1
   - '@publint/pack@0.1.6'
-  - publint@0.3.22
+  - publint@0.3.23
   - '@tanstack/react-virtual@3.14.8'
   - '@tanstack/virtual-core@3.17.6'
   - lucide-react@1.26.0
