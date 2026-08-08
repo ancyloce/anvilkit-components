@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"packageManager": "pnpm@11.20.0",
 	"engines": {
-		"node": ">=18"
+		"node": ">=22"
 	},
 	"scripts": {
 		"dev": "pnpm -r --filter \"./src/*\" --parallel dev",
