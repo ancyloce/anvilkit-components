@@ -188,12 +188,36 @@ const render{{componentName}}: ComponentConfig<{{componentName}}AuthorableProps>
     >,
   });
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `{{name}}.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged. Every new
+ * target added to STYLE_TARGET_IDS localizes automatically.
+ */
+function buildMetadata(t: T): typeof metadata {
+  const { editor } = metadata.anvilkit;
+  const styleTargets = { ...editor.styleTargets };
+  for (const targetId of STYLE_TARGET_IDS) {
+    styleTargets[targetId] = {
+      ...styleTargets[targetId],
+      label: t(`{{name}}.targets.${targetId}`),
+    };
+  }
+  return {
+    ...metadata,
+    anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+  };
+}
+
 function buildConfig(t: T): ComponentConfig<{{componentName}}AuthorableProps> {
   return {
     label: t('{{name}}.label'),
     defaultProps,
     fields: buildFields(t),
-    metadata,
+    metadata: buildMetadata(t),
     render: render{{componentName}},
     // resolveFields: async () => fields,
     // resolveData: async (data) => data,
