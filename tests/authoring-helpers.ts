@@ -58,7 +58,18 @@ export const REQUIRED_TARGETS: Readonly<Record<string, readonly string[]>> = {
 	"design-block": ["root", "canvas"],
 };
 
-/** §6.1 grantable property vocabulary (mirror of the contracts union). */
+/**
+ * §6.1 grantable property vocabulary (mirror of the contracts union
+ * `AuthorableStyleProperty` in
+ * `packages/foundation/contracts/src/editor/component-metadata.ts`).
+ *
+ * Widened 23 -> 40 by `p1-004` (ED-FA-001, ADR 0007 decision 5); this
+ * literal copy was synced by `p6-003`, which is the task that first
+ * grants any of the added 17. The assertion this feeds is unchanged —
+ * a target may still grant nothing outside the vocabulary — only the
+ * vocabulary itself moved. Keep the order identical to the union so a
+ * future widening is a mechanical diff.
+ */
 export const AUTHORABLE_PROPERTIES: readonly string[] = [
 	"display",
 	"position",
@@ -83,6 +94,23 @@ export const AUTHORABLE_PROPERTIES: readonly string[] = [
 	"lineHeight",
 	"letterSpacing",
 	"textAlign",
+	"direction",
+	"wrap",
+	"rowGap",
+	"columnGap",
+	"columns",
+	"rows",
+	"minHeight",
+	"maxHeight",
+	"inset",
+	"overflow",
+	"zIndex",
+	"filter",
+	"blendMode",
+	"cursor",
+	"textDecoration",
+	"textTransform",
+	"textWrap",
 ];
 
 /** Labels accepted by the PLAN-0027 §2.4 `animationField` helper. */

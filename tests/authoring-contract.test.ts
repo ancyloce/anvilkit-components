@@ -69,9 +69,14 @@ describe("authoring adoption ledger", () => {
 
 for (const slug of ADOPTED) {
 	describe(`${slug}: metadata v2 (§6.1/§6.5)`, () => {
-		it("declares version 2 with at least the required targets", () => {
+		// The `version` discriminator this case also asserted was deleted by
+		// PLAN-0026 §3.3 (`p1-001`), so `editor?.version` is now permanently
+		// `undefined`. That dead assertion threw first and masked the
+		// required-target check below for all 12 packages — the coverage was
+		// silently gone, not merely red. Ledger row 39 records it as
+		// superseded; the live half is restored by deleting the dead line.
+		it("declares at least the required targets", () => {
 			const editor = configOf(slug).componentConfig.metadata.anvilkit?.editor;
-			expect(editor?.version).toBe("2");
 			const targets = Object.keys(editor?.styleTargets ?? {});
 			for (const required of REQUIRED_TARGETS[slug] ?? []) {
 				expect(targets, `${slug} must declare target "${required}"`).toContain(
