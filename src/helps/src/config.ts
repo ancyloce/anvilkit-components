@@ -69,6 +69,16 @@ export const metadata = {
 	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
 	// targets. Allowlists use only the grantable §6.1 vocabulary;
 	// typography properties are granted on text-bearing targets only.
+	// p6-003 widening rule: `content`, `actions`, `avatarGroup` and
+	// `button` arrange children, so each takes
+	// `direction`/`wrap`/`rowGap`/`columnGap` — the avatar-group primitive
+	// pins `display`/`alignItems` inline (see the note below) but leaves
+	// flex-direction, flex-wrap and the axis gaps free, so those grants
+	// can still win. `button` is the only interactive target and the only
+	// `cursor` grant. No `zIndex`: `root` is `position: relative` with
+	// `z-index: auto`, which is NOT a stacking context, so a grant here
+	// would escape the component — and the avatars' overlap order is the
+	// primitive's own INLINE z-index, which no authored rule can beat.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -88,6 +98,9 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				content: {
@@ -109,6 +122,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				message: {
@@ -128,6 +148,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				// `display`/`alignItems` are deliberately NOT granted: the
@@ -145,6 +168,12 @@ export const metadata = {
 						"gap",
 						"justifyContent",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
 					],
 				},
 				avatar: {
@@ -162,6 +191,9 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				actions: {
@@ -177,6 +209,10 @@ export const metadata = {
 						"alignItems",
 						"justifyContent",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
 					],
 				},
 				button: {
@@ -205,6 +241,17 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"cursor",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -443,6 +490,29 @@ const renderHelps: ComponentConfig<HelpsAuthorableProps>["render"] = ({
 		} satisfies Record<Exclude<HelpsTargetId, "root">, Record<string, string>>,
 	});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `helps.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`helps.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(
 	t: T,
 	dataSources?: CreateComponentConfigOptions["dataSources"],
@@ -451,7 +521,7 @@ function buildConfig(
 		label: t("helps.label"),
 		defaultProps,
 		fields: buildFields(t, dataSources),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderHelps,
 	};
 	const adapter = dataSources?.avatars;

@@ -55,6 +55,15 @@ export const metadata = {
 	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
 	// targets. Allowlists use only the grantable §6.1 vocabulary;
 	// typography properties are granted on text-bearing targets only.
+	// p6-003 widening rule: `logos` is NOT a grid despite its name — it is
+	// `relative flex flex-col … overflow-hidden` (LogoClouds.tsx:71-72), so
+	// it takes `direction`/`wrap`, not `columns`/`rows`; this package
+	// declares no grid container at all. `logoImage` is the replaced
+	// element and the only `filter`/`blendMode` grant. `title` extends the
+	// ShimmeringText exclusion below: `textTransform`/`textWrap` are
+	// granted but `textDecoration` is NOT, because the primitive splits the
+	// text into per-character `display:inline-block` spans and decoration
+	// does not propagate into an inline-block descendant.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -77,6 +86,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				title: {
@@ -94,6 +110,8 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				subtitle: {
@@ -113,6 +131,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				logos: {
@@ -133,6 +154,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				logoItem: {
@@ -154,6 +182,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				logoImage: {
@@ -169,6 +204,10 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"filter",
+						"blendMode",
 					],
 				},
 			},
@@ -255,6 +294,29 @@ const renderLogoClouds: ComponentConfig<LogoCloudsAuthorableProps>["render"] =
 			>,
 		});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `logo-clouds.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`logo-clouds.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(t: T): ComponentConfig<LogoCloudsAuthorableProps> {
 	return {
 		label: t("logo-clouds.label"),
@@ -263,7 +325,7 @@ function buildConfig(t: T): ComponentConfig<LogoCloudsAuthorableProps> {
 			marqueeAriaLabel: t("logo-clouds.a11y.marquee"),
 		},
 		fields: buildFields(t),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderLogoClouds,
 	};
 }

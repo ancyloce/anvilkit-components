@@ -46,6 +46,15 @@ export const metadata = {
 	// text-bearing control, so every grantable §6.1 property is
 	// CSS-sane on it (gap/alignItems/justifyContent act on the flex box
 	// `buttonVariants` establishes; typography acts on the label text).
+	// p6-003 widening rule: one target, one element — an inline-flex,
+	// text-bearing, interactive control that already grants `position`.
+	// `inset` is paired with that `position` grant, because the author
+	// owns the positioning scheme and offsets are therefore meaningful;
+	// `direction`/`wrap`/`rowGap`/`columnGap` act on the flex box
+	// `buttonVariants` establishes; `cursor` and the three text properties
+	// act on the control and its label. `zIndex` is withheld: this target
+	// IS the component root, so its stacking would escape into the page —
+	// the constraint ADR 0007 decision 5 re-homed to this task.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -76,6 +85,18 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"inset",
+						"overflow",
+						"cursor",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -238,12 +259,35 @@ const renderButton: ComponentConfig<ButtonAuthorableProps>["render"] = ({
 		rootAttrs: anvilRootAttrs(id),
 	});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `button.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`button.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(t: T): ComponentConfig<ButtonAuthorableProps> {
 	return {
 		label: t("button.label"),
 		defaultProps,
 		fields: buildFields(t),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderButton,
 		// resolveFields: async () => fields,
 		// resolveData: async (data) => data,

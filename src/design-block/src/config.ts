@@ -51,6 +51,13 @@ export const metadata = {
 	// typography is granted on either target — text renders only in the
 	// empty-state branch, so type grants would silently no-op once a
 	// preview exists.
+	// p6-003 widening stays as narrow as the original allowlist. `canvas`
+	// gains `minHeight`/`maxHeight` (following its existing `height`
+	// grant), `overflow` (clipping the preview to the radius it already
+	// grants) and `filter`/`blendMode` — the media grants, because
+	// `canvas` is the box the preview <img> renders inside. `root` is a
+	// bare wrapper and gains sizing bounds only. No typography, no
+	// flex/grid, no `zIndex`.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -67,6 +74,8 @@ export const metadata = {
 						"padding",
 						"background",
 						"opacity",
+						"minHeight",
+						"maxHeight",
 					],
 				},
 				canvas: {
@@ -85,6 +94,11 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"filter",
+						"blendMode",
 					],
 				},
 			},
@@ -219,6 +233,29 @@ const renderDesignBlock: ComponentConfig<DesignBlockAuthorableProps>["render"] =
 			>,
 		});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `design-block.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`design-block.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(t: T): ComponentConfig<DesignBlockAuthorableProps> {
 	const localizedFields = buildFields(t);
 
@@ -265,7 +302,7 @@ function buildConfig(t: T): ComponentConfig<DesignBlockAuthorableProps> {
 			editPortalLabel: t("design-block.a11y.editPortal"),
 		},
 		fields: localizedFields,
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderDesignBlock,
 		resolveFields: resolveDesignBlockFields,
 	};

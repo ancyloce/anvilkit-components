@@ -69,6 +69,16 @@ export const metadata = {
 	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
 	// targets. Allowlists use only the grantable §6.1 vocabulary;
 	// typography properties are granted on text-bearing targets only.
+	// p6-003 widening rule: the posts grid IS `root` (BlogList.tsx:196,
+	// `grid grid-cols-1 … lg:grid-cols-3`), so `columns`/`rows` land there
+	// rather than on a separate list target — in the empty-state branch
+	// the <section> is not a grid and they are simply inert. `card` is a
+	// block box that already grants gap/align/justify, so it takes
+	// `direction`/`wrap`; it is also the interactive <a>, so it takes
+	// `cursor`. `cardImage` is the only replaced element and the only
+	// `filter`/`blendMode` grant. No `zIndex` anywhere: nothing in this
+	// component establishes a stacking context, so a card's z-index would
+	// escape into the page.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -91,6 +101,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"rowGap",
+						"columnGap",
+						"columns",
+						"rows",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				card: {
@@ -108,6 +125,14 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"cursor",
 					],
 				},
 				cardImage: {
@@ -123,6 +148,10 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"filter",
+						"blendMode",
 					],
 				},
 				cardMeta: {
@@ -139,6 +168,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				cardTitle: {
@@ -155,6 +187,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				cardDescription: {
@@ -171,6 +206,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -419,6 +457,29 @@ const renderBlogList: ComponentConfig<BlogListAuthorableProps>["render"] = ({
 		>,
 	});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `blog-list.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`blog-list.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(
 	t: T,
 	dataSources?: CreateComponentConfigOptions["dataSources"],
@@ -427,7 +488,7 @@ function buildConfig(
 		label: t("blog-list.label"),
 		defaultProps,
 		fields: buildFields(t, dataSources),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderBlogList,
 	};
 	const adapter = dataSources?.posts;

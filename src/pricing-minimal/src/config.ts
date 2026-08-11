@@ -71,6 +71,13 @@ export const metadata = {
 	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
 	// targets. Allowlists use only the grantable §6.1 vocabulary;
 	// typography properties are granted on text-bearing targets only.
+	// p6-003 widening rule: `plans` is the grid (`grid grid-cols-1 …
+	// lg:grid-cols-3`), so it alone takes `columns`/`rows`; `card` is the
+	// flex column inside it and takes `direction`/`wrap`. `features` is a
+	// <ul> that already grants `gap`, so it takes the axis gaps and nothing
+	// else. `cta` is the only interactive target. No `zIndex`: `card` is
+	// `position: relative`, but no ancestor inside the component isolates,
+	// so the stacking would escape.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -90,6 +97,9 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				headline: {
@@ -106,6 +116,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				description: {
@@ -122,6 +135,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				plans: {
@@ -141,6 +157,11 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"rowGap",
+						"columnGap",
+						"columns",
+						"rows",
+						"overflow",
 					],
 				},
 				card: {
@@ -158,6 +179,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				price: {
@@ -174,12 +202,23 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				features: {
 					label: "Feature list",
 					responsive: true,
-					properties: ["display", "gap", "margin", "padding", "opacity"],
+					properties: [
+						"display",
+						"gap",
+						"margin",
+						"padding",
+						"opacity",
+						"rowGap",
+						"columnGap",
+					],
 				},
 				cta: {
 					label: "CTA button",
@@ -202,6 +241,13 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"cursor",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -552,6 +598,29 @@ const renderPricingMinimal: ComponentConfig<PricingMinimalAuthorableProps>["rend
 			>,
 		});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `pricing-minimal.targets.<id>` keys
+ * the `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`pricing-minimal.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(
 	t: T,
 	dataSources?: CreateComponentConfigOptions["dataSources"],
@@ -560,7 +629,7 @@ function buildConfig(
 		label: t("pricing-minimal.label"),
 		defaultProps,
 		fields: buildFields(t, dataSources),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderPricingMinimal,
 	};
 	const adapter = dataSources?.plans;

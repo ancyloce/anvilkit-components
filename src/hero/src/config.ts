@@ -56,6 +56,15 @@ export const metadata = {
 	// targets (legacy v1 block deleted per PLAN-0027 §2.5). Allowlists
 	// use only the grantable §6.1 vocabulary; typography properties are
 	// granted on text-bearing targets only.
+	// p6-003 widening rule: `content` is this package's one `zIndex`
+	// grant. `.anvilkit-hero` sets `isolation: isolate` (styles.css:107),
+	// so the stacking cannot escape the component, and `content` genuinely
+	// overlaps `.anvilkit-hero__backdrop` — flagged for p8-006 regardless,
+	// as every zIndex grant is. `content`/`actions`/`badge` are flex
+	// containers and take `direction`/`wrap`/`rowGap`/`columnGap`; `badge`
+	// and `cta` are the interactive controls and the only `cursor` grants;
+	// `overflow` goes where a radius is already granted or the element
+	// already clips.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -75,6 +84,9 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				content: {
@@ -93,6 +105,13 @@ export const metadata = {
 						"padding",
 						"background",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"zIndex",
 					],
 				},
 				badge: {
@@ -115,6 +134,17 @@ export const metadata = {
 						"fontWeight",
 						"lineHeight",
 						"letterSpacing",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"cursor",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				headline: {
@@ -131,6 +161,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				description: {
@@ -148,6 +181,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				actions: {
@@ -163,6 +199,10 @@ export const metadata = {
 						"margin",
 						"padding",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
 					],
 				},
 				cta: {
@@ -186,6 +226,13 @@ export const metadata = {
 						"fontWeight",
 						"lineHeight",
 						"letterSpacing",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"cursor",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -352,12 +399,35 @@ const renderHero: ComponentConfig<HeroAuthorableProps>["render"] = (props) =>
 		} satisfies Record<Exclude<HeroTargetId, "root">, Record<string, string>>,
 	});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `hero.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`hero.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(t: T): ComponentConfig<HeroAuthorableProps> {
 	return {
 		label: t("hero.label"),
 		defaultProps,
 		fields: buildFields(t),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderHero,
 		// resolveFields: async () => fields,
 		// resolveData: async (data) => data,

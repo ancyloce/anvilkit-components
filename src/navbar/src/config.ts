@@ -72,6 +72,16 @@ export const metadata = {
 	// link colors are inline highlight state), so container-level
 	// typography would be silently ineffective. Item labels live in
 	// array rows, not plain prop paths, so no inlineText declarations.
+	// p6-003 widening rule: `root` already grants `position`, so it gains
+	// `inset` — the pair that makes an offset/sticky bar authorable. It
+	// deliberately does NOT gain `zIndex`, even though a sticky bar is
+	// exactly where an author reaches for one: nothing in this component
+	// establishes a stacking context, so the value would escape into the
+	// page, which is the case ADR 0007 decision 5 re-homed here.
+	// `links`/`actions`/`logo` are flex rows — the desktop links row
+	// already uses `gap-x`/`gap-y`, so the axis gaps and `direction`/`wrap`
+	// are the natural grants. `logo` and `menuToggle` are the click targets
+	// and the only `cursor` grants. Still no typography anywhere.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -92,6 +102,10 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"inset",
+						"overflow",
 					],
 				},
 				logo: {
@@ -111,6 +125,14 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"cursor",
 					],
 				},
 				links: {
@@ -129,6 +151,11 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"overflow",
 					],
 				},
 				actions: {
@@ -147,6 +174,11 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"overflow",
 					],
 				},
 				menuToggle: {
@@ -165,6 +197,10 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"cursor",
 					],
 				},
 			},
@@ -525,6 +561,29 @@ const renderNavbar: ComponentConfig<NavbarAuthorableProps>["render"] = ({
 		} satisfies Record<Exclude<NavbarTargetId, "root">, Record<string, string>>,
 	});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `navbar.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`navbar.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(
 	t: T,
 	dataSources?: CreateComponentConfigOptions["dataSources"],
@@ -539,7 +598,7 @@ function buildConfig(
 			brandFallbackText: t("navbar.fallback.brand"),
 		},
 		fields: buildFields(t, dataSources),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderNavbar,
 	};
 	const adapter = dataSources?.items;

@@ -74,6 +74,17 @@ export const metadata = {
 	// background/border/shadow utilities, so those properties are NOT
 	// granted at root (granting controls the guards defeat would violate
 	// §6.5 "fewer controls is safer").
+	// p6-003 widening rule: `items` is the only real grid (`grid
+	// auto-rows-fr` in BentoGrid.tsx), so it alone takes `columns`/`rows`;
+	// `card` is a flex column and takes `direction`/`wrap`.
+	// `rowGap`/`columnGap` follow every existing `gap` grant,
+	// `minHeight`/`maxHeight` follow every existing `height` grant, and
+	// `overflow` goes on the boxes that already clip or already grant a
+	// radius. `cursor` is `cardCta` only — the one interactive element.
+	// No `zIndex`: the cards abut across a 1px gap and grant neither
+	// margin nor inset, so nothing here overlaps anything to raise above.
+	// `cardIcon` gets no `filter`/`blendMode` — it is an icon badge, not a
+	// replaced image.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -90,6 +101,9 @@ export const metadata = {
 						"padding",
 						"borderRadius",
 						"opacity",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				items: {
@@ -105,6 +119,11 @@ export const metadata = {
 						"background",
 						"borderRadius",
 						"opacity",
+						"rowGap",
+						"columnGap",
+						"columns",
+						"rows",
+						"overflow",
 					],
 				},
 				card: {
@@ -122,6 +141,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				cardIcon: {
@@ -138,6 +164,9 @@ export const metadata = {
 						"boxShadow",
 						"opacity",
 						"color",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				cardTitle: {
@@ -154,6 +183,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				cardDescription: {
@@ -171,6 +203,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				cardCta: {
@@ -188,6 +223,10 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"cursor",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -508,6 +547,29 @@ const renderBentoGrid: ComponentConfig<BentoGridAuthorableProps>["render"] = (
 		>,
 	});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `bento-grid.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`bento-grid.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(
 	t: T,
 	dataSources?: CreateComponentConfigOptions["dataSources"],
@@ -516,7 +578,7 @@ function buildConfig(
 		label: t("bento-grid.label"),
 		defaultProps,
 		fields: buildFields(t, dataSources),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderBentoGrid,
 	};
 	const adapter = dataSources?.items;

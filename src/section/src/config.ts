@@ -50,6 +50,16 @@ export const metadata = {
 	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
 	// targets. Allowlists use only the grantable §6.1 vocabulary;
 	// typography properties are granted on text-bearing targets only.
+	// p6-003 widening rule: `root` and `content` are the child-arranging
+	// boxes and take `direction`/`wrap`/`rowGap`/`columnGap`. `badge`
+	// gains `cursor` for a specific reason — the pill hard-codes
+	// `hover:cursor-pointer` while having neither href nor handler, so the
+	// grant is what lets an author correct a misleading affordance; it is
+	// recorded as uncertain for p8-006 because `.hover\:cursor-pointer:hover`
+	// ties the authored selector on specificity and source order decides
+	// the hover state. `headline`'s `textDecoration` is uncertain for the
+	// same class of reason: the AuroraText half is an inline-block, which
+	// decoration never enters.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -72,6 +82,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				content: {
@@ -93,6 +110,13 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
 					],
 				},
 				badge: {
@@ -107,6 +131,8 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"overflow",
+						"cursor",
 					],
 				},
 				headline: {
@@ -124,6 +150,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				description: {
@@ -141,6 +170,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -238,12 +270,35 @@ const renderSection: ComponentConfig<SectionAuthorableProps>["render"] = (
 		>,
 	});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `section.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`section.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(t: T): ComponentConfig<SectionAuthorableProps> {
 	return {
 		label: t("section.label"),
 		defaultProps,
 		fields: buildFields(t),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderSection,
 	};
 }

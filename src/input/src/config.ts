@@ -47,6 +47,13 @@ export const metadata = {
 	// typography is granted on the three text-bearing targets only (the
 	// root is a pure layout wrapper). State rules (`:focus`) stay
 	// component-owned; author values never carry `!important`.
+	// p6-003 widening rule: `root` is a real CSS grid (`grid max-w-md
+	// gap-2` on the <label>), so it takes `columns`/`rows` — a two-column
+	// field becomes authorable without touching the component. It is also
+	// the click-to-focus target, hence `cursor`, which `control` shares as
+	// the <input> itself. `control` is deliberately denied `textWrap`: a
+	// single-line input never wraps, so the control would emit and do
+	// nothing. No `zIndex`/`inset` — nothing here is positioned.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -69,6 +76,14 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"rowGap",
+						"columnGap",
+						"columns",
+						"rows",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"cursor",
 					],
 				},
 				label: {
@@ -88,6 +103,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				control: {
@@ -113,6 +131,11 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"minHeight",
+						"maxHeight",
+						"cursor",
+						"textDecoration",
+						"textTransform",
 					],
 				},
 				helperText: {
@@ -132,6 +155,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -300,12 +326,35 @@ const renderInput: ComponentConfig<InputAuthorableProps>["render"] = ({
 		} satisfies Record<Exclude<InputTargetId, "root">, Record<string, string>>,
 	});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `input.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`input.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(t: T): ComponentConfig<InputAuthorableProps> {
 	return {
 		label: t("input.label"),
 		defaultProps,
 		fields: buildFields(t),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderInput,
 	};
 }

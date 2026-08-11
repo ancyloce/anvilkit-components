@@ -63,6 +63,16 @@ export const metadata = {
 	// PLAN-0025 metadata v2 (§6.1/§6.5) + PLAN-0027 §2.1 per-element
 	// targets. Allowlists use only the grantable §6.1 vocabulary;
 	// typography properties are granted on text-bearing targets only.
+	// p6-003 widening rule: `item` is this package's one `zIndex` grant —
+	// the stat cells are grid items inside `div.relative.isolate`
+	// (Statistics.tsx:47) and really do paint over the `-z-10` gradient and
+	// `-z-20` flickering grid, so raising or lowering one is a real
+	// operation that cannot escape the component. Flagged for p8-006.
+	// `root` is denied `overflow`: the box that actually clips is the
+	// UNTARGETED inner `div.overflow-hidden`, so a grant on the outer
+	// <section> would emit and change nothing. Note also that the metrics
+	// grid itself is not a declared target, so `columns`/`rows` are
+	// unreachable in this package.
 	anvilkit: {
 		editor: {
 			styleTargets: {
@@ -85,6 +95,12 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
 					],
 				},
 				title: {
@@ -101,6 +117,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				item: {
@@ -118,6 +137,14 @@ export const metadata = {
 						"borderRadius",
 						"boxShadow",
 						"opacity",
+						"direction",
+						"wrap",
+						"rowGap",
+						"columnGap",
+						"minHeight",
+						"maxHeight",
+						"overflow",
+						"zIndex",
 					],
 				},
 				value: {
@@ -134,6 +161,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 				label: {
@@ -150,6 +180,9 @@ export const metadata = {
 						"lineHeight",
 						"letterSpacing",
 						"textAlign",
+						"textDecoration",
+						"textTransform",
+						"textWrap",
 					],
 				},
 			},
@@ -324,6 +357,29 @@ const renderStatistics: ComponentConfig<StatisticsAuthorableProps>["render"] =
 			>,
 		});
 
+/**
+ * Locale-aware copy of {@link metadata}: rebuilds every style target's
+ * `label` through `t()` using the same `statistics.targets.<id>` keys the
+ * `classNames` field already consumes. Target **ids** are the data
+ * contract and never change here — only the human-readable label. Under
+ * the default (en) `t` each label resolves to the literal declared
+ * above, so the static `componentConfig` export is unchanged.
+ */
+function buildMetadata(t: T): typeof metadata {
+	const { editor } = metadata.anvilkit;
+	const styleTargets = { ...editor.styleTargets };
+	for (const targetId of STYLE_TARGET_IDS) {
+		styleTargets[targetId] = {
+			...styleTargets[targetId],
+			label: t(`statistics.targets.${targetId}`),
+		};
+	}
+	return {
+		...metadata,
+		anvilkit: { ...metadata.anvilkit, editor: { ...editor, styleTargets } },
+	};
+}
+
 function buildConfig(
 	t: T,
 	dataSources?: CreateComponentConfigOptions["dataSources"],
@@ -332,7 +388,7 @@ function buildConfig(
 		label: t("statistics.label"),
 		defaultProps,
 		fields: buildFields(t, dataSources),
-		metadata,
+		metadata: buildMetadata(t),
 		render: renderStatistics,
 	};
 	const adapter = dataSources?.metrics;
