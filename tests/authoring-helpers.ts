@@ -12,9 +12,11 @@
  */
 
 export const ADOPTED: readonly string[] = [
+	"badge",
 	"bento-grid",
 	"blog-list",
 	"button",
+	"card",
 	"design-block",
 	"helps",
 	"hero",
@@ -23,12 +25,17 @@ export const ADOPTED: readonly string[] = [
 	"navbar",
 	"pricing-minimal",
 	"section",
+	"select",
+	"separator",
 	"statistics",
 ];
 
 /** §6.5 minimum required targets per component slug. */
 export const REQUIRED_TARGETS: Readonly<Record<string, readonly string[]>> = {
 	button: ["root"],
+	// Real-DOM: the wrapper renders exactly one `@anvilkit/ui` span with
+	// `label` as a bare text child — no inner element to stamp.
+	badge: ["root"],
 	input: ["root", "control", "label"],
 	section: ["root", "content"],
 	"bento-grid": ["root", "items"],
@@ -56,6 +63,15 @@ export const REQUIRED_TARGETS: Readonly<Record<string, readonly string[]>> = {
 	],
 	"logo-clouds": ["root", "logos"],
 	"design-block": ["root", "canvas"],
+	// Real-DOM: a single base-ui rule element with no children at all.
+	separator: ["root"],
+	// §6.5 deviation: base-ui's `Select.Root` renders no DOM, so the
+	// trigger is the outermost real element; the popup is portal'd.
+	select: ["root"],
+	// The two slot regions always render (Puck contract rule 3: identical
+	// DOM across editor/preview/publish/export); title and description are
+	// conditional on their props but real DOM whenever present.
+	card: ["root", "title", "description", "content", "footer"],
 };
 
 /**
