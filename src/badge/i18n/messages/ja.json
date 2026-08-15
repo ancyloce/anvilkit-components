@@ -1,0 +1,23 @@
+{
+	"badge.label": "バッジ",
+	"badge.fields.label.label": "ラベル",
+	"badge.fields.variant.label": "バリアント",
+	"badge.fields.variant.options.default": "デフォルト",
+	"badge.fields.variant.options.secondary": "セカンダリ",
+	"badge.fields.variant.options.destructive": "破壊的",
+	"badge.fields.variant.options.outline": "アウトライン",
+	"badge.fields.variant.options.ghost": "ゴースト",
+	"badge.fields.variant.options.link": "リンク",
+	"badge.fields.classNames.label": "カスタムクラス",
+	"badge.fields.animation.label": "アニメーション",
+	"badge.fields.animation.preset": "プリセット",
+	"badge.fields.animation.preset.options.none": "なし",
+	"badge.fields.animation.preset.options.fade-in": "フェードイン",
+	"badge.fields.animation.preset.options.slide-up": "スライドアップ",
+	"badge.fields.animation.preset.options.slide-down": "スライドダウン",
+	"badge.fields.animation.preset.options.zoom-in": "ズームイン",
+	"badge.fields.animation.duration": "再生時間（ミリ秒）",
+	"badge.fields.animation.delay": "遅延（ミリ秒）",
+	"badge.fields.animation.easing": "イージング",
+	"badge.targets.root": "バッジ"
+}

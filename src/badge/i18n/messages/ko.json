@@ -1,0 +1,23 @@
+{
+	"badge.label": "배지",
+	"badge.fields.label.label": "라벨",
+	"badge.fields.variant.label": "변형",
+	"badge.fields.variant.options.default": "기본값",
+	"badge.fields.variant.options.secondary": "보조",
+	"badge.fields.variant.options.destructive": "위험",
+	"badge.fields.variant.options.outline": "아웃라인",
+	"badge.fields.variant.options.ghost": "고스트",
+	"badge.fields.variant.options.link": "링크",
+	"badge.fields.classNames.label": "사용자 지정 클래스",
+	"badge.fields.animation.label": "애니메이션",
+	"badge.fields.animation.preset": "프리셋",
+	"badge.fields.animation.preset.options.none": "없음",
+	"badge.fields.animation.preset.options.fade-in": "페이드 인",
+	"badge.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"badge.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"badge.fields.animation.preset.options.zoom-in": "줌 인",
+	"badge.fields.animation.duration": "지속 시간(밀리초)",
+	"badge.fields.animation.delay": "지연(밀리초)",
+	"badge.fields.animation.easing": "이징",
+	"badge.targets.root": "배지"
+}

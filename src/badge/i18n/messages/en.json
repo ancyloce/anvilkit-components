@@ -1,0 +1,23 @@
+{
+	"badge.label": "Badge",
+	"badge.fields.label.label": "Label",
+	"badge.fields.variant.label": "Variant",
+	"badge.fields.variant.options.default": "Default",
+	"badge.fields.variant.options.secondary": "Secondary",
+	"badge.fields.variant.options.destructive": "Destructive",
+	"badge.fields.variant.options.outline": "Outline",
+	"badge.fields.variant.options.ghost": "Ghost",
+	"badge.fields.variant.options.link": "Link",
+	"badge.fields.classNames.label": "Custom classes",
+	"badge.fields.animation.label": "Animation",
+	"badge.fields.animation.preset": "Preset",
+	"badge.fields.animation.preset.options.none": "None",
+	"badge.fields.animation.preset.options.fade-in": "Fade in",
+	"badge.fields.animation.preset.options.slide-up": "Slide up",
+	"badge.fields.animation.preset.options.slide-down": "Slide down",
+	"badge.fields.animation.preset.options.zoom-in": "Zoom in",
+	"badge.fields.animation.duration": "Duration (ms)",
+	"badge.fields.animation.delay": "Delay (ms)",
+	"badge.fields.animation.easing": "Easing",
+	"badge.targets.root": "Badge"
+}

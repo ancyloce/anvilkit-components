@@ -1,0 +1,23 @@
+{
+	"badge.label": "徽章",
+	"badge.fields.label.label": "标签",
+	"badge.fields.variant.label": "变体",
+	"badge.fields.variant.options.default": "默认",
+	"badge.fields.variant.options.secondary": "次要",
+	"badge.fields.variant.options.destructive": "危险",
+	"badge.fields.variant.options.outline": "描边",
+	"badge.fields.variant.options.ghost": "幽灵",
+	"badge.fields.variant.options.link": "链接",
+	"badge.fields.classNames.label": "自定义类名",
+	"badge.fields.animation.label": "动画",
+	"badge.fields.animation.preset": "预设",
+	"badge.fields.animation.preset.options.none": "无",
+	"badge.fields.animation.preset.options.fade-in": "淡入",
+	"badge.fields.animation.preset.options.slide-up": "向上滑入",
+	"badge.fields.animation.preset.options.slide-down": "向下滑入",
+	"badge.fields.animation.preset.options.zoom-in": "缩放进入",
+	"badge.fields.animation.duration": "持续时间（毫秒）",
+	"badge.fields.animation.delay": "延迟（毫秒）",
+	"badge.fields.animation.easing": "缓动",
+	"badge.targets.root": "徽章"
+}
