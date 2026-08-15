@@ -1,0 +1,18 @@
+{
+	"separator.label": "Separator",
+	"separator.fields.orientation.label": "Orientation",
+	"separator.fields.orientation.options.horizontal": "Horizontal",
+	"separator.fields.orientation.options.vertical": "Vertical",
+	"separator.fields.classNames.label": "Custom classes",
+	"separator.fields.animation.label": "Animation",
+	"separator.fields.animation.preset": "Preset",
+	"separator.fields.animation.preset.options.none": "None",
+	"separator.fields.animation.preset.options.fade-in": "Fade in",
+	"separator.fields.animation.preset.options.slide-up": "Slide up",
+	"separator.fields.animation.preset.options.slide-down": "Slide down",
+	"separator.fields.animation.preset.options.zoom-in": "Zoom in",
+	"separator.fields.animation.duration": "Duration (ms)",
+	"separator.fields.animation.delay": "Delay (ms)",
+	"separator.fields.animation.easing": "Easing",
+	"separator.targets.root": "Separator"
+}

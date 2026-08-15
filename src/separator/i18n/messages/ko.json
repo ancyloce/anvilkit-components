@@ -1,0 +1,18 @@
+{
+	"separator.label": "구분선",
+	"separator.fields.orientation.label": "방향",
+	"separator.fields.orientation.options.horizontal": "가로",
+	"separator.fields.orientation.options.vertical": "세로",
+	"separator.fields.classNames.label": "사용자 지정 클래스",
+	"separator.fields.animation.label": "애니메이션",
+	"separator.fields.animation.preset": "프리셋",
+	"separator.fields.animation.preset.options.none": "없음",
+	"separator.fields.animation.preset.options.fade-in": "페이드 인",
+	"separator.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"separator.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"separator.fields.animation.preset.options.zoom-in": "줌 인",
+	"separator.fields.animation.duration": "지속 시간(밀리초)",
+	"separator.fields.animation.delay": "지연(밀리초)",
+	"separator.fields.animation.easing": "이징",
+	"separator.targets.root": "구분선"
+}

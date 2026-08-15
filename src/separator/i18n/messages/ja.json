@@ -1,0 +1,18 @@
+{
+	"separator.label": "区切り線",
+	"separator.fields.orientation.label": "向き",
+	"separator.fields.orientation.options.horizontal": "水平",
+	"separator.fields.orientation.options.vertical": "垂直",
+	"separator.fields.classNames.label": "カスタムクラス",
+	"separator.fields.animation.label": "アニメーション",
+	"separator.fields.animation.preset": "プリセット",
+	"separator.fields.animation.preset.options.none": "なし",
+	"separator.fields.animation.preset.options.fade-in": "フェードイン",
+	"separator.fields.animation.preset.options.slide-up": "スライドアップ",
+	"separator.fields.animation.preset.options.slide-down": "スライドダウン",
+	"separator.fields.animation.preset.options.zoom-in": "ズームイン",
+	"separator.fields.animation.duration": "再生時間（ミリ秒）",
+	"separator.fields.animation.delay": "遅延（ミリ秒）",
+	"separator.fields.animation.easing": "イージング",
+	"separator.targets.root": "区切り線"
+}

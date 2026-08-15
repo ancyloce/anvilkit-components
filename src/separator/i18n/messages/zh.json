@@ -1,0 +1,18 @@
+{
+	"separator.label": "分隔线",
+	"separator.fields.orientation.label": "方向",
+	"separator.fields.orientation.options.horizontal": "水平",
+	"separator.fields.orientation.options.vertical": "垂直",
+	"separator.fields.classNames.label": "自定义类名",
+	"separator.fields.animation.label": "动画",
+	"separator.fields.animation.preset": "预设",
+	"separator.fields.animation.preset.options.none": "无",
+	"separator.fields.animation.preset.options.fade-in": "淡入",
+	"separator.fields.animation.preset.options.slide-up": "向上滑入",
+	"separator.fields.animation.preset.options.slide-down": "向下滑入",
+	"separator.fields.animation.preset.options.zoom-in": "缩放进入",
+	"separator.fields.animation.duration": "持续时间（毫秒）",
+	"separator.fields.animation.delay": "延迟（毫秒）",
+	"separator.fields.animation.easing": "缓动",
+	"separator.targets.root": "分隔线"
+}
