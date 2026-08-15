@@ -109,6 +109,7 @@ export const metadata = {
 
 export const defaultProps = {
 	label: "Save changes",
+	preset: "marketing",
 	variant: "primary",
 	disabled: false,
 	href: "",
@@ -125,8 +126,26 @@ function buildFields(t: T): Fields<ButtonAuthorableProps> {
 			type: "text",
 			label: t("button.fields.label.label"),
 		},
-		variant: {
+		preset: {
 			type: "radio",
+			label: t("button.fields.preset.label"),
+			options: [
+				{
+					label: t("button.fields.preset.options.marketing"),
+					value: "marketing",
+				},
+				{
+					label: t("button.fields.preset.options.system"),
+					value: "system",
+				},
+			],
+		},
+		// P0 hand-written union (PRD 0022 FR-002): "primary"/"secondary" are
+		// the marketing vocabulary; the remaining five plus the shared
+		// "secondary" are the shadcn vocabulary consumed under the "system"
+		// preset. P1-03 replaces the literals with fields.gen.ts output.
+		variant: {
+			type: "select",
 			label: t("button.fields.variant.label"),
 			options: [
 				{
@@ -137,6 +156,39 @@ function buildFields(t: T): Fields<ButtonAuthorableProps> {
 					label: t("button.fields.variant.options.secondary"),
 					value: "secondary",
 				},
+				{
+					label: t("button.fields.variant.options.default"),
+					value: "default",
+				},
+				{
+					label: t("button.fields.variant.options.destructive"),
+					value: "destructive",
+				},
+				{
+					label: t("button.fields.variant.options.outline"),
+					value: "outline",
+				},
+				{
+					label: t("button.fields.variant.options.ghost"),
+					value: "ghost",
+				},
+				{
+					label: t("button.fields.variant.options.link"),
+					value: "link",
+				},
+			],
+		},
+		size: {
+			type: "select",
+			label: t("button.fields.size.label"),
+			options: [
+				{
+					label: t("button.fields.size.options.default"),
+					value: "default",
+				},
+				{ label: t("button.fields.size.options.xs"), value: "xs" },
+				{ label: t("button.fields.size.options.sm"), value: "sm" },
+				{ label: t("button.fields.size.options.lg"), value: "lg" },
 			],
 		},
 		href: {
@@ -231,7 +283,9 @@ function buildFields(t: T): Fields<ButtonAuthorableProps> {
 const renderButton: ComponentConfig<ButtonAuthorableProps>["render"] = ({
 	id,
 	label,
+	preset,
 	variant,
+	size,
 	disabled,
 	href,
 	openInNewTab,
@@ -244,7 +298,9 @@ const renderButton: ComponentConfig<ButtonAuthorableProps>["render"] = ({
 }) =>
 	createElement(Button, {
 		label,
+		preset,
 		variant,
+		size,
 		disabled,
 		href,
 		openInNewTab,

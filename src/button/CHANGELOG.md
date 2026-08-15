@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 - 2026-08-14
+
+### Features
+
+- Additive `preset: "marketing" | "system"` discriminator (PRD 0022
+  FR-002). Default `"marketing"` keeps the existing pill render
+  byte-identical; `"system"` renders pure shadcn `buttonVariants` with the
+  full 6-value `variant` and 4-value `size` unions (hand-written literals;
+  codegen arrives with FR-003). New `size` prop/field, honored only under
+  the `"system"` preset; `variant` field widened to a 7-option select.
+
 ## 0.0.2 - 2026-04-03
 
 _Release tag: `v0.0.2`_

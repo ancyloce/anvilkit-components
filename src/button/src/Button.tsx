@@ -15,9 +15,32 @@ export type ButtonEventProps = {
 	placement?: string;
 };
 
+/** Full shadcn `buttonVariants` vocabulary (hand-written literals for P0;
+ * swapped to `fields.gen.ts` codegen output in P1-03 — PRD 0022 FR-003). */
+export type ButtonSystemVariant =
+	| "default"
+	| "destructive"
+	| "outline"
+	| "secondary"
+	| "ghost"
+	| "link";
+
+/** Curated per DOC-01 §5.1: the four `icon*` sizes are excluded until an
+ * icon field exists (icon-only size with no icon renders an empty box). */
+export type ButtonSize = "default" | "xs" | "sm" | "lg";
+
 export interface ButtonProps {
 	label: string;
-	variant?: "primary" | "secondary";
+	/**
+	 * Presentation preset (PRD 0022 FR-002, additive): `"marketing"`
+	 * (default) keeps the original pill render byte-identical;
+	 * `"system"` renders pure shadcn `buttonVariants` with the full
+	 * variant/size unions.
+	 */
+	preset?: "marketing" | "system";
+	variant?: "primary" | "secondary" | ButtonSystemVariant;
+	/** shadcn size — honored only under the `"system"` preset. */
+	size?: ButtonSize;
 	disabled?: boolean;
 	href?: string;
 	openInNewTab?: boolean;
@@ -43,22 +66,37 @@ export interface ButtonViewProps extends ButtonProps {
 	rootAttrs?: Record<string, string>;
 }
 
-const variantMap = {
-	primary: "default",
-	secondary: "outline",
-} as const;
+const SYSTEM_VARIANTS: readonly ButtonSystemVariant[] = [
+	"default",
+	"destructive",
+	"outline",
+	"secondary",
+	"ghost",
+	"link",
+];
 
 const baseClassName = "h-11 rounded-full px-5 shadow-sm";
 
 const inactiveClassName = "cursor-not-allowed opacity-50";
 
-function getVariant(variant: NonNullable<ButtonViewProps["variant"]>) {
-	return variantMap[variant];
+function resolveVariant(
+	preset: NonNullable<ButtonViewProps["preset"]>,
+	variant: NonNullable<ButtonViewProps["variant"]>,
+) {
+	if (preset === "system") {
+		return SYSTEM_VARIANTS.includes(variant as ButtonSystemVariant)
+			? (variant as ButtonSystemVariant)
+			: "default";
+	}
+	// Marketing mapping, unchanged: primary → default, secondary → outline.
+	return variant === "secondary" ? "outline" : "default";
 }
 
 export function Button({
 	label,
+	preset = "marketing",
 	variant = "primary",
+	size,
 	disabled = false,
 	href,
 	openInNewTab = false,
@@ -72,7 +110,9 @@ export function Button({
 }: ButtonViewProps) {
 	const isInactive = disabled || editMode;
 	const resolvedHref = isInactive ? undefined : href;
-	const resolvedVariant = getVariant(variant);
+	const isSystem = preset === "system";
+	const resolvedVariant = resolveVariant(preset, variant);
+	const resolvedSize = isSystem ? (size ?? "default") : "lg";
 	const anim = animationAttrs(animation);
 
 	// F13: context-only tracking — no-op without trackClick or a provider, and
@@ -97,8 +137,8 @@ export function Button({
 				onClick={onClick}
 				// §2.2: authored classes merge AFTER base classes so they win.
 				className={cn(
-					buttonVariants({ size: "lg", variant: resolvedVariant }),
-					baseClassName,
+					buttonVariants({ size: resolvedSize, variant: resolvedVariant }),
+					!isSystem && baseClassName,
 					isInactive && inactiveClassName,
 					anim.className,
 					classNames?.root,
@@ -114,12 +154,12 @@ export function Button({
 		<BaseButton
 			{...rootAttrs}
 			variant={resolvedVariant}
-			size="lg"
+			size={resolvedSize}
 			disabled={isInactive}
 			aria-disabled={isInactive || undefined}
 			onClick={onClick}
 			className={cn(
-				baseClassName,
+				!isSystem && baseClassName,
 				isInactive && inactiveClassName,
 				anim.className,
 				classNames?.root,
