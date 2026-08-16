@@ -1,0 +1,67 @@
+{
+	"targets": [
+		{
+			"source": "button.tsx",
+			"export": "buttonVariants",
+			"kind": "cva",
+			"package": "button",
+			"axes": [
+				{ "axis": "variant", "field": "variant" },
+				{
+					"axis": "size",
+					"field": "size",
+					"exclude": ["icon", "icon-xs", "icon-sm", "icon-lg"]
+				}
+			]
+		},
+		{
+			"source": "badge.tsx",
+			"export": "badgeVariants",
+			"kind": "cva",
+			"package": "badge",
+			"axes": [{ "axis": "variant", "field": "variant" }]
+		},
+		{
+			"source": "tabs.tsx",
+			"export": "tabsListVariants",
+			"kind": "cva",
+			"package": "tabs",
+			"axes": [{ "axis": "variant", "field": "listVariant" }]
+		},
+		{
+			"source": "alert.tsx",
+			"export": "alertVariants",
+			"kind": "cva",
+			"package": "alert",
+			"axes": [{ "axis": "variant", "field": "variant" }]
+		},
+		{
+			"source": "card.tsx",
+			"component": "Card",
+			"kind": "prop-union",
+			"package": "card",
+			"axes": [{ "prop": "size", "field": "size" }]
+		},
+		{
+			"source": "switch.tsx",
+			"component": "Switch",
+			"kind": "prop-union",
+			"package": "switch",
+			"axes": [{ "prop": "size", "field": "size" }]
+		},
+		{
+			"source": "avatar.tsx",
+			"component": "Avatar",
+			"kind": "prop-union",
+			"package": "avatar",
+			"axes": [{ "prop": "size", "field": "size" }]
+		},
+		{
+			"source": "select.tsx",
+			"component": "SelectTrigger",
+			"kind": "prop-union",
+			"package": "select",
+			"axes": [{ "prop": "size", "field": "triggerSize" }]
+		}
+	]
+}
