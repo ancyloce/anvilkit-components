@@ -65,10 +65,31 @@ function editModeProps(slug: string): Record<string, unknown> {
 		editMode: true,
 	};
 	for (const [name, field] of Object.entries(componentConfig.fields)) {
-		if ((field as { type?: unknown }).type === "slot") {
+		const fieldType = (field as { type?: unknown }).type;
+		if (fieldType === "slot") {
 			// Slot containers must keep their stable target element even
 			// with no children (§6.4); a null-rendering slot proves it.
 			props[name] = () => null;
+			continue;
+		}
+		// Slots nested inside `array` items (DOC-01 §3.8 — Tabs/Accordion).
+		// Puck's runtime hands the adapter a SlotComponent per item; this
+		// direct render must do the same or the adapter never sees the
+		// shape it is written against.
+		if (fieldType === "array") {
+			const arrayFields =
+				(field as { arrayFields?: Record<string, { type?: unknown }> })
+					.arrayFields ?? {};
+			const slotKeys = Object.keys(arrayFields).filter(
+				(key) => arrayFields[key]?.type === "slot",
+			);
+			const items = props[name];
+			if (slotKeys.length === 0 || !Array.isArray(items)) continue;
+			props[name] = items.map((item) => {
+				const next = { ...(item as Record<string, unknown>) };
+				for (const key of slotKeys) next[key] = () => null;
+				return next;
+			});
 		}
 	}
 	return props;

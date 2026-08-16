@@ -12,22 +12,34 @@
  */
 
 export const ADOPTED: readonly string[] = [
+	"accordion",
+	"alert",
+	"avatar",
 	"badge",
 	"bento-grid",
 	"blog-list",
 	"button",
 	"card",
+	"checkbox",
 	"design-block",
 	"helps",
 	"hero",
 	"input",
+	"label",
 	"logo-clouds",
 	"navbar",
 	"pricing-minimal",
+	"progress",
 	"section",
 	"select",
 	"separator",
+	"slider",
 	"statistics",
+	"switch",
+	"table",
+	"tabs",
+	"textarea",
+	"tooltip",
 ];
 
 /** §6.5 minimum required targets per component slug. */
@@ -72,6 +84,41 @@ export const REQUIRED_TARGETS: Readonly<Record<string, readonly string[]>> = {
 	// DOM across editor/preview/publish/export); title and description are
 	// conditional on their props but real DOM whenever present.
 	card: ["root", "title", "description", "content", "footer"],
+	// DOC-01 §5.7: a bare auto-sizing `<textarea>` — labelling composes via
+	// the `label` package, so there is no second element to stamp.
+	textarea: ["root"],
+	// §5.8: one `<label>` carrying its text as a bare child.
+	label: ["root"],
+	// §5.9/§5.10: the upstream primitives are bare controls with no label
+	// of their own, so these wrappers own the flex row and the `htmlFor`
+	// pairing — root/control/label are all real wrapper DOM. `label` is
+	// conditional on its prop, the same allowance card's title carries.
+	checkbox: ["root", "control", "label"],
+	switch: ["root", "control", "label"],
+	// §5.11/§5.12: base-ui renders its own track/indicator/thumb parts;
+	// the wrapper adds no DOM of its own, so root is the whole map.
+	slider: ["root"],
+	progress: ["root"],
+	// §5.13: the base-ui circle plus the fallback initials, which render
+	// whenever the image is absent or fails. The image is excluded — it is
+	// branch-conditional on `src`.
+	avatar: ["root", "fallback"],
+	// §5.14: the cva container plus both text parts. `description` is
+	// conditional on its prop, the same allowance card's carry.
+	alert: ["root", "title", "description"],
+	// §5.15: DOC-01 left `root` conditional on the render introducing a
+	// trigger wrapper — it does (a real <span>). The popup is portal'd and
+	// never renders in the canvas, so it is deliberately not a target.
+	tooltip: ["root"],
+	// §5.16/§5.17: every panel is `keepMounted`, so the list/trigger/panel
+	// parts exist in EVERY mode — the open/closed state is an affordance,
+	// not a structural difference.
+	tabs: ["root", "list", "trigger", "content"],
+	// `content` is absent by design — see the note in accordion/src/config.ts.
+	accordion: ["root", "item", "trigger"],
+	// §5.18: the scroll container plus header/row/cell; `caption` is
+	// conditional on its prop, the same allowance card's carry.
+	table: ["root", "header", "row", "cell", "caption"],
 };
 
 /**
