@@ -1,0 +1,22 @@
+{
+	"slider.label": "スライダー",
+	"slider.fields.defaultValue.label": "既定値",
+	"slider.fields.min.label": "最小値",
+	"slider.fields.max.label": "最大値",
+	"slider.fields.step.label": "ステップ",
+	"slider.fields.disabled.label": "無効",
+	"slider.fields.disabled.options.true": "はい",
+	"slider.fields.disabled.options.false": "いいえ",
+	"slider.fields.classNames.label": "カスタムクラス",
+	"slider.fields.animation.label": "アニメーション",
+	"slider.fields.animation.preset": "プリセット",
+	"slider.fields.animation.preset.options.none": "なし",
+	"slider.fields.animation.preset.options.fade-in": "フェードイン",
+	"slider.fields.animation.preset.options.slide-up": "スライドアップ",
+	"slider.fields.animation.preset.options.slide-down": "スライドダウン",
+	"slider.fields.animation.preset.options.zoom-in": "ズームイン",
+	"slider.fields.animation.duration": "再生時間（ミリ秒）",
+	"slider.fields.animation.delay": "遅延（ミリ秒）",
+	"slider.fields.animation.easing": "イージング",
+	"slider.targets.root": "スライダー"
+}

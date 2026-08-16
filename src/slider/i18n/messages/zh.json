@@ -1,0 +1,22 @@
+{
+	"slider.label": "滑块",
+	"slider.fields.defaultValue.label": "默认值",
+	"slider.fields.min.label": "最小值",
+	"slider.fields.max.label": "最大值",
+	"slider.fields.step.label": "步长",
+	"slider.fields.disabled.label": "禁用",
+	"slider.fields.disabled.options.true": "是",
+	"slider.fields.disabled.options.false": "否",
+	"slider.fields.classNames.label": "自定义类名",
+	"slider.fields.animation.label": "动画",
+	"slider.fields.animation.preset": "预设",
+	"slider.fields.animation.preset.options.none": "无",
+	"slider.fields.animation.preset.options.fade-in": "淡入",
+	"slider.fields.animation.preset.options.slide-up": "向上滑入",
+	"slider.fields.animation.preset.options.slide-down": "向下滑入",
+	"slider.fields.animation.preset.options.zoom-in": "缩放进入",
+	"slider.fields.animation.duration": "持续时间（毫秒）",
+	"slider.fields.animation.delay": "延迟（毫秒）",
+	"slider.fields.animation.easing": "缓动",
+	"slider.targets.root": "滑块"
+}

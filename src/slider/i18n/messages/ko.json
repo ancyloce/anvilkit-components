@@ -1,0 +1,22 @@
+{
+	"slider.label": "슬라이더",
+	"slider.fields.defaultValue.label": "기본값",
+	"slider.fields.min.label": "최솟값",
+	"slider.fields.max.label": "최댓값",
+	"slider.fields.step.label": "단계",
+	"slider.fields.disabled.label": "비활성화",
+	"slider.fields.disabled.options.true": "예",
+	"slider.fields.disabled.options.false": "아니오",
+	"slider.fields.classNames.label": "사용자 지정 클래스",
+	"slider.fields.animation.label": "애니메이션",
+	"slider.fields.animation.preset": "프리셋",
+	"slider.fields.animation.preset.options.none": "없음",
+	"slider.fields.animation.preset.options.fade-in": "페이드 인",
+	"slider.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"slider.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"slider.fields.animation.preset.options.zoom-in": "줌 인",
+	"slider.fields.animation.duration": "지속 시간(밀리초)",
+	"slider.fields.animation.delay": "지연(밀리초)",
+	"slider.fields.animation.easing": "이징",
+	"slider.targets.root": "슬라이더"
+}

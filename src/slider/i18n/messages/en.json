@@ -1,0 +1,22 @@
+{
+	"slider.label": "Slider",
+	"slider.fields.defaultValue.label": "Default value",
+	"slider.fields.min.label": "Minimum",
+	"slider.fields.max.label": "Maximum",
+	"slider.fields.step.label": "Step",
+	"slider.fields.disabled.label": "Disabled",
+	"slider.fields.disabled.options.true": "Yes",
+	"slider.fields.disabled.options.false": "No",
+	"slider.fields.classNames.label": "Custom classes",
+	"slider.fields.animation.label": "Animation",
+	"slider.fields.animation.preset": "Preset",
+	"slider.fields.animation.preset.options.none": "None",
+	"slider.fields.animation.preset.options.fade-in": "Fade in",
+	"slider.fields.animation.preset.options.slide-up": "Slide up",
+	"slider.fields.animation.preset.options.slide-down": "Slide down",
+	"slider.fields.animation.preset.options.zoom-in": "Zoom in",
+	"slider.fields.animation.duration": "Duration (ms)",
+	"slider.fields.animation.delay": "Delay (ms)",
+	"slider.fields.animation.easing": "Easing",
+	"slider.targets.root": "Slider"
+}
