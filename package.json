@@ -15,6 +15,9 @@
 		"typecheck": "pnpm -r --filter \"./src/*\" typecheck",
 		"test": "vitest run",
 		"gen:component": "node ./turbo/generators/run-component-generator.mjs",
+		"gen:fields": "node ./scripts/derive-shadcn-fields.mjs",
+		"check:fields-drift": "node ./scripts/derive-shadcn-fields.mjs --check",
+		"check:all": "pnpm check:fields-drift",
 		"changeset": "changeset",
 		"release": "changeset version && pnpm build:packages && changeset publish",
 		"doctor": "npx react-doctor@latest"
