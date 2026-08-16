@@ -9,12 +9,14 @@ import {
 import { cn } from "@anvilkit/ui/lib/utils";
 import type { ReactNode } from "react";
 import { type AnimationProps, animationAttrs } from "./authoring";
+import type { Size } from "./generated/fields.gen";
 
 export interface CardProps {
 	title: string;
 	description?: string;
-	/** shadcn `Card` size axis (plain literal union, DOC-01 §5.3). */
-	size?: "default" | "sm";
+	/** shadcn `Card` size axis (plain literal union, DOC-01 §5.3), derived by
+	 * `scripts/derive-shadcn-fields.mjs` and guarded by `check:fields-drift`. */
+	size?: Size;
 	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
 	classNames?: Record<string, string>;
 	/** §2.4 entrance animation (PLAN-0027), applied to the root element. */

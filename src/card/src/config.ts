@@ -16,6 +16,7 @@ import {
 } from "./authoring";
 import type { CardProps } from "./Card";
 import { Card } from "./Card";
+import { sizeOptions } from "./generated/fields.gen";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 /** Authorable shape: business props + slots + the §5.1 carriers. */
@@ -155,13 +156,14 @@ function buildFields(t: T): Fields<CardAuthorableProps> {
 			type: "textarea",
 			label: t("card.fields.description.label"),
 		},
+		// Codegen output guarded by `check:fields-drift` (FR-003).
 		size: {
 			type: "radio",
 			label: t("card.fields.size.label"),
-			options: [
-				{ label: t("card.fields.size.options.default"), value: "default" },
-				{ label: t("card.fields.size.options.sm"), value: "sm" },
-			],
+			options: sizeOptions.map((value) => ({
+				label: t(`card.fields.size.options.${value}`),
+				value,
+			})),
 		},
 		// Slots are the only nesting mechanism (design 0022 §3.3); `allow`
 		// stays unset so the full component whitelist can drop in.
