@@ -4,6 +4,11 @@ import { useComponentTrack } from "@anvilkit/analytics-react";
 import { Button as BaseButton, buttonVariants } from "@anvilkit/ui/button";
 import { cn } from "@anvilkit/ui/lib/utils";
 import { type AnimationProps, animationAttrs } from "./authoring";
+import {
+	type Size,
+	type Variant,
+	variantOptions,
+} from "./generated/fields.gen";
 
 /**
  * Optional analytics properties sent with the click event (F13). Declared as a
@@ -15,19 +20,16 @@ export type ButtonEventProps = {
 	placement?: string;
 };
 
-/** Full shadcn `buttonVariants` vocabulary (hand-written literals for P0;
- * swapped to `fields.gen.ts` codegen output in P1-03 — PRD 0022 FR-003). */
-export type ButtonSystemVariant =
-	| "default"
-	| "destructive"
-	| "outline"
-	| "secondary"
-	| "ghost"
-	| "link";
+/** Full shadcn `buttonVariants` vocabulary, derived from the vendored
+ * `@anvilkit/ui` source by `scripts/derive-shadcn-fields.mjs` and guarded by
+ * `check:fields-drift` (PRD 0022 FR-003, PLAN-0036 P1-03). */
+export type ButtonSystemVariant = Variant;
 
 /** Curated per DOC-01 §5.1: the four `icon*` sizes are excluded until an
- * icon field exists (icon-only size with no icon renders an empty box). */
-export type ButtonSize = "default" | "xs" | "sm" | "lg";
+ * icon field exists (icon-only size with no icon renders an empty box).
+ * The curation lives in the codegen manifest, so the full upstream union
+ * still trips the drift gate. */
+export type ButtonSize = Size;
 
 export interface ButtonProps {
 	label: string;
@@ -66,14 +68,7 @@ export interface ButtonViewProps extends ButtonProps {
 	rootAttrs?: Record<string, string>;
 }
 
-const SYSTEM_VARIANTS: readonly ButtonSystemVariant[] = [
-	"default",
-	"destructive",
-	"outline",
-	"secondary",
-	"ghost",
-	"link",
-];
+const SYSTEM_VARIANTS: readonly ButtonSystemVariant[] = variantOptions;
 
 const baseClassName = "h-11 rounded-full px-5 shadow-sm";
 

@@ -14,10 +14,26 @@ import {
 } from "./authoring";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
+import { sizeOptions, variantOptions } from "./generated/fields.gen";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 /** Business props + the §5.1 authoring carriers (PLAN-0025). */
 export type ButtonAuthorableProps = AuthorableProps<ButtonProps>;
+
+/**
+ * The marketing vocabulary is this package's own (PRD 0022 FR-002) and has
+ * no `buttonVariants` counterpart, so it cannot be derived — `"secondary"`
+ * is shared with the shadcn union and is de-duplicated here. Everything
+ * else comes from `fields.gen.ts` in upstream source order (FR-003).
+ */
+const MARKETING_VARIANTS = ["primary", "secondary"] as const;
+
+const VARIANT_VALUES: readonly NonNullable<ButtonProps["variant"]>[] = [
+	...MARKETING_VARIANTS,
+	...variantOptions.filter(
+		(value) => !(MARKETING_VARIANTS as readonly string[]).includes(value),
+	),
+];
 
 /**
  * PLAN-0027 §2.1 target map, derived from the REAL DOM of Button.tsx:
@@ -140,56 +156,24 @@ function buildFields(t: T): Fields<ButtonAuthorableProps> {
 				},
 			],
 		},
-		// P0 hand-written union (PRD 0022 FR-002): "primary"/"secondary" are
-		// the marketing vocabulary; the remaining five plus the shared
-		// "secondary" are the shadcn vocabulary consumed under the "system"
-		// preset. P1-03 replaces the literals with fields.gen.ts output.
+		// FR-003: the shadcn half of this union is codegen output guarded by
+		// `check:fields-drift`; only the marketing-only value stays authored
+		// here, having no upstream counterpart to derive it from.
 		variant: {
 			type: "select",
 			label: t("button.fields.variant.label"),
-			options: [
-				{
-					label: t("button.fields.variant.options.primary"),
-					value: "primary",
-				},
-				{
-					label: t("button.fields.variant.options.secondary"),
-					value: "secondary",
-				},
-				{
-					label: t("button.fields.variant.options.default"),
-					value: "default",
-				},
-				{
-					label: t("button.fields.variant.options.destructive"),
-					value: "destructive",
-				},
-				{
-					label: t("button.fields.variant.options.outline"),
-					value: "outline",
-				},
-				{
-					label: t("button.fields.variant.options.ghost"),
-					value: "ghost",
-				},
-				{
-					label: t("button.fields.variant.options.link"),
-					value: "link",
-				},
-			],
+			options: VARIANT_VALUES.map((value) => ({
+				label: t(`button.fields.variant.options.${value}`),
+				value,
+			})),
 		},
 		size: {
 			type: "select",
 			label: t("button.fields.size.label"),
-			options: [
-				{
-					label: t("button.fields.size.options.default"),
-					value: "default",
-				},
-				{ label: t("button.fields.size.options.xs"), value: "xs" },
-				{ label: t("button.fields.size.options.sm"), value: "sm" },
-				{ label: t("button.fields.size.options.lg"), value: "lg" },
-			],
+			options: sizeOptions.map((value) => ({
+				label: t(`button.fields.size.options.${value}`),
+				value,
+			})),
 		},
 		href: {
 			type: "text",
