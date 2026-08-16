@@ -1,0 +1,22 @@
+{
+	"alert.label": "알림",
+	"alert.fields.variant.label": "변형",
+	"alert.fields.variant.options.default": "기본값",
+	"alert.fields.variant.options.destructive": "위험",
+	"alert.fields.title.label": "제목",
+	"alert.fields.description.label": "설명",
+	"alert.fields.classNames.label": "사용자 지정 클래스",
+	"alert.fields.animation.label": "애니메이션",
+	"alert.fields.animation.preset": "프리셋",
+	"alert.fields.animation.preset.options.none": "없음",
+	"alert.fields.animation.preset.options.fade-in": "페이드 인",
+	"alert.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"alert.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"alert.fields.animation.preset.options.zoom-in": "줌 인",
+	"alert.fields.animation.duration": "지속 시간(밀리초)",
+	"alert.fields.animation.delay": "지연(밀리초)",
+	"alert.fields.animation.easing": "이징",
+	"alert.targets.root": "알림",
+	"alert.targets.title": "제목",
+	"alert.targets.description": "설명"
+}

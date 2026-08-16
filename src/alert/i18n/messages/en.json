@@ -1,0 +1,22 @@
+{
+	"alert.label": "Alert",
+	"alert.fields.variant.label": "Variant",
+	"alert.fields.variant.options.default": "Default",
+	"alert.fields.variant.options.destructive": "Destructive",
+	"alert.fields.title.label": "Title",
+	"alert.fields.description.label": "Description",
+	"alert.fields.classNames.label": "Custom classes",
+	"alert.fields.animation.label": "Animation",
+	"alert.fields.animation.preset": "Preset",
+	"alert.fields.animation.preset.options.none": "None",
+	"alert.fields.animation.preset.options.fade-in": "Fade in",
+	"alert.fields.animation.preset.options.slide-up": "Slide up",
+	"alert.fields.animation.preset.options.slide-down": "Slide down",
+	"alert.fields.animation.preset.options.zoom-in": "Zoom in",
+	"alert.fields.animation.duration": "Duration (ms)",
+	"alert.fields.animation.delay": "Delay (ms)",
+	"alert.fields.animation.easing": "Easing",
+	"alert.targets.root": "Alert",
+	"alert.targets.title": "Title",
+	"alert.targets.description": "Description"
+}

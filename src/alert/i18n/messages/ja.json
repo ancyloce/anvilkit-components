@@ -1,0 +1,22 @@
+{
+	"alert.label": "アラート",
+	"alert.fields.variant.label": "バリアント",
+	"alert.fields.variant.options.default": "デフォルト",
+	"alert.fields.variant.options.destructive": "破壊的",
+	"alert.fields.title.label": "タイトル",
+	"alert.fields.description.label": "説明",
+	"alert.fields.classNames.label": "カスタムクラス",
+	"alert.fields.animation.label": "アニメーション",
+	"alert.fields.animation.preset": "プリセット",
+	"alert.fields.animation.preset.options.none": "なし",
+	"alert.fields.animation.preset.options.fade-in": "フェードイン",
+	"alert.fields.animation.preset.options.slide-up": "スライドアップ",
+	"alert.fields.animation.preset.options.slide-down": "スライドダウン",
+	"alert.fields.animation.preset.options.zoom-in": "ズームイン",
+	"alert.fields.animation.duration": "再生時間（ミリ秒）",
+	"alert.fields.animation.delay": "遅延（ミリ秒）",
+	"alert.fields.animation.easing": "イージング",
+	"alert.targets.root": "アラート",
+	"alert.targets.title": "タイトル",
+	"alert.targets.description": "説明"
+}

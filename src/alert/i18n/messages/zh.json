@@ -1,0 +1,22 @@
+{
+	"alert.label": "警告提示",
+	"alert.fields.variant.label": "变体",
+	"alert.fields.variant.options.default": "默认",
+	"alert.fields.variant.options.destructive": "危险",
+	"alert.fields.title.label": "标题",
+	"alert.fields.description.label": "描述",
+	"alert.fields.classNames.label": "自定义类名",
+	"alert.fields.animation.label": "动画",
+	"alert.fields.animation.preset": "预设",
+	"alert.fields.animation.preset.options.none": "无",
+	"alert.fields.animation.preset.options.fade-in": "淡入",
+	"alert.fields.animation.preset.options.slide-up": "向上滑入",
+	"alert.fields.animation.preset.options.slide-down": "向下滑入",
+	"alert.fields.animation.preset.options.zoom-in": "缩放进入",
+	"alert.fields.animation.duration": "持续时间（毫秒）",
+	"alert.fields.animation.delay": "延迟（毫秒）",
+	"alert.fields.animation.easing": "缓动",
+	"alert.targets.root": "警告提示",
+	"alert.targets.title": "标题",
+	"alert.targets.description": "描述"
+}
