@@ -1,0 +1,22 @@
+{
+	"tooltip.label": "Tooltip",
+	"tooltip.fields.content.label": "Tooltip text",
+	"tooltip.fields.side.label": "Side",
+	"tooltip.fields.side.options.top": "Top",
+	"tooltip.fields.side.options.right": "Right",
+	"tooltip.fields.side.options.bottom": "Bottom",
+	"tooltip.fields.side.options.left": "Left",
+	"tooltip.fields.trigger.label": "Trigger",
+	"tooltip.fields.classNames.label": "Custom classes",
+	"tooltip.fields.animation.label": "Animation",
+	"tooltip.fields.animation.preset": "Preset",
+	"tooltip.fields.animation.preset.options.none": "None",
+	"tooltip.fields.animation.preset.options.fade-in": "Fade in",
+	"tooltip.fields.animation.preset.options.slide-up": "Slide up",
+	"tooltip.fields.animation.preset.options.slide-down": "Slide down",
+	"tooltip.fields.animation.preset.options.zoom-in": "Zoom in",
+	"tooltip.fields.animation.duration": "Duration (ms)",
+	"tooltip.fields.animation.delay": "Delay (ms)",
+	"tooltip.fields.animation.easing": "Easing",
+	"tooltip.targets.root": "Tooltip"
+}

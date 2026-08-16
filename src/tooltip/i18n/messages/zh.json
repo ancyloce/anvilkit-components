@@ -1,0 +1,22 @@
+{
+	"tooltip.label": "工具提示",
+	"tooltip.fields.content.label": "提示文本",
+	"tooltip.fields.side.label": "方向",
+	"tooltip.fields.side.options.top": "上方",
+	"tooltip.fields.side.options.right": "右侧",
+	"tooltip.fields.side.options.bottom": "下方",
+	"tooltip.fields.side.options.left": "左侧",
+	"tooltip.fields.trigger.label": "触发元素",
+	"tooltip.fields.classNames.label": "自定义类名",
+	"tooltip.fields.animation.label": "动画",
+	"tooltip.fields.animation.preset": "预设",
+	"tooltip.fields.animation.preset.options.none": "无",
+	"tooltip.fields.animation.preset.options.fade-in": "淡入",
+	"tooltip.fields.animation.preset.options.slide-up": "向上滑入",
+	"tooltip.fields.animation.preset.options.slide-down": "向下滑入",
+	"tooltip.fields.animation.preset.options.zoom-in": "缩放进入",
+	"tooltip.fields.animation.duration": "持续时间（毫秒）",
+	"tooltip.fields.animation.delay": "延迟（毫秒）",
+	"tooltip.fields.animation.easing": "缓动",
+	"tooltip.targets.root": "工具提示"
+}

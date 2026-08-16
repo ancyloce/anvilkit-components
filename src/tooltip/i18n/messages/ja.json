@@ -1,0 +1,22 @@
+{
+	"tooltip.label": "ツールチップ",
+	"tooltip.fields.content.label": "ツールチップ本文",
+	"tooltip.fields.side.label": "表示位置",
+	"tooltip.fields.side.options.top": "上",
+	"tooltip.fields.side.options.right": "右",
+	"tooltip.fields.side.options.bottom": "下",
+	"tooltip.fields.side.options.left": "左",
+	"tooltip.fields.trigger.label": "トリガー",
+	"tooltip.fields.classNames.label": "カスタムクラス",
+	"tooltip.fields.animation.label": "アニメーション",
+	"tooltip.fields.animation.preset": "プリセット",
+	"tooltip.fields.animation.preset.options.none": "なし",
+	"tooltip.fields.animation.preset.options.fade-in": "フェードイン",
+	"tooltip.fields.animation.preset.options.slide-up": "スライドアップ",
+	"tooltip.fields.animation.preset.options.slide-down": "スライドダウン",
+	"tooltip.fields.animation.preset.options.zoom-in": "ズームイン",
+	"tooltip.fields.animation.duration": "再生時間（ミリ秒）",
+	"tooltip.fields.animation.delay": "遅延（ミリ秒）",
+	"tooltip.fields.animation.easing": "イージング",
+	"tooltip.targets.root": "ツールチップ"
+}
