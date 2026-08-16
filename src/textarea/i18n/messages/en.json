@@ -1,0 +1,20 @@
+{
+	"textarea.label": "Textarea",
+	"textarea.fields.placeholder.label": "Placeholder",
+	"textarea.fields.defaultValue.label": "Default value",
+	"textarea.fields.disabled.label": "Disabled",
+	"textarea.fields.disabled.options.true": "Yes",
+	"textarea.fields.disabled.options.false": "No",
+	"textarea.fields.classNames.label": "Custom classes",
+	"textarea.fields.animation.label": "Animation",
+	"textarea.fields.animation.preset": "Preset",
+	"textarea.fields.animation.preset.options.none": "None",
+	"textarea.fields.animation.preset.options.fade-in": "Fade in",
+	"textarea.fields.animation.preset.options.slide-up": "Slide up",
+	"textarea.fields.animation.preset.options.slide-down": "Slide down",
+	"textarea.fields.animation.preset.options.zoom-in": "Zoom in",
+	"textarea.fields.animation.duration": "Duration (ms)",
+	"textarea.fields.animation.delay": "Delay (ms)",
+	"textarea.fields.animation.easing": "Easing",
+	"textarea.targets.root": "Textarea"
+}

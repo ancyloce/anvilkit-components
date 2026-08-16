@@ -1,0 +1,20 @@
+{
+	"textarea.label": "多行文本框",
+	"textarea.fields.placeholder.label": "占位符",
+	"textarea.fields.defaultValue.label": "默认值",
+	"textarea.fields.disabled.label": "禁用",
+	"textarea.fields.disabled.options.true": "是",
+	"textarea.fields.disabled.options.false": "否",
+	"textarea.fields.classNames.label": "自定义类名",
+	"textarea.fields.animation.label": "动画",
+	"textarea.fields.animation.preset": "预设",
+	"textarea.fields.animation.preset.options.none": "无",
+	"textarea.fields.animation.preset.options.fade-in": "淡入",
+	"textarea.fields.animation.preset.options.slide-up": "向上滑入",
+	"textarea.fields.animation.preset.options.slide-down": "向下滑入",
+	"textarea.fields.animation.preset.options.zoom-in": "缩放进入",
+	"textarea.fields.animation.duration": "持续时间（毫秒）",
+	"textarea.fields.animation.delay": "延迟（毫秒）",
+	"textarea.fields.animation.easing": "缓动",
+	"textarea.targets.root": "多行文本框"
+}

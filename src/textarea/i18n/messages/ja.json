@@ -1,0 +1,20 @@
+{
+	"textarea.label": "テキストエリア",
+	"textarea.fields.placeholder.label": "プレースホルダー",
+	"textarea.fields.defaultValue.label": "既定値",
+	"textarea.fields.disabled.label": "無効",
+	"textarea.fields.disabled.options.true": "はい",
+	"textarea.fields.disabled.options.false": "いいえ",
+	"textarea.fields.classNames.label": "カスタムクラス",
+	"textarea.fields.animation.label": "アニメーション",
+	"textarea.fields.animation.preset": "プリセット",
+	"textarea.fields.animation.preset.options.none": "なし",
+	"textarea.fields.animation.preset.options.fade-in": "フェードイン",
+	"textarea.fields.animation.preset.options.slide-up": "スライドアップ",
+	"textarea.fields.animation.preset.options.slide-down": "スライドダウン",
+	"textarea.fields.animation.preset.options.zoom-in": "ズームイン",
+	"textarea.fields.animation.duration": "再生時間（ミリ秒）",
+	"textarea.fields.animation.delay": "遅延（ミリ秒）",
+	"textarea.fields.animation.easing": "イージング",
+	"textarea.targets.root": "テキストエリア"
+}
