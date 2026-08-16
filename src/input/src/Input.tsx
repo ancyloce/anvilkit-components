@@ -3,7 +3,12 @@ import { cn } from "@anvilkit/ui/lib/utils";
 import { type AnimationProps, animationAttrs } from "./authoring";
 
 export interface InputProps {
-	label: string;
+	/**
+	 * Visible field label. Optional since PRD 0022 FR-002: when empty or
+	 * absent, the label span collapses entirely (bare-control use in the
+	 * component editor) instead of rendering an empty element.
+	 */
+	label?: string;
 	name: string;
 	type?: "text" | "email" | "password" | "search" | "tel" | "url";
 	placeholder?: string;
@@ -57,13 +62,15 @@ export function Input({
 			)}
 			style={anim.style}
 		>
-			<span
-				{...targetAttrs?.label}
-				className={cn("text-sm font-semibold", classNames?.label)}
-			>
-				{label}
-				{required ? " *" : ""}
-			</span>
+			{label ? (
+				<span
+					{...targetAttrs?.label}
+					className={cn("text-sm font-semibold", classNames?.label)}
+				>
+					{label}
+					{required ? " *" : ""}
+				</span>
+			) : null}
 			<BaseInput
 				{...targetAttrs?.control}
 				type={type}

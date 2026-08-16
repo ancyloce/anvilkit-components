@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 - 2026-08-14
+
+### Features
+
+- `label` is now optional and collapses when empty (PRD 0022 FR-002):
+  bare-control use renders no empty label span. Renders with a non-empty
+  `label` are unchanged.
+
 ## 0.0.2 - 2026-04-03
 
 _Release tag: `v0.0.2`_
