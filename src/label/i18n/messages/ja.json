@@ -1,0 +1,16 @@
+{
+	"label.label": "ラベル",
+	"label.fields.text.label": "テキスト",
+	"label.fields.classNames.label": "カスタムクラス",
+	"label.fields.animation.label": "アニメーション",
+	"label.fields.animation.preset": "プリセット",
+	"label.fields.animation.preset.options.none": "なし",
+	"label.fields.animation.preset.options.fade-in": "フェードイン",
+	"label.fields.animation.preset.options.slide-up": "スライドアップ",
+	"label.fields.animation.preset.options.slide-down": "スライドダウン",
+	"label.fields.animation.preset.options.zoom-in": "ズームイン",
+	"label.fields.animation.duration": "再生時間（ミリ秒）",
+	"label.fields.animation.delay": "遅延（ミリ秒）",
+	"label.fields.animation.easing": "イージング",
+	"label.targets.root": "ラベル"
+}

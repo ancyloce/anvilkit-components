@@ -1,0 +1,16 @@
+{
+	"label.label": "라벨",
+	"label.fields.text.label": "텍스트",
+	"label.fields.classNames.label": "사용자 지정 클래스",
+	"label.fields.animation.label": "애니메이션",
+	"label.fields.animation.preset": "프리셋",
+	"label.fields.animation.preset.options.none": "없음",
+	"label.fields.animation.preset.options.fade-in": "페이드 인",
+	"label.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"label.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"label.fields.animation.preset.options.zoom-in": "줌 인",
+	"label.fields.animation.duration": "지속 시간(밀리초)",
+	"label.fields.animation.delay": "지연(밀리초)",
+	"label.fields.animation.easing": "이징",
+	"label.targets.root": "라벨"
+}

@@ -1,0 +1,16 @@
+{
+	"label.label": "Label",
+	"label.fields.text.label": "Text",
+	"label.fields.classNames.label": "Custom classes",
+	"label.fields.animation.label": "Animation",
+	"label.fields.animation.preset": "Preset",
+	"label.fields.animation.preset.options.none": "None",
+	"label.fields.animation.preset.options.fade-in": "Fade in",
+	"label.fields.animation.preset.options.slide-up": "Slide up",
+	"label.fields.animation.preset.options.slide-down": "Slide down",
+	"label.fields.animation.preset.options.zoom-in": "Zoom in",
+	"label.fields.animation.duration": "Duration (ms)",
+	"label.fields.animation.delay": "Delay (ms)",
+	"label.fields.animation.easing": "Easing",
+	"label.targets.root": "Label"
+}

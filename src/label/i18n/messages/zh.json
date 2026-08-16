@@ -1,0 +1,16 @@
+{
+	"label.label": "标签",
+	"label.fields.text.label": "文本",
+	"label.fields.classNames.label": "自定义类名",
+	"label.fields.animation.label": "动画",
+	"label.fields.animation.preset": "预设",
+	"label.fields.animation.preset.options.none": "无",
+	"label.fields.animation.preset.options.fade-in": "淡入",
+	"label.fields.animation.preset.options.slide-up": "向上滑入",
+	"label.fields.animation.preset.options.slide-down": "向下滑入",
+	"label.fields.animation.preset.options.zoom-in": "缩放进入",
+	"label.fields.animation.duration": "持续时间（毫秒）",
+	"label.fields.animation.delay": "延迟（毫秒）",
+	"label.fields.animation.easing": "缓动",
+	"label.targets.root": "标签"
+}
