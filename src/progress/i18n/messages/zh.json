@@ -1,0 +1,20 @@
+{
+	"progress.label": "进度条",
+	"progress.fields.value.label": "数值",
+	"progress.fields.label.label": "标签",
+	"progress.fields.showValue.label": "显示数值",
+	"progress.fields.showValue.options.true": "是",
+	"progress.fields.showValue.options.false": "否",
+	"progress.fields.classNames.label": "自定义类名",
+	"progress.fields.animation.label": "动画",
+	"progress.fields.animation.preset": "预设",
+	"progress.fields.animation.preset.options.none": "无",
+	"progress.fields.animation.preset.options.fade-in": "淡入",
+	"progress.fields.animation.preset.options.slide-up": "向上滑入",
+	"progress.fields.animation.preset.options.slide-down": "向下滑入",
+	"progress.fields.animation.preset.options.zoom-in": "缩放进入",
+	"progress.fields.animation.duration": "持续时间（毫秒）",
+	"progress.fields.animation.delay": "延迟（毫秒）",
+	"progress.fields.animation.easing": "缓动",
+	"progress.targets.root": "进度条"
+}

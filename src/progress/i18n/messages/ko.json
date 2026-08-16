@@ -1,0 +1,20 @@
+{
+	"progress.label": "진행률",
+	"progress.fields.value.label": "값",
+	"progress.fields.label.label": "라벨",
+	"progress.fields.showValue.label": "값 표시",
+	"progress.fields.showValue.options.true": "예",
+	"progress.fields.showValue.options.false": "아니오",
+	"progress.fields.classNames.label": "사용자 지정 클래스",
+	"progress.fields.animation.label": "애니메이션",
+	"progress.fields.animation.preset": "프리셋",
+	"progress.fields.animation.preset.options.none": "없음",
+	"progress.fields.animation.preset.options.fade-in": "페이드 인",
+	"progress.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"progress.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"progress.fields.animation.preset.options.zoom-in": "줌 인",
+	"progress.fields.animation.duration": "지속 시간(밀리초)",
+	"progress.fields.animation.delay": "지연(밀리초)",
+	"progress.fields.animation.easing": "이징",
+	"progress.targets.root": "진행률"
+}

@@ -1,0 +1,20 @@
+{
+	"progress.label": "プログレス",
+	"progress.fields.value.label": "値",
+	"progress.fields.label.label": "ラベル",
+	"progress.fields.showValue.label": "値を表示",
+	"progress.fields.showValue.options.true": "はい",
+	"progress.fields.showValue.options.false": "いいえ",
+	"progress.fields.classNames.label": "カスタムクラス",
+	"progress.fields.animation.label": "アニメーション",
+	"progress.fields.animation.preset": "プリセット",
+	"progress.fields.animation.preset.options.none": "なし",
+	"progress.fields.animation.preset.options.fade-in": "フェードイン",
+	"progress.fields.animation.preset.options.slide-up": "スライドアップ",
+	"progress.fields.animation.preset.options.slide-down": "スライドダウン",
+	"progress.fields.animation.preset.options.zoom-in": "ズームイン",
+	"progress.fields.animation.duration": "再生時間（ミリ秒）",
+	"progress.fields.animation.delay": "遅延（ミリ秒）",
+	"progress.fields.animation.easing": "イージング",
+	"progress.targets.root": "プログレス"
+}

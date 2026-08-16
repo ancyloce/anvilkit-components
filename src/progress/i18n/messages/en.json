@@ -1,0 +1,20 @@
+{
+	"progress.label": "Progress",
+	"progress.fields.value.label": "Value",
+	"progress.fields.label.label": "Label",
+	"progress.fields.showValue.label": "Show value",
+	"progress.fields.showValue.options.true": "Yes",
+	"progress.fields.showValue.options.false": "No",
+	"progress.fields.classNames.label": "Custom classes",
+	"progress.fields.animation.label": "Animation",
+	"progress.fields.animation.preset": "Preset",
+	"progress.fields.animation.preset.options.none": "None",
+	"progress.fields.animation.preset.options.fade-in": "Fade in",
+	"progress.fields.animation.preset.options.slide-up": "Slide up",
+	"progress.fields.animation.preset.options.slide-down": "Slide down",
+	"progress.fields.animation.preset.options.zoom-in": "Zoom in",
+	"progress.fields.animation.duration": "Duration (ms)",
+	"progress.fields.animation.delay": "Delay (ms)",
+	"progress.fields.animation.easing": "Easing",
+	"progress.targets.root": "Progress"
+}
