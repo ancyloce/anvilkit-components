@@ -7,6 +7,7 @@ import {
 	SelectValue,
 } from "@anvilkit/ui/select";
 import { type AnimationProps, animationAttrs } from "./authoring";
+import type { TriggerSize } from "./generated/fields.gen";
 
 export interface SelectOption {
 	label: string;
@@ -17,8 +18,9 @@ export interface SelectProps {
 	options: SelectOption[];
 	placeholder?: string;
 	defaultValue?: string;
-	/** shadcn trigger size axis (`SelectTrigger` `size`, DOC-01 §5.5). */
-	triggerSize?: "sm" | "default";
+	/** shadcn trigger size axis (`SelectTrigger` `size`, DOC-01 §5.5), derived
+	 * by `scripts/derive-shadcn-fields.mjs` and guarded by `check:fields-drift`. */
+	triggerSize?: TriggerSize;
 	disabled?: boolean;
 	/** §2.2 Tailwind passthrough (PLAN-0027): style-target id → authored classes. */
 	classNames?: Record<string, string>;

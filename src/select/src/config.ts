@@ -12,6 +12,7 @@ import {
 	authoringFields,
 	classNamesField,
 } from "./authoring";
+import { triggerSizeOptions } from "./generated/fields.gen";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 import type { SelectOption, SelectProps } from "./Select";
 import { Select } from "./Select";
@@ -144,16 +145,15 @@ function buildFields(t: T): Fields<SelectAuthorableProps> {
 		},
 		// shadcn `SelectTrigger` size axis (DOC-01 §5.5); switched to
 		// fields.gen.ts output in P1-03.
+		// Codegen output guarded by `check:fields-drift`; option order is the
+		// upstream source order per DOC-01 §3.2 (FR-003).
 		triggerSize: {
 			type: "radio",
 			label: t("select.fields.triggerSize.label"),
-			options: [
-				{
-					label: t("select.fields.triggerSize.options.default"),
-					value: "default",
-				},
-				{ label: t("select.fields.triggerSize.options.sm"), value: "sm" },
-			],
+			options: triggerSizeOptions.map((value) => ({
+				label: t(`select.fields.triggerSize.options.${value}`),
+				value,
+			})),
 		},
 		disabled: {
 			type: "radio",
