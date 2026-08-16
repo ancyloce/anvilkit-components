@@ -14,6 +14,7 @@ import {
 } from "./authoring";
 import type { BadgeProps } from "./Badge";
 import { Badge } from "./Badge";
+import { variantOptions } from "./generated/fields.gen";
 import { type CreateComponentConfigOptions, createT } from "./i18n";
 
 /** Business props + the §5.1 authoring carriers (PLAN-0025). */
@@ -108,31 +109,15 @@ function buildFields(t: T): Fields<BadgeAuthorableProps> {
 			type: "text",
 			label: t("badge.fields.label.label"),
 		},
-		// Exact 6-value cva union from `@anvilkit/ui` `badgeVariants`
-		// (DOC-01 §5.2); switched to fields.gen.ts output in P1-03.
+		// Exact cva union from `@anvilkit/ui` `badgeVariants` (DOC-01 §5.2),
+		// codegen output guarded by `check:fields-drift` (FR-003).
 		variant: {
 			type: "select",
 			label: t("badge.fields.variant.label"),
-			options: [
-				{
-					label: t("badge.fields.variant.options.default"),
-					value: "default",
-				},
-				{
-					label: t("badge.fields.variant.options.secondary"),
-					value: "secondary",
-				},
-				{
-					label: t("badge.fields.variant.options.destructive"),
-					value: "destructive",
-				},
-				{
-					label: t("badge.fields.variant.options.outline"),
-					value: "outline",
-				},
-				{ label: t("badge.fields.variant.options.ghost"), value: "ghost" },
-				{ label: t("badge.fields.variant.options.link"), value: "link" },
-			],
+			options: variantOptions.map((value) => ({
+				label: t(`badge.fields.variant.options.${value}`),
+				value,
+			})),
 		},
 		animation: animationField({
 			label: t("badge.fields.animation.label"),

@@ -1,15 +1,11 @@
 import { Badge as BaseBadge } from "@anvilkit/ui/badge";
 import { cn } from "@anvilkit/ui/lib/utils";
 import { type AnimationProps, animationAttrs } from "./authoring";
+import type { Variant } from "./generated/fields.gen";
 
-/** Exact cva axis from `@anvilkit/ui` `badgeVariants` (DOC-01 §5.2). */
-export type BadgeVariant =
-	| "default"
-	| "secondary"
-	| "destructive"
-	| "outline"
-	| "ghost"
-	| "link";
+/** Exact cva axis from `@anvilkit/ui` `badgeVariants` (DOC-01 §5.2), derived
+ * by `scripts/derive-shadcn-fields.mjs` and guarded by `check:fields-drift`. */
+export type BadgeVariant = Variant;
 
 export interface BadgeProps {
 	label: string;
