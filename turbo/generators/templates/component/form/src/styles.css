@@ -1,7 +1,8 @@
 @import '@anvilkit/tailwind-config/component';
 
 @source './**/*.{ts,tsx}';
-@source '../../../../ui/src/input.tsx';
+/* Point this at every @anvilkit/ui source the wrapper actually renders. */
+@source '../../../../../runtime/ui/src/input.tsx';
 
 /* PLAN-0027 §2.4 entrance animations. The three custom properties are
    set inline at runtime by animationAttrs(); reduced-motion users get

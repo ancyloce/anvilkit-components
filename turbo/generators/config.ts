@@ -198,6 +198,22 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 					templateFile: path.join(templatesDir, "README.md"),
 					data: templateData,
 				},
+				// Every published component carries a per-package gzip budget
+				// and a changelog; omitting them from the scaffold meant each
+				// new package needed the same two hand-corrections (PLAN-0036
+				// P1-04, closing the P0 generator-drift ledger entry).
+				{
+					type: "add",
+					path: "src/{{name}}/.size-limit.json",
+					templateFile: path.join(templatesDir, ".size-limit.json"),
+					data: templateData,
+				},
+				{
+					type: "add",
+					path: "src/{{name}}/CHANGELOG.md",
+					templateFile: path.join(templatesDir, "CHANGELOG.md"),
+					data: templateData,
+				},
 				{
 					type: "add",
 					path: "src/{{name}}/rslib.config.ts",
