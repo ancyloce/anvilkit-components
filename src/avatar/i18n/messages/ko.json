@@ -1,0 +1,23 @@
+{
+	"avatar.label": "아바타",
+	"avatar.fields.src.label": "이미지 URL",
+	"avatar.fields.alt.label": "대체 텍스트",
+	"avatar.fields.fallback.label": "대체 이니셜",
+	"avatar.fields.size.label": "크기",
+	"avatar.fields.size.options.default": "기본",
+	"avatar.fields.size.options.sm": "작게",
+	"avatar.fields.size.options.lg": "크게",
+	"avatar.fields.classNames.label": "사용자 지정 클래스",
+	"avatar.fields.animation.label": "애니메이션",
+	"avatar.fields.animation.preset": "프리셋",
+	"avatar.fields.animation.preset.options.none": "없음",
+	"avatar.fields.animation.preset.options.fade-in": "페이드 인",
+	"avatar.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"avatar.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"avatar.fields.animation.preset.options.zoom-in": "줌 인",
+	"avatar.fields.animation.duration": "지속 시간(밀리초)",
+	"avatar.fields.animation.delay": "지연(밀리초)",
+	"avatar.fields.animation.easing": "이징",
+	"avatar.targets.root": "아바타",
+	"avatar.targets.fallback": "대체 콘텐츠"
+}

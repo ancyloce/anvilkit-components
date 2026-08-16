@@ -1,0 +1,23 @@
+{
+	"avatar.label": "アバター",
+	"avatar.fields.src.label": "画像URL",
+	"avatar.fields.alt.label": "代替テキスト",
+	"avatar.fields.fallback.label": "フォールバック文字",
+	"avatar.fields.size.label": "サイズ",
+	"avatar.fields.size.options.default": "デフォルト",
+	"avatar.fields.size.options.sm": "小",
+	"avatar.fields.size.options.lg": "大",
+	"avatar.fields.classNames.label": "カスタムクラス",
+	"avatar.fields.animation.label": "アニメーション",
+	"avatar.fields.animation.preset": "プリセット",
+	"avatar.fields.animation.preset.options.none": "なし",
+	"avatar.fields.animation.preset.options.fade-in": "フェードイン",
+	"avatar.fields.animation.preset.options.slide-up": "スライドアップ",
+	"avatar.fields.animation.preset.options.slide-down": "スライドダウン",
+	"avatar.fields.animation.preset.options.zoom-in": "ズームイン",
+	"avatar.fields.animation.duration": "再生時間（ミリ秒）",
+	"avatar.fields.animation.delay": "遅延（ミリ秒）",
+	"avatar.fields.animation.easing": "イージング",
+	"avatar.targets.root": "アバター",
+	"avatar.targets.fallback": "フォールバック"
+}

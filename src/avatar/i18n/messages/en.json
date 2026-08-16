@@ -1,0 +1,23 @@
+{
+	"avatar.label": "Avatar",
+	"avatar.fields.src.label": "Image URL",
+	"avatar.fields.alt.label": "Alt text",
+	"avatar.fields.fallback.label": "Fallback initials",
+	"avatar.fields.size.label": "Size",
+	"avatar.fields.size.options.default": "Default",
+	"avatar.fields.size.options.sm": "Small",
+	"avatar.fields.size.options.lg": "Large",
+	"avatar.fields.classNames.label": "Custom classes",
+	"avatar.fields.animation.label": "Animation",
+	"avatar.fields.animation.preset": "Preset",
+	"avatar.fields.animation.preset.options.none": "None",
+	"avatar.fields.animation.preset.options.fade-in": "Fade in",
+	"avatar.fields.animation.preset.options.slide-up": "Slide up",
+	"avatar.fields.animation.preset.options.slide-down": "Slide down",
+	"avatar.fields.animation.preset.options.zoom-in": "Zoom in",
+	"avatar.fields.animation.duration": "Duration (ms)",
+	"avatar.fields.animation.delay": "Delay (ms)",
+	"avatar.fields.animation.easing": "Easing",
+	"avatar.targets.root": "Avatar",
+	"avatar.targets.fallback": "Fallback"
+}

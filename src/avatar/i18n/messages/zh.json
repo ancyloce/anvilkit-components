@@ -1,0 +1,23 @@
+{
+	"avatar.label": "头像",
+	"avatar.fields.src.label": "图片地址",
+	"avatar.fields.alt.label": "替代文本",
+	"avatar.fields.fallback.label": "备用缩写",
+	"avatar.fields.size.label": "尺寸",
+	"avatar.fields.size.options.default": "默认",
+	"avatar.fields.size.options.sm": "小",
+	"avatar.fields.size.options.lg": "大",
+	"avatar.fields.classNames.label": "自定义类名",
+	"avatar.fields.animation.label": "动画",
+	"avatar.fields.animation.preset": "预设",
+	"avatar.fields.animation.preset.options.none": "无",
+	"avatar.fields.animation.preset.options.fade-in": "淡入",
+	"avatar.fields.animation.preset.options.slide-up": "向上滑入",
+	"avatar.fields.animation.preset.options.slide-down": "向下滑入",
+	"avatar.fields.animation.preset.options.zoom-in": "缩放进入",
+	"avatar.fields.animation.duration": "持续时间（毫秒）",
+	"avatar.fields.animation.delay": "延迟（毫秒）",
+	"avatar.fields.animation.easing": "缓动",
+	"avatar.targets.root": "头像",
+	"avatar.targets.fallback": "备用内容"
+}
