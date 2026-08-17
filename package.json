@@ -9,7 +9,6 @@
 	},
 	"scripts": {
 		"dev": "pnpm -r --filter \"./src/*\" --parallel dev",
-		"build": "pnpm build:packages",
 		"build:packages": "pnpm -r --filter \"./src/*\" build",
 		"lint": "node -e \"require.resolve('@anvilkit/biome-config/base')\" && pnpm exec biome lint .",
 		"format": "pnpm exec biome check --write .",
