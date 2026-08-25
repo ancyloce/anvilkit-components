@@ -1,0 +1,21 @@
+{
+	"spacer.label": "간격",
+	"spacer.fields.size.label": "크기",
+	"spacer.fields.size.options.xs": "매우 작게",
+	"spacer.fields.size.options.sm": "작게",
+	"spacer.fields.size.options.md": "보통",
+	"spacer.fields.size.options.lg": "크게",
+	"spacer.fields.size.options.xl": "매우 크게",
+	"spacer.targets.root": "간격",
+	"spacer.fields.classNames.label": "사용자 지정 클래스",
+	"spacer.fields.animation.label": "애니메이션",
+	"spacer.fields.animation.preset": "프리셋",
+	"spacer.fields.animation.preset.options.none": "없음",
+	"spacer.fields.animation.preset.options.fade-in": "페이드 인",
+	"spacer.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"spacer.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"spacer.fields.animation.preset.options.zoom-in": "줌 인",
+	"spacer.fields.animation.duration": "지속 시간(밀리초)",
+	"spacer.fields.animation.delay": "지연(밀리초)",
+	"spacer.fields.animation.easing": "이징"
+}

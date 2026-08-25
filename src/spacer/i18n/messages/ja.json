@@ -1,0 +1,21 @@
+{
+	"spacer.label": "スペーサー",
+	"spacer.fields.size.label": "サイズ",
+	"spacer.fields.size.options.xs": "極小",
+	"spacer.fields.size.options.sm": "小",
+	"spacer.fields.size.options.md": "中",
+	"spacer.fields.size.options.lg": "大",
+	"spacer.fields.size.options.xl": "特大",
+	"spacer.targets.root": "スペーサー",
+	"spacer.fields.classNames.label": "カスタムクラス",
+	"spacer.fields.animation.label": "アニメーション",
+	"spacer.fields.animation.preset": "プリセット",
+	"spacer.fields.animation.preset.options.none": "なし",
+	"spacer.fields.animation.preset.options.fade-in": "フェードイン",
+	"spacer.fields.animation.preset.options.slide-up": "スライドアップ",
+	"spacer.fields.animation.preset.options.slide-down": "スライドダウン",
+	"spacer.fields.animation.preset.options.zoom-in": "ズームイン",
+	"spacer.fields.animation.duration": "再生時間（ミリ秒）",
+	"spacer.fields.animation.delay": "遅延（ミリ秒）",
+	"spacer.fields.animation.easing": "イージング"
+}

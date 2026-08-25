@@ -1,0 +1,21 @@
+{
+	"spacer.label": "Spacer",
+	"spacer.fields.size.label": "Size",
+	"spacer.fields.size.options.xs": "Extra small",
+	"spacer.fields.size.options.sm": "Small",
+	"spacer.fields.size.options.md": "Medium",
+	"spacer.fields.size.options.lg": "Large",
+	"spacer.fields.size.options.xl": "Extra large",
+	"spacer.targets.root": "Spacer",
+	"spacer.fields.classNames.label": "Custom classes",
+	"spacer.fields.animation.label": "Animation",
+	"spacer.fields.animation.preset": "Preset",
+	"spacer.fields.animation.preset.options.none": "None",
+	"spacer.fields.animation.preset.options.fade-in": "Fade in",
+	"spacer.fields.animation.preset.options.slide-up": "Slide up",
+	"spacer.fields.animation.preset.options.slide-down": "Slide down",
+	"spacer.fields.animation.preset.options.zoom-in": "Zoom in",
+	"spacer.fields.animation.duration": "Duration (ms)",
+	"spacer.fields.animation.delay": "Delay (ms)",
+	"spacer.fields.animation.easing": "Easing"
+}
