@@ -1,0 +1,22 @@
+[
+	{
+		"name": "@anvilkit/stack",
+		"path": "dist/index.js",
+		"limit": "30 KB",
+		"gzip": true,
+		"ignore": [
+			"react",
+			"react-dom",
+			"react/jsx-runtime",
+			"react/jsx-dev-runtime",
+			"@puckeditor/core",
+			"@anvilkit/ui"
+		]
+	},
+	{
+		"name": "@anvilkit/stack styles.css",
+		"path": "dist/styles.css",
+		"limit": "12 KB",
+		"gzip": true
+	}
+]
