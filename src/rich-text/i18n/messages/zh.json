@@ -1,0 +1,20 @@
+{
+	"rich-text.label": "富文本",
+	"rich-text.fields.content.label": "内容",
+	"rich-text.fields.alignment.label": "对齐方式",
+	"rich-text.fields.alignment.options.left": "左对齐",
+	"rich-text.fields.alignment.options.center": "居中",
+	"rich-text.fields.alignment.options.right": "右对齐",
+	"rich-text.fields.classNames.label": "自定义类名",
+	"rich-text.fields.animation.label": "动画",
+	"rich-text.fields.animation.preset": "预设",
+	"rich-text.fields.animation.preset.options.none": "无",
+	"rich-text.fields.animation.preset.options.fade-in": "淡入",
+	"rich-text.fields.animation.preset.options.slide-up": "向上滑入",
+	"rich-text.fields.animation.preset.options.slide-down": "向下滑入",
+	"rich-text.fields.animation.preset.options.zoom-in": "缩放进入",
+	"rich-text.fields.animation.duration": "持续时间（毫秒）",
+	"rich-text.fields.animation.delay": "延迟（毫秒）",
+	"rich-text.fields.animation.easing": "缓动",
+	"rich-text.targets.root": "富文本"
+}

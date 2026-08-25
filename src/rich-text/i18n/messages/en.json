@@ -1,0 +1,20 @@
+{
+	"rich-text.label": "Rich Text",
+	"rich-text.fields.content.label": "Content",
+	"rich-text.fields.alignment.label": "Alignment",
+	"rich-text.fields.alignment.options.left": "Left",
+	"rich-text.fields.alignment.options.center": "Center",
+	"rich-text.fields.alignment.options.right": "Right",
+	"rich-text.fields.classNames.label": "Custom classes",
+	"rich-text.fields.animation.label": "Animation",
+	"rich-text.fields.animation.preset": "Preset",
+	"rich-text.fields.animation.preset.options.none": "None",
+	"rich-text.fields.animation.preset.options.fade-in": "Fade in",
+	"rich-text.fields.animation.preset.options.slide-up": "Slide up",
+	"rich-text.fields.animation.preset.options.slide-down": "Slide down",
+	"rich-text.fields.animation.preset.options.zoom-in": "Zoom in",
+	"rich-text.fields.animation.duration": "Duration (ms)",
+	"rich-text.fields.animation.delay": "Delay (ms)",
+	"rich-text.fields.animation.easing": "Easing",
+	"rich-text.targets.root": "Rich Text"
+}

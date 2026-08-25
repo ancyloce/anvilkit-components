@@ -1,0 +1,20 @@
+{
+	"rich-text.label": "リッチテキスト",
+	"rich-text.fields.content.label": "内容",
+	"rich-text.fields.alignment.label": "整列",
+	"rich-text.fields.alignment.options.left": "左揃え",
+	"rich-text.fields.alignment.options.center": "中央揃え",
+	"rich-text.fields.alignment.options.right": "右揃え",
+	"rich-text.fields.classNames.label": "カスタムクラス",
+	"rich-text.fields.animation.label": "アニメーション",
+	"rich-text.fields.animation.preset": "プリセット",
+	"rich-text.fields.animation.preset.options.none": "なし",
+	"rich-text.fields.animation.preset.options.fade-in": "フェードイン",
+	"rich-text.fields.animation.preset.options.slide-up": "スライドアップ",
+	"rich-text.fields.animation.preset.options.slide-down": "スライドダウン",
+	"rich-text.fields.animation.preset.options.zoom-in": "ズームイン",
+	"rich-text.fields.animation.duration": "再生時間（ミリ秒）",
+	"rich-text.fields.animation.delay": "遅延（ミリ秒）",
+	"rich-text.fields.animation.easing": "イージング",
+	"rich-text.targets.root": "リッチテキスト"
+}
