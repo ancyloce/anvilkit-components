@@ -14,18 +14,49 @@
 │       ├── config.ts
 │       └── templates
 └── src
+      ├── accordion
+      ├── alert
+      ├── avatar
+      ├── badge
       ├── bento-grid
+      ├── blockquote
       ├── blog-list
       ├── button
+      ├── card
+      ├── checkbox
+      ├── code
+      ├── columns
+      ├── container
       ├── design-block
+      ├── grid
+      ├── heading
       ├── helps
       ├── hero
+      ├── icon
+      ├── image
       ├── input
+      ├── label
+      ├── link
+      ├── list
       ├── logo-clouds
       ├── navbar
       ├── pricing-minimal
+      ├── progress
+      ├── rich-text
       ├── section
-      └── statistics
+      ├── select
+      ├── separator
+      ├── slider
+      ├── spacer
+      ├── stack
+      ├── statistics
+      ├── switch
+      ├── table
+      ├── tabs
+      ├── text
+      ├── textarea
+      ├── tooltip
+      └── video
 ```
 
 Each folder in `src/*` is its own npm package. Every package is designed to work with Puck's `ComponentConfig` API and exports:
@@ -39,18 +70,49 @@ Each folder in `src/*` is its own npm package. Every package is designed to work
 
 The current packages include:
 
+- `src/accordion` -> `@anvilkit/accordion`
+- `src/alert` -> `@anvilkit/alert`
+- `src/avatar` -> `@anvilkit/avatar`
+- `src/badge` -> `@anvilkit/badge`
 - `src/bento-grid` -> `@anvilkit/bento-grid`
+- `src/blockquote` -> `@anvilkit/blockquote`
 - `src/blog-list` -> `@anvilkit/blog-list`
 - `src/button` -> `@anvilkit/button`
+- `src/card` -> `@anvilkit/card`
+- `src/checkbox` -> `@anvilkit/checkbox`
+- `src/code` -> `@anvilkit/code`
+- `src/columns` -> `@anvilkit/columns`
+- `src/container` -> `@anvilkit/container`
 - `src/design-block` -> `@anvilkit/design-block`
+- `src/grid` -> `@anvilkit/grid`
+- `src/heading` -> `@anvilkit/heading`
 - `src/helps` -> `@anvilkit/helps`
 - `src/hero` -> `@anvilkit/hero`
+- `src/icon` -> `@anvilkit/icon`
+- `src/image` -> `@anvilkit/image`
 - `src/input` -> `@anvilkit/input`
+- `src/label` -> `@anvilkit/label`
+- `src/link` -> `@anvilkit/link`
+- `src/list` -> `@anvilkit/list`
 - `src/logo-clouds` -> `@anvilkit/logo-clouds`
 - `src/navbar` -> `@anvilkit/navbar`
 - `src/pricing-minimal` -> `@anvilkit/pricing-minimal`
+- `src/progress` -> `@anvilkit/progress`
+- `src/rich-text` -> `@anvilkit/rich-text`
 - `src/section` -> `@anvilkit/section`
+- `src/select` -> `@anvilkit/select`
+- `src/separator` -> `@anvilkit/separator`
+- `src/slider` -> `@anvilkit/slider`
+- `src/spacer` -> `@anvilkit/spacer`
+- `src/stack` -> `@anvilkit/stack`
 - `src/statistics` -> `@anvilkit/statistics`
+- `src/switch` -> `@anvilkit/switch`
+- `src/table` -> `@anvilkit/table`
+- `src/tabs` -> `@anvilkit/tabs`
+- `src/text` -> `@anvilkit/text`
+- `src/textarea` -> `@anvilkit/textarea`
+- `src/tooltip` -> `@anvilkit/tooltip`
+- `src/video` -> `@anvilkit/video`
 
 ## Local Development
 
