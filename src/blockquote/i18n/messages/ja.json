@@ -1,0 +1,19 @@
+{
+	"blockquote.label": "引用",
+	"blockquote.fields.quote.label": "引用文",
+	"blockquote.fields.citation.label": "出典",
+	"blockquote.fields.classNames.label": "カスタムクラス",
+	"blockquote.fields.animation.label": "アニメーション",
+	"blockquote.fields.animation.preset": "プリセット",
+	"blockquote.fields.animation.preset.options.none": "なし",
+	"blockquote.fields.animation.preset.options.fade-in": "フェードイン",
+	"blockquote.fields.animation.preset.options.slide-up": "スライドアップ",
+	"blockquote.fields.animation.preset.options.slide-down": "スライドダウン",
+	"blockquote.fields.animation.preset.options.zoom-in": "ズームイン",
+	"blockquote.fields.animation.duration": "再生時間（ミリ秒）",
+	"blockquote.fields.animation.delay": "遅延（ミリ秒）",
+	"blockquote.fields.animation.easing": "イージング",
+	"blockquote.targets.root": "引用",
+	"blockquote.targets.quote": "引用文",
+	"blockquote.targets.citation": "出典"
+}

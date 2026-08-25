@@ -1,0 +1,19 @@
+{
+	"blockquote.label": "引用",
+	"blockquote.fields.quote.label": "引用内容",
+	"blockquote.fields.citation.label": "出处",
+	"blockquote.fields.classNames.label": "自定义类名",
+	"blockquote.fields.animation.label": "动画",
+	"blockquote.fields.animation.preset": "预设",
+	"blockquote.fields.animation.preset.options.none": "无",
+	"blockquote.fields.animation.preset.options.fade-in": "淡入",
+	"blockquote.fields.animation.preset.options.slide-up": "向上滑入",
+	"blockquote.fields.animation.preset.options.slide-down": "向下滑入",
+	"blockquote.fields.animation.preset.options.zoom-in": "缩放进入",
+	"blockquote.fields.animation.duration": "持续时间（毫秒）",
+	"blockquote.fields.animation.delay": "延迟（毫秒）",
+	"blockquote.fields.animation.easing": "缓动",
+	"blockquote.targets.root": "引用",
+	"blockquote.targets.quote": "引用内容",
+	"blockquote.targets.citation": "出处"
+}

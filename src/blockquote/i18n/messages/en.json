@@ -1,0 +1,19 @@
+{
+	"blockquote.label": "Blockquote",
+	"blockquote.fields.quote.label": "Quote",
+	"blockquote.fields.citation.label": "Citation",
+	"blockquote.fields.classNames.label": "Custom classes",
+	"blockquote.fields.animation.label": "Animation",
+	"blockquote.fields.animation.preset": "Preset",
+	"blockquote.fields.animation.preset.options.none": "None",
+	"blockquote.fields.animation.preset.options.fade-in": "Fade in",
+	"blockquote.fields.animation.preset.options.slide-up": "Slide up",
+	"blockquote.fields.animation.preset.options.slide-down": "Slide down",
+	"blockquote.fields.animation.preset.options.zoom-in": "Zoom in",
+	"blockquote.fields.animation.duration": "Duration (ms)",
+	"blockquote.fields.animation.delay": "Delay (ms)",
+	"blockquote.fields.animation.easing": "Easing",
+	"blockquote.targets.root": "Blockquote",
+	"blockquote.targets.quote": "Quote",
+	"blockquote.targets.citation": "Citation"
+}

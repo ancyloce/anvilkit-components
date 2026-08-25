@@ -1,0 +1,53 @@
+{
+	"name": "@anvilkit/blockquote",
+	"version": "0.1.0",
+	"description": "Anvilkit Puck-native blockquote component.",
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		},
+		"./styles.css": "./dist/styles.css",
+		"./i18n/en.json": "./i18n/messages/en.json",
+		"./i18n/zh.json": "./i18n/messages/zh.json",
+		"./i18n/ja.json": "./i18n/messages/ja.json",
+		"./i18n/ko.json": "./i18n/messages/ko.json"
+	},
+	"files": [
+		"dist",
+		"i18n",
+		"README.md"
+	],
+	"license": "MIT",
+	"sideEffects": [
+		"./dist/index.js",
+		"./dist/index.cjs",
+		"**/*.css"
+	],
+	"scripts": {
+		"build": "rslib build --lib esm && rslib build --lib cjs --no-clean",
+		"dev": "rslib build --watch",
+		"format": "pnpm exec biome format --write src rslib.config.ts",
+		"typecheck": "tsc --noEmit",
+		"publint": "publint",
+		"size": "size-limit"
+	},
+	"peerDependencies": {
+		"@anvilkit/ui": "^0.1.5",
+		"@puckeditor/core": "^0.23.0",
+		"react": ">=19.0.0",
+		"react-dom": ">=19.0.0"
+	},
+	"devDependencies": {
+		"@anvilkit/tailwind-config": "workspace:*",
+		"@anvilkit/ui": "workspace:*"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}

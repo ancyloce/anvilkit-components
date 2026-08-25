@@ -1,0 +1,19 @@
+{
+	"blockquote.label": "인용문",
+	"blockquote.fields.quote.label": "인용문",
+	"blockquote.fields.citation.label": "출처",
+	"blockquote.fields.classNames.label": "사용자 지정 클래스",
+	"blockquote.fields.animation.label": "애니메이션",
+	"blockquote.fields.animation.preset": "프리셋",
+	"blockquote.fields.animation.preset.options.none": "없음",
+	"blockquote.fields.animation.preset.options.fade-in": "페이드 인",
+	"blockquote.fields.animation.preset.options.slide-up": "슬라이드 업",
+	"blockquote.fields.animation.preset.options.slide-down": "슬라이드 다운",
+	"blockquote.fields.animation.preset.options.zoom-in": "줌 인",
+	"blockquote.fields.animation.duration": "지속 시간(밀리초)",
+	"blockquote.fields.animation.delay": "지연(밀리초)",
+	"blockquote.fields.animation.easing": "이징",
+	"blockquote.targets.root": "인용문",
+	"blockquote.targets.quote": "인용문",
+	"blockquote.targets.citation": "출처"
+}
