@@ -83,6 +83,7 @@ export function Accordion({
 					className={classNames?.item}
 				>
 					<AccordionTrigger
+						key="trigger"
 						{...targetAttrs?.trigger}
 						disabled={editMode}
 						className={classNames?.trigger}
@@ -94,7 +95,7 @@ export function Accordion({
 					    props onto the outer Panel, so no single element can carry
 					    both the stamp and the authored class. Fabricating a wrapper
 					    to gain the target would violate PLAN-0027 §8.5. */}
-					<AccordionContent>{item.content}</AccordionContent>
+					<AccordionContent key="content">{item.content}</AccordionContent>
 				</AccordionItem>
 			))}
 		</BaseAccordion>
